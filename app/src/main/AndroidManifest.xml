@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.magiri.bluedrop">
+    package="com.riconets.bluedrop">
 
     <application
         android:allowBackup="true"
@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BlueDrop">
         <activity
-            android:name=".CustomerHome"
+            android:name="com.riconets.bluedrop.CustomerHome"
             android:exported="true" />
         <activity
-            android:name=".customer_registration"
+            android:name="com.riconets.bluedrop.customer_registration"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customer_login"
+            android:name="com.riconets.bluedrop.customer_login"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.riconets.bluedrop.MainActivity"
             android:exported="true">
         </activity>
     </application>

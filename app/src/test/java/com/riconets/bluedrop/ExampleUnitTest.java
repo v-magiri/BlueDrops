@@ -1,4 +1,4 @@
-package com.magiri.bluedrop;
+package com.riconets.bluedrop;
 
 import org.junit.Test;
 

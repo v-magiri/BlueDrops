@@ -1,4 +1,4 @@
-package com.magiri.bluedrop;
+package com.riconets.bluedrop;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,20 +54,20 @@ public class customer_login extends AppCompatActivity {
     }
 
     private void login() {
-        String userEmail=userEmailEditTxt.getText().toString().trim();
-        String Password=passwordEditText.getText().toString().trim();
+        String userEmail = userEmailEditTxt.getText().toString().trim();
+        String Password = passwordEditText.getText().toString().trim();
 
-        if(TextUtils.isEmpty(userEmail)){
+        if (TextUtils.isEmpty(userEmail)) {
             userEmailEditTxt.setError("This Field Can not be Empty");
             userEmailEditTxt.requestFocus();
             return;
         }
-        if(TextUtils.isEmpty(Password)){
+        if (TextUtils.isEmpty(Password)) {
             passwordEditText.setError("Please Input Password");
             passwordEditText.requestFocus();
             return;
         }
-        if(!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
             userEmailEditTxt.setError("Invalid Email");
             userEmailEditTxt.requestFocus();
             return;
@@ -82,8 +81,9 @@ public class customer_login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     progressDialog.dismiss();
-                    FancyToast.makeText(getApplicationContext(),"Successfull Logged In", Toast.LENGTH_SHORT,FancyToast.SUCCESS,true).show();
+                    FancyToast.makeText(getApplicationContext(),"Successfully Logged in",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,true).show();
                     startActivity(new Intent(getApplicationContext(),CustomerHome.class));
+                    finish();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -92,7 +92,6 @@ public class customer_login extends AppCompatActivity {
                 progressDialog.dismiss();
                 String reason=e.getMessage();
                 FancyToast.makeText(getApplicationContext(),reason,FancyToast.LENGTH_SHORT,FancyToast.ERROR,true).show();
-
             }
         });
     }

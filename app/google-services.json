@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "580678581020",
-    "firebase_url": "https://bluedrops-c8302-default-rtdb.firebaseio.com",
-    "project_id": "bluedrops-c8302",
-    "storage_bucket": "bluedrops-c8302.appspot.com"
+    "project_number": "1043970847319",
+    "project_id": "bluedrops-4a8a4",
+    "storage_bucket": "bluedrops-4a8a4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:580678581020:android:65686c6cb0e79d8a4e18d9",
+        "mobilesdk_app_id": "1:1043970847319:android:489a2e613dc48fb44da912",
         "android_client_info": {
-          "package_name": "com.magiri.bluedrop"
+          "package_name": "com.riconets.bluedrop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "580678581020-jm7buld5dv7c6c9rig4p5as68hutikhd.apps.googleusercontent.com",
+          "client_id": "1043970847319-mamkla8jcrt5ft2runvnn3coe3stoa05.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDaOREelH_5CVCBFq0jYe-ePLE9UGqIuJI"
+          "current_key": "AIzaSyCZ132phPNeavKny34y66-um_W59tBk2M0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "580678581020-jm7buld5dv7c6c9rig4p5as68hutikhd.apps.googleusercontent.com",
+              "client_id": "1043970847319-mamkla8jcrt5ft2runvnn3coe3stoa05.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

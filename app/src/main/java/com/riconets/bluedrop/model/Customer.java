@@ -1,4 +1,4 @@
-package com.magiri.bluedrop.model;
+package com.riconets.bluedrop.model;
 
 public class Customer {
     String FirstName,LastName,Email,Location,PhoneNumber;
