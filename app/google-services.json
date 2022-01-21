@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "592357232661",
+    "firebase_url": "https://bluedrop-cd913-default-rtdb.firebaseio.com",
+    "project_id": "bluedrop-cd913",
+    "storage_bucket": "bluedrop-cd913.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592357232661:android:a6b69a75fc1f871838be1c",
+        "android_client_info": {
+          "package_name": "com.magiri.bluedrop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592357232661-6o8lvd6mle8rq56ufegnskuaukmm0e3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAE8IFfA57VzndhP9Pnvb1WD30FsyTLZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592357232661-6o8lvd6mle8rq56ufegnskuaukmm0e3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
