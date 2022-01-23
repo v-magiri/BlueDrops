@@ -60,14 +60,34 @@
                         android:hint="Enter Phone Number"
                         android:id="@+id/customer_PhoneNumber"
                         android:paddingStart="20dp"/>
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/location"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_marginVertical="10dp">
+                    <AutoCompleteTextView
+                        android:id="@+id/locationAutoComplete"
+                        android:inputType="none"
+                        android:textStyle="bold"
                         android:textSize="24dp"
-                        android:hint="Enter Location"
-                        android:id="@+id/location"
-                        android:inputType="text"
-                        android:paddingStart="20dp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/vendor"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_marginVertical="10dp">
+                    <AutoCompleteTextView
+                        android:id="@+id/vendorAutoComplete"
+                        android:inputType="none"
+                        android:textStyle="bold"
+                        android:textSize="24dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

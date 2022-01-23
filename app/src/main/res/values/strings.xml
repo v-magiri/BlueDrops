@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BlueDrops</string>
+    <string name="location">Choose location</string>
+    <string name="vendor">Choose a Vendor</string>
 </resources>

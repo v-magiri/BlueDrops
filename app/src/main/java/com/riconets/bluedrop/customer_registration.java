@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,20 +28,28 @@ import com.riconets.bluedrop.model.Customer;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
     public class customer_registration extends AppCompatActivity {
-        private EditText fNameEditTxt, lNameEditTxt, PhoneEditTxt, LocationEditTxt, RepeatPassEditTxt, PasswordTxt, emailEditTxt;
+        String[] location={"Nakuru","Nairobi","Mombasa","Kisumu"};
+        String[] vendor={"Waba Water","Keringet Water","Dasani Water","AquaMist Water"};
+        private EditText fNameEditTxt, lNameEditTxt, PhoneEditTxt, RepeatPassEditTxt, PasswordTxt, emailEditTxt;
         public Button RegisterBtn;
         private ProgressDialog progressDialog;
         private FirebaseAuth firebaseAuth;
         private TextView signinTxt;
+        private AutoCompleteTextView locationAutoComplete,vendorAutoComplete;
+        ArrayAdapter<String> arrayAdapter;
+        ArrayAdapter<String> vendorAdapter;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_customer_registration);
+
+            //Binding the the various UI element to the java file
+            locationAutoComplete=findViewById(R.id.locationAutoComplete);
+            vendorAutoComplete=findViewById(R.id.vendorAutoComplete);
             fNameEditTxt = findViewById(R.id.fNameEditTxt);
             lNameEditTxt = findViewById(R.id.lNameEditText);
             PhoneEditTxt = findViewById(R.id.customer_PhoneNumber);
-            LocationEditTxt = findViewById(R.id.location);
             PasswordTxt = findViewById(R.id.password);
             emailEditTxt = findViewById(R.id.customerEmailEditTxt);
             RepeatPassEditTxt = findViewById(R.id.repeat_Password);
@@ -47,6 +58,29 @@ import com.shashank.sony.fancytoastlib.FancyToast;
             progressDialog = new ProgressDialog(this);
             firebaseAuth = FirebaseAuth.getInstance();
 
+            arrayAdapter=new ArrayAdapter<String>(customer_registration.this,R.layout.item,location);
+            locationAutoComplete=findViewById(R.id.locationAutoComplete);
+
+            locationAutoComplete.setAdapter(arrayAdapter);
+
+            locationAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String location=parent.getItemAtPosition(position).toString();
+                    FancyToast.makeText(getBaseContext(),location,2,FancyToast.SUCCESS,true).show();
+                }
+            });
+
+            vendorAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,vendor);
+            vendorAutoComplete=findViewById(R.id.vendorAutoComplete);
+            vendorAutoComplete.setAdapter(vendorAdapter);
+            vendorAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String vendor=parent.getItemAtPosition(position).toString();
+                    FancyToast.makeText(getBaseContext(),vendor,2,FancyToast.SUCCESS,true).show();
+                }
+            });
             signinTxt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -69,8 +103,8 @@ import com.shashank.sony.fancytoastlib.FancyToast;
             String fName = fNameEditTxt.getText().toString().trim();
             String lName = lNameEditTxt.getText().toString().trim();
             String email = emailEditTxt.getText().toString().trim();
+            String Location=locationAutoComplete.getText().toString();
             String PhoneNumber = PhoneEditTxt.getText().toString().trim();
-            String Location = LocationEditTxt.getText().toString().trim();
             String repeatPass = RepeatPassEditTxt.getText().toString().trim();
             String Password = PasswordTxt.getText().toString().trim();
 
