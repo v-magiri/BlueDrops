@@ -30,6 +30,7 @@ public class customer_login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_BlueDrop);
         setContentView(R.layout.activity_customer_login);
         userEmailEditTxt=findViewById(R.id.userID);
         passwordEditText=findViewById(R.id.password);
