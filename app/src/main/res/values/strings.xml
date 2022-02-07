@@ -2,4 +2,8 @@
     <string name="app_name">BlueDrops</string>
     <string name="location">Choose location</string>
     <string name="vendor">Choose a Vendor</string>
+
+    <string name="home">Customer Home Coming Soon</string>
+    <string name="cart">Cart Coming Soon</string>
+    <string name="account">User Profile Coming Soon</string>
 </resources>
