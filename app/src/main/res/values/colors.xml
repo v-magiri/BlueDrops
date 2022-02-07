@@ -9,4 +9,6 @@
     <color name="blue">#0000FF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#F0F0F0</color>
+    <color name="theme">#05C1F1</color>
+    <color name="success">#4caf50</color>
 </resources>
