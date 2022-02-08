@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/splash_screen">
         <activity
+            android:name=".Services"
+            android:exported="false" />
+        <activity
             android:name=".notify_vendor"
             android:exported="true" />
         <activity
@@ -17,7 +20,7 @@
             android:exported="true" />
         <activity
             android:name=".customer_registration"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".customer_login"
             android:exported="true">
@@ -29,7 +32,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

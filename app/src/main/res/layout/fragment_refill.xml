@@ -24,15 +24,17 @@
             android:id="@+id/notifyImageView"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:layout_margin="20dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/notify" />
+            android:src="@drawable/ic_water_refill" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/notifyImageView"
             android:layout_centerHorizontal="true"
-            android:text="Notify Vendor"
+            android:text="Water Refill"
+            android:layout_margin="20dp"
             android:textColor="@color/black"
             android:textSize="26sp"
             android:textStyle="bold" />
@@ -41,8 +43,9 @@
     <LinearLayout
         android:id="@+id/notifyForm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:padding="20dp"
         android:background="@drawable/bg"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
@@ -51,35 +54,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="10dp"
-            android:orientation="horizontal"
-            android:weightSum="6">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:paddingStart="10dp"
-                android:text="Choose Delivery Date"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/date_pick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:drawableLeft="@drawable/ic_date"
-                android:drawablePadding="20dp"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -155,7 +129,6 @@
                 android:background="@drawable/success_btn"
                 android:src="@drawable/ic_subtraction" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,55 +136,14 @@
             android:layout_marginVertical="10dp"
             android:orientation="horizontal"
             android:weightSum="5">
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:hint="@string/remaining_Amount">
-
-                <AutoCompleteTextView
-                    android:id="@+id/remainingAutoComplete"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:textColor="@color/white"
-                    android:textSize="24dp"
-                    android:textStyle="bold" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_weight="3"
+                    android:text=""
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="10dp"
-            android:orientation="vertical"
-            android:weightSum="5">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:paddingStart="10dp"
-                android:text="Message (Optional)"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/notifyTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10"
-                android:textColor="@color/white"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:textSize="18sp" />
-        </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"
@@ -220,7 +152,7 @@
             android:id="@+id/notify"
             android:layout_marginVertical="10dp"
             android:background="@drawable/success_btn"
-            android:text="Notify"
+            android:text="Refill    "
             android:textColor="@color/success"
             android:textSize="20sp"
             app:backgroundTint="@null" />

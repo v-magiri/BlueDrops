@@ -6,6 +6,10 @@
     <string name="home">Customer Home Coming Soon</string>
     <string name="cart">Cart Coming Soon</string>
     <string name="account">User Profile Coming Soon</string>
-    <string name="water_package">Choose Water package</string>
+    <string name="water_package">Choose Water Package</string>
     <string name="remaining_Amount">Remaining Amount</string>
+    <string name="change_vendor">Choose Vendor</string>
+    <string name="unit_price">Price Per Unit</string>
+    <string name="quantity">Quantity</string>
+    <string name="Total_Price">Total Price</string>
 </resources>

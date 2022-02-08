@@ -6,50 +6,90 @@ import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.Calendar;
 
 public class notify_vendor extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    private TextView datePick, Quantity;
+    private TextView datePick, Quantity,QuantityTxt;
+    String[] WaterPackages={"500ml","1L","5L","10L","20L","25L","30L","Over 30L"};
+    String[] remainingAmount={"Quarter Level","Half Level"};
     private ImageButton addBtn, lessBtn;
+    LinearLayout linearLayout;
+    private AutoCompleteTextView packageAutoComplete,amountRemainingAutoComplete;
+    ArrayAdapter<String> arrayAdapter;
+    ArrayAdapter<String> amountRemaining;
     private EditText notifyEdiTxt;
+    Button notifyBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notify_vendor);
         datePick=findViewById(R.id.date_pick);
+        QuantityTxt=findViewById(R.id.quantityTxt);
         notifyEdiTxt=findViewById(R.id.notifyTxt);
         addBtn=findViewById(R.id.addBtn);
+        notifyBtn=findViewById(R.id.notify);
+        linearLayout=findViewById(R.id.Quantity);
         lessBtn=findViewById(R.id.lessBtn);
         Quantity=findViewById(R.id.quantity);
+        packageAutoComplete=findViewById(R.id.packageAutoComplete);
+        amountRemainingAutoComplete=findViewById(R.id.remainingAutoComplete);
         datePick.setOnClickListener(view -> showDateDialog());
-        lessBtn.setOnClickListener(new View.OnClickListener() {
+        arrayAdapter=new ArrayAdapter<String>(this,R.layout.item,WaterPackages);
+        packageAutoComplete.setAdapter(arrayAdapter);
+        amountRemaining=new ArrayAdapter<>(this,R.layout.item,remainingAmount);
+        amountRemainingAutoComplete.setAdapter(amountRemaining);
+        //redirect user to homepage
+        notifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int itemCount=Integer.parseInt(Quantity.getText().toString());
-                if(itemCount==0){
-                    FancyToast.makeText(getApplicationContext(),"Quantity can not be less than 0",FancyToast.LENGTH_SHORT,FancyToast.ERROR,true).show();
-                }
-                else{
-                    Quantity.setText(String.valueOf(itemCount-1));
-                }
+                startActivity(new Intent(getApplicationContext(),CustomerHome.class));
+                finish();
             }
         });
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int quantity=Integer.parseInt(Quantity.getText().toString());
-                Quantity.setText(String.valueOf(quantity+1));
-
+        packageAutoComplete.setOnItemClickListener((adapterView, view, i, l) -> {
+            String Amount=adapterView.getItemAtPosition(i).toString();
+            if(Amount=="Over 30L"){
+                Quantity.setVisibility(View.GONE);
+                QuantityTxt.setVisibility(View.GONE);
+                lessBtn.setVisibility(View.GONE);
+                addBtn.setVisibility(View.GONE);
+            }else{
+                Quantity.setVisibility(View.VISIBLE);
+                QuantityTxt.setVisibility(View.VISIBLE);
+                lessBtn.setVisibility(View.VISIBLE);
+                addBtn.setVisibility(View.VISIBLE);
             }
+
+        });
+        lessBtn.setOnClickListener(view -> {
+            int itemCount=Integer.parseInt(Quantity.getText().toString());
+            if(itemCount==0){
+                FancyToast.makeText(getApplicationContext(),"Quantity can not be less than 0",FancyToast.LENGTH_SHORT,FancyToast.ERROR,true).show();
+            }
+            else{
+                Quantity.setText(String.valueOf(itemCount-1));
+            }
+        });
+        addBtn.setOnClickListener(view -> {
+            int quantity=Integer.parseInt(Quantity.getText().toString());
+            Quantity.setText(String.valueOf(quantity+1));
+
         });
     }
 
