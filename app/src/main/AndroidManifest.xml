@@ -13,9 +13,6 @@
             android:name=".Services"
             android:exported="false" />
         <activity
-            android:name=".notify_vendor"
-            android:exported="true" />
-        <activity
             android:name=".CustomerHome"
             android:exported="true" />
         <activity

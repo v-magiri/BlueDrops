@@ -9,16 +9,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomerHome extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
-    private CircleImageView logoutBtn;
+    private ImageView logoutBtn;
     FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

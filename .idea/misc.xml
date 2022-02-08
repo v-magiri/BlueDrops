@@ -3,27 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/drawable/bg.xml" value="0.1265" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/drawable/ic_date.xml" value="0.1265" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/drawable/ic_increment.xml" value="0.1265" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/drawable/ic_location.xml" value="0.1265" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/drawable/success_btn.xml" value="0.1265" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/activity_customer_home.xml" value="0.14130434782608695" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/activity_customer_login.xml" value="0.14130434782608695" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/activity_customer_registration.xml" value="0.14666666666666667" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/activity_main.xml" value="0.14130434782608695" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/activity_notify_vendor.xml" value="0.2" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/activity_services.xml" value="0.1796875" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/appbar.xml" value="0.1" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/fragment_account.xml" value="0.16666666666666666" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/fragment_cart.xml" value="0.1" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/fragment_change__vendor.xml" value="0.1796875" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/fragment_home.xml" value="0.13333333333333333" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/fragment_notify_vendor.xml" value="0.1796875" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/fragment_refill.xml" value="0.1796875" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/home_appbar.xml" value="0.2" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/item.xml" value="0.14130434782608695" />
-        <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/menu/bottom_navbar.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/drawable/icon_location.xml" value="0.1795" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/activity_customer_home.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/activity_notify_vendor.xml" value="0.1" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/fragment_account.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/fragment_cart.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/fragment_change__vendor.xml" value="0.14175724637681159" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/fragment_home.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/fragment_notify_vendor.xml" value="0.1" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/fragment_refill.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/fragment_update_location.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/home_appbar.xml" value="0.11302083333333333" />
         <entry key="app/src/main/res/layout/activity_customer_home.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_customer_login.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_customer_registration.xml" value="0.27393617021276595" />

@@ -67,7 +67,7 @@ public class Home extends Fragment {
         notify_Vendor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),notify_vendor.class));
+                startActivity(new Intent(getActivity(),));
             }
         });
         return v;
