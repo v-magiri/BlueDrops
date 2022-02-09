@@ -27,10 +27,10 @@ import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link notifyVendor#newInstance} factory method to
+ * Use the {@link NotifyVendor#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class notifyVendor extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class NotifyVendor extends Fragment implements DatePickerDialog.OnDateSetListener {
     private TextView datePick, Quantity,QuantityTxt;
     String[] WaterPackages={"500ml","1L","5L","10L","20L","25L","30L","Over 30L"};
     String[] remainingAmount={"Quarter Level","Half Level"};
@@ -51,7 +51,7 @@ public class notifyVendor extends Fragment implements DatePickerDialog.OnDateSet
     private String mParam1;
     private String mParam2;
 
-    public notifyVendor() {
+    public NotifyVendor() {
         // Required empty public constructor
     }
 
@@ -64,8 +64,8 @@ public class notifyVendor extends Fragment implements DatePickerDialog.OnDateSet
      * @return A new instance of fragment notifyVendor.
      */
     // TODO: Rename and change types and number of parameters
-    public static notifyVendor newInstance(String param1, String param2) {
-        notifyVendor fragment = new notifyVendor();
+    public static NotifyVendor newInstance(String param1, String param2) {
+        NotifyVendor fragment = new NotifyVendor();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
