@@ -8,8 +8,10 @@
     <string name="account">User Profile Coming Soon</string>
     <string name="water_package">Choose Water Package</string>
     <string name="remaining_Amount">Remaining Amount</string>
-    <string name="change_vendor">Choose Vendor</string>
+    <string name="change_vendor">Choose Vendor (Optional)</string>
     <string name="unit_price">Price Per Unit</string>
     <string name="quantity">Quantity</string>
     <string name="Total_Price">Total Price</string>
+    <string name="vendorDesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="vendorLocation">Excepteur sint occaecat cupidatat non proident</string>
 </resources>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:weightSum="6"
-    tools:context=".notify_vendor">
+    tools:context=".Update_location">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,8 +43,8 @@
     <LinearLayout
         android:id="@+id/notifyForm"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
         android:padding="20dp"
         android:background="@drawable/bg"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,8 +68,8 @@
                 android:text="@string/location"
                 android:contextClickable="true"
                 android:textColor="@color/black"
-                android:textSize="24dp"
-                android:drawableRight="@drawable/icon_location"
+                android:textSize="24sp"
+                android:drawableEnd="@drawable/icon_location"
                 android:textStyle="bold"/>
         </LinearLayout>
 
@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>

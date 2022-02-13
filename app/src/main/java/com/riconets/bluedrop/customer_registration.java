@@ -107,6 +107,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
             String PhoneNumber = PhoneEditTxt.getText().toString().trim();
             String repeatPass = RepeatPassEditTxt.getText().toString().trim();
             String Password = PasswordTxt.getText().toString().trim();
+            String ProfilePic="";
 
             if (TextUtils.isEmpty(fName) || TextUtils.isEmpty(lName) || TextUtils.isEmpty(PhoneNumber) || TextUtils.isEmpty(Location)
                     || TextUtils.isEmpty(repeatPass) || TextUtils.isEmpty(Password) || TextUtils.isEmpty(email)) {
@@ -131,7 +132,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             String customer_id=firebaseAuth.getCurrentUser().getUid();
-                            Customer customer=new Customer(fName,lName,email,Location,PhoneNumber);
+                            Customer customer=new Customer(fName,lName,email,Location,PhoneNumber,ProfilePic);
                             if(customer_id != null){
                                 DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("Customers");
                                 databaseReference.child(customer_id).setValue(customer).addOnCompleteListener(new OnCompleteListener<Void>() {

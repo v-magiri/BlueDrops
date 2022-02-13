@@ -92,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="24dp"
-                        android:hint="Enter a 5-Digit Password"
+                        android:hint="Enter a Password"
                         android:id="@+id/password"
                         android:inputType="textPassword"
                         android:paddingStart="20dp"/>

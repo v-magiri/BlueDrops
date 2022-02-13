@@ -3,6 +3,7 @@ package com.riconets.bluedrop;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
  */
 public class Home extends Fragment {
     LinearLayout notify_Vendor;
+    CardView refillCard,BottledWaterCard,vendorCard,AccessoriesCard;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,16 +65,22 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_home, container, false);
+        refillCard=v.findViewById(R.id.refillCard);
+        BottledWaterCard=v.findViewById(R.id.bottledCard);
+        vendorCard=v.findViewById(R.id.changeVendor);
+        AccessoriesCard=v.findViewById(R.id.accessories);
         notify_Vendor=v.findViewById(R.id.notify);
-        notify_Vendor.setOnClickListener(new View.OnClickListener() {
+        notify_Vendor.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(),Services.class);
+            intent.putExtra("Fragment_ID",0);
+            startActivity(intent);
+        });
+        refillCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),Services.class);
-                intent.putExtra("Fragment_ID",0);
+                intent.putExtra("Fragment_ID",3);
                 startActivity(intent);
-//                FragmentTransaction fragmentTransaction= getActivity().getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.content,notifyVendor,"");
-//                fragmentTransaction.commit();
             }
         });
         return v;

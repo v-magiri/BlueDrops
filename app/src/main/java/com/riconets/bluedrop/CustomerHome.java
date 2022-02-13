@@ -23,7 +23,7 @@ public class CustomerHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Theme_BlueDrop);
+//        setTheme(R.style.Theme_BlueDrop);
         setContentView(R.layout.activity_customer_home);
         mAuth=FirebaseAuth.getInstance();
         logoutBtn=findViewById(R.id.logout);

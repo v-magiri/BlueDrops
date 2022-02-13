@@ -1,7 +1,9 @@
 package com.riconets.bluedrop;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,7 +16,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class Account extends Fragment {
-
+    private CardView OrderCard,ProfileCard,LocationCard,updateVendorCard;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -59,6 +61,34 @@ public class Account extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        View v=inflater.inflate(R.layout.fragment_account, container, false);
+        OrderCard=v.findViewById(R.id.myOrder);
+        ProfileCard=v.findViewById(R.id.profile);
+        updateVendorCard=v.findViewById(R.id.changeVendor);
+        LocationCard=v.findViewById(R.id.updateLocation);
+
+        OrderCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        LocationCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),Services.class);
+                intent.putExtra("Fragment_ID",1);
+                startActivity(intent);
+            }
+        });
+        updateVendorCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),Services.class);
+                intent.putExtra("Fragment_ID",2);
+                startActivity(intent);
+            }
+        });
+        return v;
     }
 }

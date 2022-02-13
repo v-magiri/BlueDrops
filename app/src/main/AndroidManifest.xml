@@ -8,10 +8,16 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_bluedrops"
         android:supportsRtl="true"
-        android:theme="@style/splash_screen">
+        android:theme="@style/Theme.BlueDrop">
+        <activity
+            android:name=".VendorDetails"
+            android:exported="true" />
+        <activity
+            android:name=".Chat"
+            android:exported="true" />
         <activity
             android:name=".Services"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".CustomerHome"
             android:exported="true" />
@@ -21,15 +27,17 @@
         <activity
             android:name=".customer_login"
             android:exported="true">
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/splash_screen"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
     </application>
 
 </manifest>

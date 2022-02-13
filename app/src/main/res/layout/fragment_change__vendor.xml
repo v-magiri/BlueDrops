@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:weightSum="6"
     tools:context=".Change_Vendor">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/carousel"
+        android:id="@+id/vendorCarousel"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="2"
-        app:layout_constraintBottom_toTopOf="@+id/notifyForm"
+        app:layout_constraintBottom_toTopOf="@+id/vendorForm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/notifyImageView"
+            android:id="@+id/vendorImageView"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="20dp"
@@ -31,7 +30,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/notifyImageView"
+            android:layout_below="@+id/vendorImageView"
             android:layout_centerHorizontal="true"
             android:text="Change Vendor"
             android:layout_margin="20dp"
@@ -41,15 +40,14 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/notifyForm"
+        android:id="@+id/vendorForm"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_height="wrap_content"
         android:padding="20dp"
         android:background="@drawable/bg"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/carousel"
+        app:layout_constraintTop_toBottomOf="@+id/vendorCarousel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
@@ -101,7 +99,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/notifyTxt"
+                android:id="@+id/changeVendorTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -116,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/notify"
+            android:id="@+id/changeVendorBtn"
             android:layout_marginVertical="10dp"
             android:background="@drawable/success_btn"
             android:text="Update"
