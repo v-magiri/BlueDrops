@@ -24,12 +24,11 @@ public class Services extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_services);
-        backBtn=findViewById(R.id.back);
         logout=findViewById(R.id.logoutBtn);
         mAuth=FirebaseAuth.getInstance();
-        backBtn.setOnClickListener(view -> {
-
-        });
+//        backBtn.setOnClickListener(view -> {
+//
+//        });
         logout.setOnClickListener(view -> {
             AlertDialog.Builder logoutAlertDialog=new AlertDialog.Builder(Services.this);
             logoutAlertDialog.setTitle("Confirm Logout");
@@ -72,6 +71,12 @@ public class Services extends AppCompatActivity {
                 FragmentTransaction fr= getSupportFragmentManager().beginTransaction();
                 fr.replace(R.id.frLayout,refill,"");
                 fr.commit();
+                break;
+            case 4:
+                Update_Profile update_profile=new Update_Profile();
+                FragmentTransaction frTransUpdate= getSupportFragmentManager().beginTransaction();
+                frTransUpdate.replace(R.id.frLayout,update_profile,"");
+                frTransUpdate.commit();
                 break;
         }
     }

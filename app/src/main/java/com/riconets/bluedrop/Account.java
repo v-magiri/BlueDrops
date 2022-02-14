@@ -89,6 +89,14 @@ public class Account extends Fragment {
                 startActivity(intent);
             }
         });
+        ProfileCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),Services.class);
+                intent.putExtra("Fragment_ID",4);
+                startActivity(intent);
+            }
+        });
         return v;
     }
 }

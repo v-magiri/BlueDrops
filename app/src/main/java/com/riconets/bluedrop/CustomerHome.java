@@ -26,7 +26,7 @@ public class CustomerHome extends AppCompatActivity {
 //        setTheme(R.style.Theme_BlueDrop);
         setContentView(R.layout.activity_customer_home);
         mAuth=FirebaseAuth.getInstance();
-        logoutBtn=findViewById(R.id.logout);
+        logoutBtn=findViewById(R.id.logoutBtn);
         bottomNavigationView=findViewById(R.id.bottom_navbar);
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnNavigationItemSelectedListener(selectedListener);

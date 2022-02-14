@@ -7,7 +7,7 @@
     tools:context=".CustomerHome">
     <include
         android:id="@+id/include"
-        layout="@layout/home_appbar"/>
+        layout="@layout/appbar"/>
     <FrameLayout
         android:layout_width="match_parent"
         app:layout_constraintStart_toStartOf="parent"
