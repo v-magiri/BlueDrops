@@ -229,13 +229,22 @@ public class Update_Profile extends Fragment {
         databaseReference.child(userID).child("firstName").setValue(Update_FName);
         databaseReference.child(userID).child("lastName").setValue(Update_LName);
         databaseReference.child(userID).child("phoneNumber").setValue(phoneNumber);
-        if (TextUtils.isEmpty(ProfilePicUri)) {
-            ProfilePicUri = "";
+        if(IsProfilePicChanged()){
+            databaseReference.child(userID).child("profilePic").setValue(ProfilePicUri);
         }
-        databaseReference.child(userID).child("profilePic").setValue(ProfilePicUri);
         Toast.makeText(getActivity(),"Profile Updated",Toast.LENGTH_SHORT).show();
         getActivity().getSupportFragmentManager().popBackStack();
 
     }
 
+    private boolean IsProfilePicChanged() {
+        if (!TextUtils.isEmpty(ProfilePicUri) && !TextUtils.isEmpty(ProfileUri)) {
+            return true;
+        } else if ((!TextUtils.isEmpty(ProfilePicUri)) &&  (ProfileUri == "") ) {
+                return true;
+        } else {
+            return false;
+        }
+    }
+ 
 }
