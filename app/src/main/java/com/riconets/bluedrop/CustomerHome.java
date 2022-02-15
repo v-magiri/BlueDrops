@@ -1,19 +1,17 @@
 package com.riconets.bluedrop;
 
-import androidx.annotation.NonNull;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toolbar;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class CustomerHome extends AppCompatActivity {
@@ -56,6 +54,18 @@ public class CustomerHome extends AppCompatActivity {
                 }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user=mAuth.getCurrentUser();
+        if(user!=null){
+
+        }else{
+            startActivity(new Intent(getApplicationContext(),customer_login.class));
+        }
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener selectedListener=
             item -> {
              switch (item.getItemId()){

@@ -1,9 +1,9 @@
 package com.riconets.bluedrop;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser firebaseUser=mAuth.getCurrentUser();
-        if(firebaseUser!=null){
+        FirebaseUser user =mAuth.getCurrentUser();
+        if(user!=null){
             startActivity(new Intent(getApplicationContext(),CustomerHome.class));
         }
         else{
