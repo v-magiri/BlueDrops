@@ -23,8 +23,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -117,22 +119,19 @@ public class Update_Profile extends Fragment {
          //select Image to upload
             checkReadPermissions();
         });
-        UpdateProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fNameEditTxt.setSelection(fNameEditTxt.getText().length());
-                lNameEditTxt.setSelection(lNameEditTxt.getText().length());
-                phoneEditTxt.setSelection(phoneEditTxt.getText().length());
-                Update_FName=fNameEditTxt.getText().toString();
-                Update_LName=lNameEditTxt.getText().toString();
-                phoneNumber=phoneEditTxt.getText().toString();
-                if(TextUtils.isEmpty(Update_FName) || TextUtils.isEmpty(Update_LName)
-                        || TextUtils.isEmpty(phoneNumber)) {
-                    Toast.makeText(getActivity(), "No Update can be done Please fill the fields", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    UpdateProfile();
-                }
+        UpdateProfileBtn.setOnClickListener(v1 -> {
+            fNameEditTxt.setSelection(fNameEditTxt.getText().length());
+            lNameEditTxt.setSelection(lNameEditTxt.getText().length());
+            phoneEditTxt.setSelection(phoneEditTxt.getText().length());
+            Update_FName=fNameEditTxt.getText().toString();
+            Update_LName=lNameEditTxt.getText().toString();
+            phoneNumber=phoneEditTxt.getText().toString();
+            if(TextUtils.isEmpty(Update_FName) || TextUtils.isEmpty(Update_LName)
+                    || TextUtils.isEmpty(phoneNumber)) {
+                Toast.makeText(getActivity(), "No Update can be done Please fill the fields", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                UpdateProfile();
             }
         });
         return v;
@@ -210,14 +209,13 @@ public class Update_Profile extends Fragment {
                         if(task.isSuccessful()){
                             storageReference.child("Images").child(fileName).getDownloadUrl()
                                     .addOnSuccessListener(uri -> {
-                                        Uri ProfileUri=uri;
-                                        ProfilePicUri=uri.toString();
+                                        ProfilePicUri= uri.toString();
                                     });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getActivity(),e.getMessage().toString(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -226,23 +224,25 @@ public class Update_Profile extends Fragment {
 
     private void UpdateProfile() {
         String userID=mAuth.getCurrentUser().getUid();
-        databaseReference.child(userID).child("firstName").setValue(Update_FName);
-        databaseReference.child(userID).child("lastName").setValue(Update_LName);
-        databaseReference.child(userID).child("phoneNumber").setValue(phoneNumber);
-        if(IsProfilePicChanged()){
-            databaseReference.child(userID).child("profilePic").setValue(ProfilePicUri);
-        }
-        Toast.makeText(getActivity(),"Profile Updated",Toast.LENGTH_SHORT).show();
-        getActivity().getSupportFragmentManager().popBackStack();
+            databaseReference.child(userID).child("firstName").setValue(Update_FName);
+            databaseReference.child(userID).child("lastName").setValue(Update_LName);
+            databaseReference.child(userID).child("phoneNumber").setValue(phoneNumber);
+            if (IsProfilePicChanged()) {
+                databaseReference.child(userID).child("profilePic").setValue(ProfilePicUri);
+            }
+            Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
+
+
+
 
     }
 
     private boolean IsProfilePicChanged() {
-        if (!TextUtils.isEmpty(ProfilePicUri) && !TextUtils.isEmpty(ProfileUri)) {
+        if ((!TextUtils.isEmpty(ProfilePicUri)) && (!TextUtils.isEmpty(ProfileUri))) {
             return true;
-        } else if ((!TextUtils.isEmpty(ProfilePicUri)) &&  (ProfileUri == "") ) {
-                return true;
-        } else {
+        } else if ((!TextUtils.isEmpty(ProfilePicUri)) && (ProfileUri.equals(""))){
+            return  true;
+        }else{
             return false;
         }
     }
