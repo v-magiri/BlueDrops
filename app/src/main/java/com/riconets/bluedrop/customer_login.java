@@ -12,12 +12,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class customer_login extends AppCompatActivity {
@@ -81,10 +87,27 @@ public class customer_login extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    progressDialog.dismiss();
-                    FancyToast.makeText(getApplicationContext(),"Successfully Logged in",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,true).show();
-                    startActivity(new Intent(getApplicationContext(),CustomerHome.class));
-                    finish();
+
+                    String UserId=firebaseAuth.getUid();
+                    DatabaseReference mRef= FirebaseDatabase.getInstance().getReference("Roles");
+                    mRef.child(UserId).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String userType=snapshot.child("UserType").getValue().toString();
+                            if(userType.equals("Customer")) {
+                                progressDialog.dismiss();
+                                startActivity(new Intent(getApplicationContext(), CustomerHome.class));
+                                finish();
+                            }else{
+                                Toast.makeText(getApplicationContext(),"Failed Login. Please Try Again",FancyToast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

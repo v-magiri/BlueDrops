@@ -140,8 +140,11 @@ import com.shashank.sony.fancytoastlib.FancyToast;
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             progressDialog.dismiss();
-                                            FancyToast.makeText(getApplicationContext(),"Account Created ",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,true).show();
-                                            startActivity(new Intent(getApplicationContext(),customer_login.class));
+                                            progressDialog.dismiss();
+                                            String UserId=firebaseAuth.getCurrentUser().getUid();
+                                            DatabaseReference mRef=FirebaseDatabase.getInstance().getReference("Roles");
+                                            mRef.child(UserId).child("UserType").setValue("Customer");
+                                            startActivity(new Intent(getApplicationContext(),CustomerHome.class));
                                             finish();
                                         }
                                     }
