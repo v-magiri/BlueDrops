@@ -81,7 +81,7 @@ public class Account extends Fragment {
         OrderCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getActivity(),VendorDetails.class));
             }
         });
         LocationCard.setOnClickListener(new View.OnClickListener() {

@@ -99,6 +99,7 @@ public class customer_login extends AppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), CustomerHome.class));
                                 finish();
                             }else{
+                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(),"Failed Login. Please Try Again",FancyToast.LENGTH_SHORT).show();
                             }
                         }
