@@ -1,10 +1,5 @@
 package com.riconets.bluedrop;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +27,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,7 +40,8 @@ public class Chat extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private List<com.riconets.bluedrop.model.ChatModel> messageList;
     private TextView SenderNameTxt;
-    String senderName,vendorId,customerId,message;
+    FirebaseAuth mAuth;
+    String senderName,vendorUserName,message,CustomerUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +53,15 @@ public class Chat extends AppCompatActivity {
         messageEditTxt=findViewById(R.id.customerMessage);
         chatRecyclerView=findViewById(R.id.chatRecyclerView);
         messageList=new ArrayList<>();
+        mAuth=FirebaseAuth.getInstance();
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatAdapter=new ChatAdapter(this,messageList);
         chatRecyclerView.setAdapter(chatAdapter);
         Bundle chatExtras=getIntent().getExtras();
         if(chatExtras!=null){
             senderName=chatExtras.getString("VendorName");
-            vendorId=chatExtras.getString("VendorId");
-            customerId=chatExtras.getString("UserId");
+            vendorUserName=chatExtras.getString("VendorUserName");
+            CustomerUserName=chatExtras.getString("UserName");
         }
         getMessages();
         //redirect to the vendor Details Page
@@ -67,22 +69,22 @@ public class Chat extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),Chat.class));
             finish();
         });
-        sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                message=messageEditTxt.getText().toString().trim();
-                if(TextUtils.isEmpty(message)){
-                    Toast.makeText(getApplicationContext(),"Message can not be Empty",Toast.LENGTH_SHORT).show();
-                }else{
-                    sendMessage();
-                }
-                messageEditTxt.setText("");
+        sendBtn.setOnClickListener(view -> {
+            message=messageEditTxt.getText().toString().trim();
+            if(TextUtils.isEmpty(message)){
+                Toast.makeText(getApplicationContext(),"Message can not be Empty",Toast.LENGTH_SHORT).show();
+            }else{
+                sendMessage();
             }
+            messageEditTxt.setText("");
         });
     }
 
+//    private void getCustomerUserName() {
+//    }
+
     private void getMessages() {
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("Chats").child(customerId).child(vendorId);
+        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("Chats").child(CustomerUserName).child(vendorUserName);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -106,8 +108,8 @@ public class Chat extends AppCompatActivity {
         DateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy @HH:mm", Locale.US);
         String date=dateFormat.format(new Date());
         DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("Chats");
-        ChatModel chatModel=new ChatModel(message,date,customerId,vendorId);
-        databaseReference.child(customerId).child(vendorId).push().setValue(chatModel);
+        ChatModel chatModel=new ChatModel(message,date,CustomerUserName,vendorUserName);
+        databaseReference.child(CustomerUserName).child(vendorUserName).push().setValue(chatModel);
     }
 
     @Override

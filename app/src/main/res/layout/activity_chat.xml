@@ -27,14 +27,17 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/chatRecyclerView"
+        android:layout_above="@+id/ChatContainer"
         android:layout_below="@+id/chatBar"
-        android:layout_marginVertical="10dp"/>
+        android:layout_marginVertical="10dp"
+        android:layout_marginBottom="423dp" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@id/ChatContainer"
         android:layout_alignParentBottom="true"
         android:background="@color/grey"
         android:paddingVertical="10dp">

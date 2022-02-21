@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.riconets.bluedrop.R;
 import com.riconets.bluedrop.model.ChatModel;
 import com.riconets.bluedrop.model.ChatModel;
@@ -25,6 +26,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     Context context;
     List<ChatModel> chatList;
     FirebaseAuth mAuth;
+    DatabaseReference mRef;
 
     public ChatAdapter(Context context, List<ChatModel> chatList) {
         this.context = context;
@@ -43,7 +45,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         String userID= Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         if(chatList.get(position).getReceiver().equals(userID)){
             holder.chatMessageView.setArrowPosition(ChatMessageView.ArrowPosition.LEFT);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.START;
+            holder.chatMessageView.setLayoutParams(layoutParams);
+            holder.linearLayoutMessage.setGravity(Gravity.START);
+        }else{
 
+            holder.chatMessageView.setArrowPosition(ChatMessageView.ArrowPosition.LEFT);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.START;
             holder.chatMessageView.setLayoutParams(layoutParams);

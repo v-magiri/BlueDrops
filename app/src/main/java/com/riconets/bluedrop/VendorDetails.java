@@ -31,7 +31,7 @@ public class VendorDetails extends AppCompatActivity {
     ProgressDialog progressDialog;
     private ImageView backBtn,logoutBtn;
     private TextView nameTxt,vendorDescTxt,LocationTxt;
-    String VendorId,customerId,VendorName,VendorLogoUri,vendorDesc,Vendor_Address;
+    String VendorId,customerUserName,VendorName,VendorLogoUri,vendorDesc,Vendor_Address,vendorUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,7 @@ public class VendorDetails extends AppCompatActivity {
         nameTxt=findViewById(R.id.vendorNameTxt);
         vendorDescTxt=findViewById(R.id.vendorDesc);
         mAuth=FirebaseAuth.getInstance();
-        customerId=mAuth.getUid();
-        VendorId="1BaGeWybUEY3nRraFxKvLd0N3rk2";
+        VendorId="2tc6TyLdpMZf0OVcIrOOq6wcR733";
         LocationTxt=findViewById(R.id.vendorLocation);
         progressDialog.setMessage("Loading Details");
         progressDialog.setCanceledOnTouchOutside(false);
@@ -72,18 +71,18 @@ public class VendorDetails extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
+        getCustomerUserName();
         messageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(VendorName) || TextUtils.isEmpty(VendorId)){
+                if(TextUtils.isEmpty(VendorName) || TextUtils.isEmpty(VendorId) || TextUtils.isEmpty(customerUserName)){
                     return;
                 }else{
                     Intent intent=new Intent(getApplicationContext(),Chat.class);
                     Bundle bundle=new Bundle();
                     bundle.putString("VendorName",VendorName);
-                    bundle.putString("UserId",customerId);
-                    bundle.putString("VendorId",VendorId);
+                    bundle.putString("VendorUserName",vendorUserName);
+                    bundle.putString("UserName",customerUserName);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -91,10 +90,26 @@ public class VendorDetails extends AppCompatActivity {
         });
     }
 
+    private void getCustomerUserName() {
+        DatabaseReference Mref=FirebaseDatabase.getInstance().getReference("Customers");
+        String userId=mAuth.getUid();
+        if(userId!=null){
+            Mref.child(userId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    customerUserName=snapshot.child("userName").getValue().toString();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
     private void ShowVendorDetails() {
         mAuth=FirebaseAuth.getInstance();
-//        String customerId=mAuth.getUid();
-//        VendorId="1BaGeWybUEY3nRraFxKvLd0N3rk2";
         databaseReference= FirebaseDatabase.getInstance().getReference("Vendors");
         databaseReference.child(VendorId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,10 +119,13 @@ public class VendorDetails extends AppCompatActivity {
                 VendorName=snapshot.child("name").getValue().toString();
                 vendorDesc=snapshot.child("vendor_Desc").getValue().toString();
                 Vendor_Address=snapshot.child("address").getValue().toString();
+                vendorUserName=snapshot.child("userName").getValue().toString();
                 nameTxt.setText(VendorName);
                 vendorDescTxt.setText(vendorDesc);
                 LocationTxt.setText(Vendor_Address);
-                Picasso.get().load(VendorLogoUri).into(vendorLogo);
+                if(!VendorLogoUri.equals("")) {
+                    Picasso.get().load(VendorLogoUri).into(vendorLogo);
+                }
                 progressDialog.dismiss();
 
             }
@@ -120,32 +138,4 @@ public class VendorDetails extends AppCompatActivity {
 
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        mAuth=FirebaseAuth.getInstance();
-////        String customerId=mAuth.getUid();
-////        VendorId="1BaGeWybUEY3nRraFxKvLd0N3rk2";
-//        databaseReference= FirebaseDatabase.getInstance().getReference("Vendors");
-//        databaseReference.child(VendorId).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-////                VendorModel vendorModel=snapshot.getValue(VendorModel.class);
-//                VendorLogoUri=snapshot.child("profile_Pic").getValue().toString();
-//                VendorName=snapshot.child("name").getValue().toString();
-//                vendorDesc=snapshot.child("vendor_Desc").getValue().toString();
-//                Vendor_Address=snapshot.child("address").getValue().toString();
-//                nameTxt.setText(VendorName);
-//                vendorDescTxt.setText(vendorDesc);
-//                LocationTxt.setText(Vendor_Address);
-//                Picasso.get().load(VendorLogoUri).into(vendorLogo);
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
 }

@@ -1,31 +1,31 @@
 package com.riconets.bluedrop.model;
 
 public class Customer {
-    String FirstName,LastName,Email,Location,PhoneNumber,profilePic;
+    String Name,userName,Email,Location,PhoneNumber,profilePic;
 
-    public Customer(String firstName, String lastName, String email, String location, String phoneNumber,String profile_Pic) {
-        this.FirstName = firstName;
-        this.LastName = lastName;
+    public Customer(String name, String username, String email, String location, String phoneNumber,String profile_Pic) {
+        this.Name = name;
+        this.userName = username;
         this.Email = email;
         this.Location = location;
         this.PhoneNumber = phoneNumber;
         this.profilePic= profile_Pic;
     }
 
-    public String getFirstName() {
-        return FirstName;
+    public String getName() {
+        return Name;
     }
 
-    public void setFirstName(String firstName) {
-        FirstName = firstName;
+    public void setName(String name) {
+        Name = name;
     }
 
-    public String getLastName() {
-        return LastName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLastName(String lastName) {
-        LastName = lastName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {

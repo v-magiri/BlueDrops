@@ -33,7 +33,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/fNameEditTxt"
                         android:inputType="textPersonName"
-                        android:hint="Enter FirstName"
+                        android:hint="Full Name"
                         android:textSize="24dp"
                         android:paddingStart="20dp"/>
                 <EditText
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/lNameEditText"
                     android:inputType="textPersonName"
-                    android:hint="Enter Last Name"
+                    android:hint="username"
                     android:textSize="24dp"
                     android:paddingStart="20dp"/>
                     <EditText
@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/customerEmailEditTxt"
                         android:textSize="24dp"
-                        android:hint="Enter Email"
+                        android:hint="Email"
                         android:paddingStart="20dp"
                         android:inputType="textEmailAddress"/>
                     <EditText
@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="24dp"
                         android:inputType="phone"
-                        android:hint="Enter Phone Number"
+                        android:hint="Phone Number"
                         android:id="@+id/customer_PhoneNumber"
                         android:paddingStart="20dp"/>
                 <com.google.android.material.textfield.TextInputLayout
@@ -92,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="24dp"
-                        android:hint="Enter a Password"
+                        android:hint="Password"
                         android:id="@+id/password"
                         android:inputType="textPassword"
                         android:paddingStart="20dp"/>

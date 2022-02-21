@@ -40,8 +40,10 @@
         <entry key="app/src/main/res/layout/activity_customer_home.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_customer_login.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_customer_registration.xml" value="0.27393617021276595" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.11099899091826437" />
         <entry key="app/src/main/res/layout/activity_services.xml" value="0.14990942028985507" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.209375" />
+        <entry key="app/src/main/res/layout/activity_update_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_vendor_details.xml" value="0.1" />
         <entry key="app/src/main/res/layout/appbar.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/fragment_update__profile.xml" value="0.16621376811594202" />

@@ -231,10 +231,6 @@ public class Update_Profile extends Fragment {
                 databaseReference.child(userID).child("profilePic").setValue(ProfilePicUri);
             }
             Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
-
-
-
-
     }
 
     private boolean IsProfilePicChanged() {
