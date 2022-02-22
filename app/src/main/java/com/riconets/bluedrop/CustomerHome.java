@@ -33,6 +33,16 @@ public class CustomerHome extends AppCompatActivity {
         fragmentTransaction.replace(R.id.content,home,"");
         fragmentTransaction.commit();
 
+        int intentFragment=getIntent().getIntExtra("Fragment_ID",0);
+        switch (intentFragment){
+            case 1:
+                Cart cart=new Cart();
+                FragmentTransaction fragmentTransaction1= getSupportFragmentManager().beginTransaction();
+                fragmentTransaction1.replace(R.id.content,cart,"");
+                fragmentTransaction1.commit();
+                break;
+        }
+
         //implementation of the logout Functionality
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override

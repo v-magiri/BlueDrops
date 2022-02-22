@@ -2,6 +2,7 @@ package com.riconets.bluedrop;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -44,11 +45,10 @@ public class Refill extends AppCompatActivity {
             QuantityTxt.setText(String.valueOf(quantity+1));
 
         });
-        RefillBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        RefillBtn.setOnClickListener(v -> {
+                Intent intent = new Intent(getApplicationContext(),CustomerHome.class);
+                intent.putExtra("Fragment_ID",1);
+                startActivity(intent);
         });
 
 

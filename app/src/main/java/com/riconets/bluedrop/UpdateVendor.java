@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UpdateVendor extends AppCompatActivity {
     private ImageView backBtn;
-    private CircleImageView logout;
+    private CircleImageView logoutBtn;
     FirebaseAuth mAuth;
     DatabaseReference databaseReference;
 
@@ -29,12 +30,12 @@ public class UpdateVendor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_vendor);
-        logout=findViewById(R.id.logoutBtn);
+        logoutBtn=findViewById(R.id.logoutBtn);
         mAuth=FirebaseAuth.getInstance();
-//        backBtn.setOnClickListener(view -> {
-//
-//        });
-        logout.setOnClickListener(view -> {
+        backBtn=findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(v -> finish());
+        logoutBtn.setVisibility(View.GONE);
+        logoutBtn.setOnClickListener(view -> {
             AlertDialog.Builder logoutAlertDialog=new AlertDialog.Builder(UpdateVendor.this);
             logoutAlertDialog.setTitle("Confirm Logout");
             logoutAlertDialog.setIcon(R.drawable.icon_bluedrops);

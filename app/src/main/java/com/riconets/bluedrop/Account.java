@@ -90,33 +90,6 @@ public class Account extends Fragment {
             startActivity(intent);
         });
         ProfileCard.setOnClickListener(view -> {
-//            String UID=mAuth.getUid();
-//            databaseReference.child(UID).addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    String Name=snapshot.child("name").getValue().toString();
-//                    String PhoneNumber=snapshot.child("phoneNumber").getValue().toString();
-//                    String Location=snapshot.child("location").getValue().toString();
-//                    String ProfilePic=snapshot.child("profilePic").getValue().toString();
-//                    String userName=snapshot.child("userName").getValue().toString();
-//                    String email=snapshot.child("email").getValue().toString();
-//                    Intent intent = new Intent(getActivity(),UpdateProfile.class);
-//                    Bundle userDetails=new Bundle();
-//                    userDetails.putString("userName",userName);
-//                    userDetails.putString("Name",Name);
-//                    userDetails.putString("phoneNumber",PhoneNumber);
-//                    userDetails.putString("location",Location);
-//                    userDetails.putString("email",email);
-//                    userDetails.putString("ProfilePic",ProfilePic);
-//                    intent.putExtras(userDetails);
-//                    startActivity(intent);
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
             Intent intent = new Intent(getActivity(),UpdateProfile.class);
             startActivity(intent);
         });
