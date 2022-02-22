@@ -1,64 +1,57 @@
 package com.riconets.bluedrop;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Refill#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Refill extends Fragment {
+import com.shashank.sony.fancytoastlib.FancyToast;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Refill() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Refill.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Refill newInstance(String param1, String param2) {
-        Refill fragment = new Refill();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+public class Refill extends AppCompatActivity {
+    private AutoCompleteTextView waterPackageAutoComplete;
+    private TextView QuantityTxt,PriceTagTxt,TotalPriceTxt;
+    private Button RefillBtn;
+    private ImageButton lessBtn,AddBtn;
+    private CheckBox bottleStatus;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        setContentView(R.layout.activity_refill);
+        waterPackageAutoComplete=findViewById(R.id.packageAutoComplete);
+        QuantityTxt=findViewById(R.id.quantity);
+        lessBtn=findViewById(R.id.lessBtn);
+        AddBtn=findViewById(R.id.addBtn);
+        PriceTagTxt=findViewById(R.id.priceTag);
+        bottleStatus=findViewById(R.id.emptyTag);
+        TotalPriceTxt=findViewById(R.id.sumPriceTag);
+        RefillBtn=findViewById(R.id.notify);
+        lessBtn.setOnClickListener(view -> {
+            int itemCount=Integer.parseInt(QuantityTxt.getText().toString());
+            if(itemCount==0){
+                FancyToast.makeText(getApplicationContext(),"Quantity can not be less than 0",FancyToast.LENGTH_SHORT,FancyToast.ERROR,true).show();
+            }
+            else{
+                QuantityTxt.setText(String.valueOf(itemCount-1));
+            }
+        });
+        AddBtn.setOnClickListener(view -> {
+            int quantity=Integer.parseInt(QuantityTxt.getText().toString());
+            QuantityTxt.setText(String.valueOf(quantity+1));
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_refill, container, false);
+        });
+        RefillBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+
     }
 }

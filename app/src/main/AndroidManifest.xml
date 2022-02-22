@@ -15,16 +15,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BlueDrop">
         <activity
+            android:name=".NotifyVendor"
+            android:exported="false" />
+        <activity
+            android:name=".Refill"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateLocation"
+            android:exported="false" />
+        <activity
             android:name=".UpdateProfile"
             android:exported="false" />
+        <activity
+            android:name=".UpdateVendor"
+            android:exported="true" />
         <activity
             android:name=".VendorDetails"
             android:exported="true" />
         <activity
             android:name=".Chat"
-            android:exported="true" />
-        <activity
-            android:name=".Services"
             android:exported="true" />
         <activity
             android:name=".CustomerHome"
@@ -34,7 +43,7 @@
             android:exported="true" />
         <activity
             android:name=".customer_login"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

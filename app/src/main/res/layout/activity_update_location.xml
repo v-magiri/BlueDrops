@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,13 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/carousel"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="2"
-        app:layout_constraintBottom_toTopOf="@+id/notifyForm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_weight="4">
 
         <ImageView
             android:id="@+id/notifyImageView"
@@ -46,15 +43,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:padding="20dp"
-        android:background="@drawable/bg"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/carousel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
-
-
+        android:background="@drawable/bg"
+        android:layout_below="@+id/carousel"
+        android:layout_alignParentBottom="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,4 +107,4 @@
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

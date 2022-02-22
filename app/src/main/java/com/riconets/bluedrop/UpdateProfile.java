@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,15 +15,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.shashank.sony.fancytoastlib.FancyToast;
@@ -34,11 +42,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UpdateProfile extends AppCompatActivity {
     private CircleImageView accountProfilePic;
-    private EditText fNameEditTxt,lNameEditTxt,phoneEditTxt;
+    private EditText NameEditTxt,phoneEditTxt;
+    private TextView userNameTxt;
     private AutoCompleteTextView vendorAutoCompleteTxt;
     private Button UpdateProfileBtn;
     private FirebaseStorage storage;
+    private CircleImageView logoutBtn;
+    private ImageView backBtn;
     DatabaseReference databaseReference;
+    int UploadStatus;
+    ProgressDialog progressDialog,startProgressDialog;
     StorageReference storageReference;
     private static final int PICK_IMAGE_REQUEST= 22;
     private Uri imageUri;
@@ -50,30 +63,38 @@ public class UpdateProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
         accountProfilePic=findViewById(R.id.customerProfilePic);
-        fNameEditTxt=findViewById(R.id.fNameEditTxt);
-        lNameEditTxt=findViewById(R.id.lNameEditTxt);
+        NameEditTxt=findViewById(R.id.nameEditTxt);
+        userNameTxt=findViewById(R.id.userNameEditTxt);
         phoneEditTxt=findViewById(R.id.phoneEditTxt);
+        logoutBtn=findViewById(R.id.logoutBtn);
+        mAuth=FirebaseAuth.getInstance();
+        databaseReference= FirebaseDatabase.getInstance().getReference("Customers");
+        progressDialog=new ProgressDialog(this);
+        startProgressDialog=new ProgressDialog(this);
+        startProgressDialog.setMessage("Fetching Profile Details");
+        startProgressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setTitle("Please Wait");
+        progressDialog.setMessage("Updating Profile");
+        backBtn=findViewById(R.id.backBtn);
         vendorAutoCompleteTxt=findViewById(R.id.vendorAutoComplete);
         accountProfilePic=findViewById(R.id.customerProfilePic);
-        databaseReference= FirebaseDatabase.getInstance().getReference("Customers");
         UpdateProfileBtn=findViewById(R.id.updateProfileBtn);
-        mAuth=FirebaseAuth.getInstance();
         storage=FirebaseStorage.getInstance();
         storageReference=storage.getReference();
+        backBtn.setOnClickListener(v -> finish());
+        logoutBtn.setVisibility(View.GONE);
 //        ShowCurrentProfile();
         accountProfilePic.setOnClickListener(view -> {
             //select Image to upload
             checkReadPermissions();
         });
         UpdateProfileBtn.setOnClickListener(v1 -> {
-            fNameEditTxt.setSelection(fNameEditTxt.getText().length());
-            lNameEditTxt.setSelection(lNameEditTxt.getText().length());
+            NameEditTxt.setSelection(NameEditTxt.getText().length());
             phoneEditTxt.setSelection(phoneEditTxt.getText().length());
-            Update_FName=fNameEditTxt.getText().toString();
-            Update_LName=lNameEditTxt.getText().toString();
+            Update_FName=NameEditTxt.getText().toString();
             phoneNumber=phoneEditTxt.getText().toString();
-            if(TextUtils.isEmpty(Update_FName) || TextUtils.isEmpty(Update_LName)
-                    || TextUtils.isEmpty(phoneNumber)) {
+            if(TextUtils.isEmpty(Update_FName) || TextUtils.isEmpty(phoneNumber)) {
                 Toast.makeText(getApplicationContext(), "No Update can be done Please fill the fields", Toast.LENGTH_SHORT).show();
             }
             else{
@@ -83,19 +104,22 @@ public class UpdateProfile extends AppCompatActivity {
 
     }
 //    private void ShowCurrentProfile() {
-////        Bundle userDetails=getArguments();
-//        String FirstName=String.valueOf(userDetails.getString("FirstName"));
-//        String LastName=String.valueOf(userDetails.getString("LastName"));
-//        String PhoneNumber=String.valueOf(userDetails.getString("PhoneNumber"));
-//        ProfileUri=String.valueOf(userDetails.getString("ProfileUri"));
-//        fNameEditTxt.setText(FirstName);
-//        lNameEditTxt.setText(LastName);
+//        Bundle userDetails=getIntent().getExtras();
+//        String userName=String.valueOf(userDetails.getString("userName"));
+//        String Name=String.valueOf(userDetails.getString("Name"));
+//        String email=String.valueOf(userDetails.getString("email"));
+//        String PhoneNumber=String.valueOf(userDetails.getString("phoneNumber"));
+//        String location=String.valueOf(userDetails.getString("location"));
+//        ProfileUri=String.valueOf(userDetails.getString("ProfilePic"));
+//        NameEditTxt.setText(Name);
+//        userNameTxt.setText(userName);
 //        phoneEditTxt.setText(PhoneNumber);
-//        fNameEditTxt.setSelection(fNameEditTxt.getText().length());
-//        lNameEditTxt.setSelection(lNameEditTxt.getText().length());
+//        NameEditTxt.setSelection(NameEditTxt.getText().length());
 //        phoneEditTxt.setSelection(phoneEditTxt.getText().length());
-//        if(!TextUtils.isEmpty(ProfileUri)) {
+//        if(!ProfileUri.equals("")) {
 //            Picasso.get().load(ProfileUri).into(accountProfilePic);
+//        }else{
+//            accountProfilePic.setImageResource(R.drawable.ic_account);
 //        }
 //    }
     private void checkReadPermissions() {
@@ -142,14 +166,14 @@ public class UpdateProfile extends AppCompatActivity {
         }
     }
     private void uploadProfilePic() {
-        if(imageUri!=null){
+            if(imageUri!=null){
             String fileName=String.valueOf(System.currentTimeMillis());
             storageReference.child("Images").child(fileName).putFile(imageUri)
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
                             storageReference.child("Images").child(fileName).getDownloadUrl()
                                     .addOnSuccessListener(uri -> {
-                                        ProfilePicUri= uri.toString();
+                                            ProfilePicUri= uri.toString();
                                     });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -159,17 +183,19 @@ public class UpdateProfile extends AppCompatActivity {
                 }
             });
         }
-
     }
     private void UpdateProfile() {
         String userID=mAuth.getCurrentUser().getUid();
-        databaseReference.child(userID).child("firstName").setValue(Update_FName);
+        databaseReference.child(userID).child("Name").setValue(Update_FName);
         databaseReference.child(userID).child("lastName").setValue(Update_LName);
         databaseReference.child(userID).child("phoneNumber").setValue(phoneNumber);
         if (IsProfilePicChanged()) {
+            progressDialog.show();
             databaseReference.child(userID).child("profilePic").setValue(ProfilePicUri);
         }
         Toast.makeText(getApplicationContext(), "Profile Updated", Toast.LENGTH_SHORT).show();
+        progressDialog.dismiss();
+        finish();
     }
     private boolean IsProfilePicChanged() {
         if ((!TextUtils.isEmpty(ProfilePicUri)) && (!TextUtils.isEmpty(ProfileUri))) {
@@ -181,4 +207,35 @@ public class UpdateProfile extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startProgressDialog.show();
+        String UID=mAuth.getUid();
+            databaseReference.child(UID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String Name=snapshot.child("name").getValue().toString();
+                    String PhoneNumber=snapshot.child("phoneNumber").getValue().toString();
+                    String Location=snapshot.child("location").getValue().toString();
+                    ProfileUri=snapshot.child("profilePic").getValue().toString();
+                    String userName=snapshot.child("userName").getValue().toString();
+                    String email=snapshot.child("email").getValue().toString();
+                    NameEditTxt.setText(Name);
+                    userNameTxt.setText(userName);
+                    phoneEditTxt.setText(PhoneNumber);
+                    NameEditTxt.setSelection(NameEditTxt.getText().length());
+                    phoneEditTxt.setSelection(phoneEditTxt.getText().length());
+                    if(!ProfileUri.equals("")) {
+                        Picasso.get().load(ProfileUri).into(accountProfilePic);
+                    }
+                    startProgressDialog.dismiss();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+    }
 }

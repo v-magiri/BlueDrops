@@ -71,15 +71,13 @@ public class Home extends Fragment {
         AccessoriesCard=v.findViewById(R.id.accessories);
         notify_Vendor=v.findViewById(R.id.notify);
         notify_Vendor.setOnClickListener(view -> {
-            Intent intent = new Intent(getActivity(),Services.class);
-            intent.putExtra("Fragment_ID",0);
+            Intent intent = new Intent(getActivity(),NotifyVendor.class);
             startActivity(intent);
         });
         refillCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),Services.class);
-                intent.putExtra("Fragment_ID",3);
+                Intent intent = new Intent(getActivity(),Refill.class);
                 startActivity(intent);
             }
         });

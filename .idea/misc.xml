@@ -41,17 +41,28 @@
         <entry key="app/src/main/res/layout/activity_customer_login.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_customer_registration.xml" value="0.27393617021276595" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11099899091826437" />
+        <entry key="app/src/main/res/layout/activity_notify_vendor.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/activity_refill.xml" value="0.4" />
         <entry key="app/src/main/res/layout/activity_services.xml" value="0.14990942028985507" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.209375" />
-        <entry key="app/src/main/res/layout/activity_update_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_update_location.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/activity_update_profile.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_update_vendor.xml" value="0.1621376811594203" />
         <entry key="app/src/main/res/layout/activity_vendor_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_water_refill.xml" value="0.2" />
         <entry key="app/src/main/res/layout/appbar.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_change__vendor.xml" value="0.1621376811594203" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_notify_vendor.xml" value="0.10368314833501513" />
         <entry key="app/src/main/res/layout/fragment_update__profile.xml" value="0.16621376811594202" />
+        <entry key="app/src/main/res/layout/fragment_update_location.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/item.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/row_chat_left.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/row_chat_message.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/row_chat_right.xml" value="0.536" />
         <entry key="app/src/main/res/layout/tool_bar.xml" value="0.11099899091826437" />
+        <entry key="app/src/main/res/layout/toolbar.xml" value="0.22916666666666666" />
       </map>
     </option>
   </component>
