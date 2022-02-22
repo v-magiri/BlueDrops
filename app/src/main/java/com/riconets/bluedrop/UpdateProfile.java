@@ -103,25 +103,6 @@ public class UpdateProfile extends AppCompatActivity {
         });
 
     }
-//    private void ShowCurrentProfile() {
-//        Bundle userDetails=getIntent().getExtras();
-//        String userName=String.valueOf(userDetails.getString("userName"));
-//        String Name=String.valueOf(userDetails.getString("Name"));
-//        String email=String.valueOf(userDetails.getString("email"));
-//        String PhoneNumber=String.valueOf(userDetails.getString("phoneNumber"));
-//        String location=String.valueOf(userDetails.getString("location"));
-//        ProfileUri=String.valueOf(userDetails.getString("ProfilePic"));
-//        NameEditTxt.setText(Name);
-//        userNameTxt.setText(userName);
-//        phoneEditTxt.setText(PhoneNumber);
-//        NameEditTxt.setSelection(NameEditTxt.getText().length());
-//        phoneEditTxt.setSelection(phoneEditTxt.getText().length());
-//        if(!ProfileUri.equals("")) {
-//            Picasso.get().load(ProfileUri).into(accountProfilePic);
-//        }else{
-//            accountProfilePic.setImageResource(R.drawable.ic_account);
-//        }
-//    }
     private void checkReadPermissions() {
         if(ContextCompat.checkSelfPermission(UpdateProfile.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED){
             SelectProfilePic();
