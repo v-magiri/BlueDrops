@@ -3,6 +3,7 @@ package com.riconets.bluedrop;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -12,6 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Home#newInstance} factory method to
@@ -19,6 +27,9 @@ import android.widget.LinearLayout;
  */
 public class Home extends Fragment {
     LinearLayout notify_Vendor;
+    DatabaseReference mRef;
+    FirebaseAuth mAuth;
+    String VendorID;
     CardView refillCard,BottledWaterCard,vendorCard,AccessoriesCard;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,18 +80,62 @@ public class Home extends Fragment {
         BottledWaterCard=v.findViewById(R.id.bottledCard);
         vendorCard=v.findViewById(R.id.changeVendor);
         AccessoriesCard=v.findViewById(R.id.accessories);
+        mAuth=FirebaseAuth.getInstance();
         notify_Vendor=v.findViewById(R.id.notify);
+        mRef= FirebaseDatabase.getInstance().getReference("Customers");
+        getVendorId();
         notify_Vendor.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(),NotifyVendor.class);
             startActivity(intent);
         });
-        refillCard.setOnClickListener(new View.OnClickListener() {
+        refillCard.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(),Refill.class);
+            String type="Refill";
+            intent.putExtra("ProductType",type);
+            startActivity(intent);
+        });
+        AccessoriesCard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),Refill.class);
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),ViewProducts.class);
+                String type="Accessories";
+                intent.putExtra("ProductType",type);
+                intent.putExtra("VendorID",VendorID);
+                startActivity(intent);
+            }
+        });
+        vendorCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),UpdateVendor.class);
+                startActivity(intent);
+            }
+        });
+        BottledWaterCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),ViewProducts.class);
+                String type="Bottled Water";
+                intent.putExtra("ProductType",type);
+                intent.putExtra("VendorID",VendorID);
                 startActivity(intent);
             }
         });
         return v;
+    }
+
+    private void getVendorId() {
+        String UID=mAuth.getUid();
+        mRef.child(UID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                VendorID=snapshot.child("vendorID").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
