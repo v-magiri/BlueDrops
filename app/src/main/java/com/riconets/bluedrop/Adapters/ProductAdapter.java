@@ -2,6 +2,7 @@ package com.riconets.bluedrop.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(v.getContext(), ProductListing.class);
+                Bundle productBundle=new Bundle();
+                productBundle.putString("ProductName",product.getProductName());
+                productBundle.putString("ProductPrice",product.getProductPrice());
+                productBundle.putString("ProductSize",product.getProductSize());
+                productBundle.putString("ProductImage",product.getProductImageUri());
+                productBundle.putString("ProductId",product.getProductId());
+                productBundle.putString("ProductDesc",product.getProductDesc());
+                intent.putExtras(productBundle);
+                v.getContext().startActivity(intent);
             }
         });
     }

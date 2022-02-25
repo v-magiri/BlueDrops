@@ -35,6 +35,7 @@
         <entry key="app/src/main/res/drawable/bg.xml" value="0.1345" />
         <entry key="app/src/main/res/drawable/ic_message.xml" value="0.103" />
         <entry key="app/src/main/res/drawable/ic_phone.xml" value="0.103" />
+        <entry key="app/src/main/res/drawable/pay_btn.xml" value="0.1275" />
         <entry key="app/src/main/res/drawable/searchview_background.xml" value="0.1045" />
         <entry key="app/src/main/res/drawable/success_btn.xml" value="0.1345" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.22916666666666666" />
@@ -44,6 +45,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11099899091826437" />
         <entry key="app/src/main/res/layout/activity_notify_vendor.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_product.xml" value="0.1743659420289855" />
+        <entry key="app/src/main/res/layout/activity_product_listing.xml" value="0.1743659420289855" />
         <entry key="app/src/main/res/layout/activity_refill.xml" value="0.4" />
         <entry key="app/src/main/res/layout/activity_services.xml" value="0.14990942028985507" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.209375" />
@@ -51,9 +53,12 @@
         <entry key="app/src/main/res/layout/activity_update_profile.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_update_vendor.xml" value="0.1621376811594203" />
         <entry key="app/src/main/res/layout/activity_vendor_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_view_product.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_water_refill.xml" value="0.2" />
         <entry key="app/src/main/res/layout/appbar.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/cart_layout.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.11099899091826437" />
         <entry key="app/src/main/res/layout/fragment_change__vendor.xml" value="0.1621376811594203" />
         <entry key="app/src/main/res/layout/fragment_customer_map.xml" value="0.1743659420289855" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
