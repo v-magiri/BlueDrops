@@ -46,7 +46,7 @@ public class VendorDetails extends AppCompatActivity {
         nameTxt=findViewById(R.id.vendorNameTxt);
         vendorDescTxt=findViewById(R.id.vendorDesc);
         mAuth=FirebaseAuth.getInstance();
-        VendorId="2tc6TyLdpMZf0OVcIrOOq6wcR733";
+        VendorId="14y55tFevEWZJI4H7iR9Cvewys42";
         LocationTxt=findViewById(R.id.vendorLocation);
         progressDialog.setMessage("Loading Details");
         progressDialog.setCanceledOnTouchOutside(false);

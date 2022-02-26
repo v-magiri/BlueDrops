@@ -15,10 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.riconets.bluedrop.R;
 import com.riconets.bluedrop.model.ChatModel;
-import com.riconets.bluedrop.model.ChatModel;
 
 import java.util.List;
-import java.util.Objects;
 
 import me.himanshusoni.chatmessageview.ChatMessageView;
 
@@ -27,11 +25,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     List<ChatModel> chatList;
     FirebaseAuth mAuth;
     DatabaseReference mRef;
+    String userName;
 
-    public ChatAdapter(Context context, List<ChatModel> chatList) {
+    public ChatAdapter(Context context, List<ChatModel> chatList,String UserName) {
         this.context = context;
         this.chatList = chatList;
         mAuth=FirebaseAuth.getInstance();
+        this.userName=UserName;
     }
 
     @NonNull
@@ -42,21 +42,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
-        String userID= Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        if(chatList.get(position).getReceiver().equals(userID)){
-            holder.chatMessageView.setArrowPosition(ChatMessageView.ArrowPosition.LEFT);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.gravity = Gravity.START;
-            holder.chatMessageView.setLayoutParams(layoutParams);
-            holder.linearLayoutMessage.setGravity(Gravity.START);
-        }else{
-
+//        String userID= Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        if(!chatList.get(position).getSender().equals(userName)){
             holder.chatMessageView.setArrowPosition(ChatMessageView.ArrowPosition.LEFT);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.START;
             holder.chatMessageView.setLayoutParams(layoutParams);
             holder.linearLayoutMessage.setGravity(Gravity.START);
         }
+//        else{
+//
+//            holder.chatMessageView.setArrowPosition(ChatMessageView.ArrowPosition.LEFT);
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            layoutParams.gravity = Gravity.START;
+//            holder.chatMessageView.setLayoutParams(layoutParams);
+//            holder.linearLayoutMessage.setGravity(Gravity.START);
+//        }
 
             String message=chatList.get(position).getMessage();
             String timeStamp=chatList.get(position).getTimeStamp();

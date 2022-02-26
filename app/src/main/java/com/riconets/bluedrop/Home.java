@@ -2,16 +2,14 @@ package com.riconets.bluedrop;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -82,60 +80,62 @@ public class Home extends Fragment {
         AccessoriesCard=v.findViewById(R.id.accessories);
         mAuth=FirebaseAuth.getInstance();
         notify_Vendor=v.findViewById(R.id.notify);
-        mRef= FirebaseDatabase.getInstance().getReference("Customers");
         getVendorId();
-        notify_Vendor.setOnClickListener(view -> {
-            Intent intent = new Intent(getActivity(),NotifyVendor.class);
-            startActivity(intent);
-        });
-        refillCard.setOnClickListener(view -> {
-            Intent intent = new Intent(getActivity(),Refill.class);
-            String type="Refill";
-            intent.putExtra("ProductType",type);
-            startActivity(intent);
-        });
-        AccessoriesCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),ViewProducts.class);
-                String type="Accessories";
-                intent.putExtra("ProductType",type);
-                intent.putExtra("VendorID",VendorID);
+            notify_Vendor.setOnClickListener(view -> {
+                Intent intent = new Intent(getActivity(), NotifyVendor.class);
                 startActivity(intent);
-            }
-        });
-        vendorCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),UpdateVendor.class);
+            });
+            refillCard.setOnClickListener(view -> {
+                Intent intent = new Intent(getActivity(), Refill.class);
+                String type = "Refill";
+                intent.putExtra("ProductType", type);
                 startActivity(intent);
-            }
-        });
-        BottledWaterCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),ViewProducts.class);
-                String type="Bottled Water";
-                intent.putExtra("ProductType",type);
-                intent.putExtra("VendorID",VendorID);
-                startActivity(intent);
-            }
-        });
+            });
+            AccessoriesCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ViewProducts.class);
+                    String type = "Accessories";
+                    intent.putExtra("ProductType", type);
+                    intent.putExtra("VendorID", VendorID);
+                    startActivity(intent);
+                }
+            });
+            vendorCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), UpdateVendor.class);
+                    startActivity(intent);
+                }
+            });
+            BottledWaterCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ViewProducts.class);
+                    String type = "Bottled Water";
+                    intent.putExtra("ProductType", type);
+                    intent.putExtra("VendorID", VendorID);
+                    startActivity(intent);
+                }
+            });
         return v;
     }
 
     private void getVendorId() {
+        mRef= FirebaseDatabase.getInstance().getReference("Customers");
         String UID=mAuth.getUid();
-        mRef.child(UID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                VendorID=snapshot.child("vendorID").getValue().toString();
-            }
+        if(UID!=null) {
+            mRef.child(UID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    VendorID = snapshot.child("vendorID").getValue().toString();
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
     }
 }

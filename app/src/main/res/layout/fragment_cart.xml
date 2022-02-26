@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#f2f2f2"
     android:layout_height="match_parent"
     tools:context=".Cart">
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="4dp"
         android:id="@+id/cartRecyclerView"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,21 +27,32 @@
                 android:layout_height="wrap_content"
                 android:text="Total Amount:"
                 android:textSize="18sp"
-                android:layout_weight="4"
                 android:textStyle="bold"
+                android:id="@+id/amountTV"
+                android:layout_weight="2"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:id="@+id/TotalPriceTxt"
+                android:textStyle="bold"
+                android:layout_weight="2"
+                android:layout_margin="20dp"
+                android:textColor="@color/black"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PayNow"
+                android:text="CheckOut"
                 android:layout_weight="1"
                 android:textSize="18sp"
-                android:layout_marginLeft="5dp"
+                android:id="@+id/payBtn"
                 app:backgroundTint="@null"
                 android:background="@drawable/pay_btn"
                 android:textColor="@color/white"
-                android:layout_gravity="end"/>
+                android:layout_gravity="end|center_vertical"/>
     </LinearLayout>
 
 
