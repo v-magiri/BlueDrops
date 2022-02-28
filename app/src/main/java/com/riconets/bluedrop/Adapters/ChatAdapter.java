@@ -48,7 +48,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.START;
             holder.chatMessageView.setLayoutParams(layoutParams);
-            holder.linearLayoutMessage.setGravity(Gravity.START);
+            holder.linearLayoutMessage.                                                                                                                                         setGravity(Gravity.START);
         }
 //        else{
 //

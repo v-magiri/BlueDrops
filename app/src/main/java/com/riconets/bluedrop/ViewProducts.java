@@ -37,19 +37,19 @@ public class ViewProducts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_product);
+        ProductType=getIntent().getStringExtra("ProductType");
+        VendorID=getIntent().getStringExtra("VendorID");
         productRecyclerView=findViewById(R.id.productList);
         mAuth=FirebaseAuth.getInstance();
         databaseReference= FirebaseDatabase.getInstance().getReference("Products");
         backBtn=findViewById(R.id.productBackBtn);
         backBtn.setOnClickListener(v -> finish());
         products=new ArrayList<>();
-        VendorID=getIntent().getStringExtra("VendorID");
-        ProductType=getIntent().getStringExtra("ProductType");
         searchView=findViewById(R.id.productSearchView);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(ViewProducts.this,2,GridLayoutManager.VERTICAL,false);
         productRecyclerView.setLayoutManager(gridLayoutManager);
         productRecyclerView.setHasFixedSize(true);
-        getProducts();
+            getProducts();
         searchView.setQueryHint("Search an Item");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

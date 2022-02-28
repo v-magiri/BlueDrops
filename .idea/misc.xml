@@ -36,6 +36,7 @@
         <entry key="app/src/main/res/drawable/bg.xml" value="0.1345" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/ic_increment.xml" value="0.2125" />
+        <entry key="app/src/main/res/drawable/ic_less.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/ic_message.xml" value="0.103" />
         <entry key="app/src/main/res/drawable/ic_phone.xml" value="0.103" />
         <entry key="app/src/main/res/drawable/ic_subtraction.xml" value="0.2125" />
@@ -60,7 +61,7 @@
         <entry key="app/src/main/res/layout/activity_view_product.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_water_refill.xml" value="0.2" />
         <entry key="app/src/main/res/layout/appbar.xml" value="0.22916666666666666" />
-        <entry key="app/src/main/res/layout/cart_layout.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/cart_layout.xml" value="0.536" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.264" />
         <entry key="app/src/main/res/layout/fragment_change__vendor.xml" value="0.1621376811594203" />

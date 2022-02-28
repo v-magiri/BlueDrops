@@ -86,8 +86,9 @@ public class Home extends Fragment {
                 startActivity(intent);
             });
             refillCard.setOnClickListener(view -> {
-                Intent intent = new Intent(getActivity(), Refill.class);
+                Intent intent = new Intent(getActivity(),ViewProducts.class);
                 String type = "Refill";
+                intent.putExtra("VendorID", VendorID);
                 intent.putExtra("ProductType", type);
                 startActivity(intent);
             });

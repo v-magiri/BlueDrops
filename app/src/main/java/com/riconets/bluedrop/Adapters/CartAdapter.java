@@ -50,33 +50,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         holder.quantityTxt.setText(cartModel.getProductQuantity());
         holder.priceTv.setText("KSH: "+cartModel.getProductPrice());
         holder.nameTv.setText(cartModel.getName());
-        holder.totalPriceTxt.setText("KSH: "+cartModel.getProductPrice());
+        holder.quantityTxt.setText(cartModel.getProductQuantity());
+        holder.totalPriceTxt.setText("KSH: "+cartModel.getTotalPrice());
         String ProductImage=cartModel.getProductImageUri();
         Picasso.get().load(ProductImage).into(holder.productImage);
-        holder.addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int Quantity=Integer.parseInt(holder.quantityTxt.getText().toString());
-                int Price=Integer.parseInt(holder.priceTv.getText().toString().split("KSH: ")[1]);
-                int TotalPrice=Integer.parseInt(holder.totalPriceTxt.getText().toString().split("KSH: ")[1]);
-                holder.quantityTxt.setText(String.valueOf(Quantity+1));
-                holder.totalPriceTxt.setText("KSH: "+String.valueOf(TotalPrice+Price));
-            }
-        });
-        holder.lessBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int Quantity=Integer.parseInt(holder.quantityTxt.getText().toString());
-                int Price=Integer.parseInt(holder.priceTv.getText().toString().split("KSH: ")[1]);
-                int TotalPrice=Integer.parseInt(holder.totalPriceTxt.getText().toString().split("KSH: ")[1]);
-                if(Quantity==1){
-                    Toast.makeText(context.getApplicationContext(),"Quantity Can not be Less than 1",Toast.LENGTH_SHORT).show();
-                }else {
-                    holder.quantityTxt.setText(String.valueOf(Quantity-1));
-                    holder.totalPriceTxt.setText("KSH: "+String.valueOf(TotalPrice-Price));
-                }
-            }
-        });
+
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,15 +84,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     static class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView productImage;
         TextView priceTv,nameTv,quantityTxt,totalPriceTxt;
-        ImageButton addBtn,lessBtn;
         ImageView deleteBtn;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             productImage=itemView.findViewById(R.id.cartProductImage);
             priceTv=itemView.findViewById(R.id.priceTV);
             nameTv=itemView.findViewById(R.id.ProductNameTxt);
-            addBtn=itemView.findViewById(R.id.addBtn);
-            lessBtn=itemView.findViewById(R.id.lessBtn);
             quantityTxt=itemView.findViewById(R.id.cartQuantity);
             totalPriceTxt=itemView.findViewById(R.id.totalPriceTV);
             deleteBtn=itemView.findViewById(R.id.deleteItem);

@@ -23,6 +23,7 @@ public class CustomerHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        setTheme(R.style.Theme_BlueDrop);
         setContentView(R.layout.activity_customer_home);
+        String VendorId=getIntent().getStringExtra("VendorId");
         mAuth=FirebaseAuth.getInstance();
         logoutBtn=findViewById(R.id.logoutBtn);
         bottomNavigationView=findViewById(R.id.bottom_navbar);
@@ -31,6 +32,9 @@ public class CustomerHome extends AppCompatActivity {
         Home home =new Home();
         FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content,home,"");
+//        Bundle bundle=new Bundle();
+//        bundle.putString("VendorID",VendorId);
+//        home.setArguments(bundle);
         fragmentTransaction.commit();
 
         int intentFragment=getIntent().getIntExtra("Fragment_ID",0);

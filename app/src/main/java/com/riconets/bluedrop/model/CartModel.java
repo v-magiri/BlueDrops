@@ -1,19 +1,21 @@
 package com.riconets.bluedrop.model;
 
 public class CartModel {
-    String Name,productID,ProductPrice,ProductQuantity,ProductImageUri,CartID;
+    String Name,productID,ProductPrice,ProductQuantity,ProductImageUri,CartID,TotalPrice;
 
     public CartModel() {
     }
 
     public CartModel(String name, String productID,
-                     String productPrice, String productQuantity, String productImageUri,String cartID) {
+                     String productPrice, String productQuantity, String productImageUri,
+                     String cartID,String totalPrice) {
         this.Name = name;
         this.productID = productID;
         this.ProductPrice = productPrice;
         this.ProductQuantity = productQuantity;
         this.ProductImageUri = productImageUri;
         this.CartID=cartID;
+        this.TotalPrice=totalPrice;
     }
 
     public String getName() {
@@ -58,6 +60,14 @@ public class CartModel {
 
     public String getCartID() {
         return CartID;
+    }
+
+    public String getTotalPrice() {
+        return TotalPrice;
+    }
+
+    public void setTotalPrice(String totalPrice) {
+        TotalPrice = totalPrice;
     }
 
     public void setCartID(String cartID) {

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,12 +38,14 @@ public class Cart extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private RecyclerView cartRecyclerView;
-    private TextView priceTxt;
+    private TextView priceTxt,AmountTv;
     private Button PayNowBtn;
     List<CartModel> cartList;
     CartAdapter cartAdapter;
     DatabaseReference databaseReference;
+    RelativeLayout noItemLayout;
     FirebaseAuth mAuth;
+    int totalPrice;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -85,14 +88,14 @@ public class Cart extends Fragment {
         View v= inflater.inflate(R.layout.fragment_cart, container, false);
         PayNowBtn=v.findViewById(R.id.payBtn);
         priceTxt=v.findViewById(R.id.TotalPriceTxt);
+        AmountTv=v.findViewById(R.id.amountTV);
         cartRecyclerView=v.findViewById(R.id.cartRecyclerView);
         cartList=new ArrayList<>();
         cartRecyclerView.setHasFixedSize(true);
+        noItemLayout=v.findViewById(R.id.EmptyCartLayout);
         mAuth=FirebaseAuth.getInstance();
         databaseReference= FirebaseDatabase.getInstance().getReference("Cart");
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        cartAdapter=new CartAdapter(getActivity(),cartList);
-        cartRecyclerView.setAdapter(cartAdapter);
         getCartItems();
         return v;
     }
@@ -106,6 +109,23 @@ public class Cart extends Fragment {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     CartModel curCart=dataSnapshot.getValue(CartModel.class);
                     cartList.add(curCart);
+                }
+                for(int n=0;n<cartList.size();n++){
+                    totalPrice+=Integer.parseInt(cartList.get(n).getTotalPrice());
+                }
+                cartAdapter=new CartAdapter(getActivity(),cartList);
+                cartRecyclerView.setAdapter(cartAdapter);
+                if(cartList.size()==0){
+                    PayNowBtn.setVisibility(View.GONE);
+                    priceTxt.setVisibility(View.GONE);
+                    AmountTv.setVisibility(View.GONE);
+                    noItemLayout.setVisibility(View.VISIBLE);
+                }else{
+                    PayNowBtn.setVisibility(View.VISIBLE);
+                    priceTxt.setVisibility(View.VISIBLE);
+                    AmountTv.setVisibility(View.VISIBLE);
+                    priceTxt.setText(String.valueOf(totalPrice));
+                    noItemLayout.setVisibility(View.GONE);
                 }
                 cartAdapter.notifyDataSetChanged();
             }
