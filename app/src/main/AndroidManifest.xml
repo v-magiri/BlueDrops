@@ -14,8 +14,15 @@
         android:roundIcon="@drawable/icon_bluedrops"
         android:supportsRtl="true"
         android:theme="@style/Theme.BlueDrop">
-        <activity android:name=".ProductListing"
-            android:exported="true"/>
+        <activity
+            android:name=".OrderHistory"
+            android:exported="false" />
+        <activity
+            android:name=".Order"
+            android:exported="false" />
+        <activity
+            android:name=".ProductListing"
+            android:exported="true" />
         <activity
             android:name=".ViewProducts"
             android:exported="false" />

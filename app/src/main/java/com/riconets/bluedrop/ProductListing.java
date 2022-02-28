@@ -86,6 +86,7 @@ public class ProductListing extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(getApplicationContext(),"Item Added to Cart",Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
                 });
