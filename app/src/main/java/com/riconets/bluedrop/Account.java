@@ -2,23 +2,16 @@ package com.riconets.bluedrop;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,7 +73,7 @@ public class Account extends Fragment {
         databaseReference=FirebaseDatabase.getInstance().getReference("Customers");
         updateVendorCard=v.findViewById(R.id.changeVendor);
         LocationCard=v.findViewById(R.id.updateLocation);
-        OrderCard.setOnClickListener(view -> startActivity(new Intent(getActivity(),VendorDetails.class)));
+        OrderCard.setOnClickListener(view -> startActivity(new Intent(getActivity(),Order.class)));
         LocationCard.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(),UpdateLocation.class);
             startActivity(intent);
