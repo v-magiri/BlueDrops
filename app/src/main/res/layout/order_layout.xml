@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:id="@+id/cancelBtn"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_cancel"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/cancelBtn"
+                android:id="@+id/orderIDLayout"
+                android:weightSum="4"
+                android:padding="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Order ID"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:paddingEnd="20dp"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:layout_toEndOf="@+id/orderID"
+                    android:id="@+id/orderID"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/orderIDLayout"
+                android:id="@+id/orderDateLayout"
+                android:weightSum="4"
+                android:padding="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Order Date "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:paddingEnd="20dp"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:layout_toEndOf="@+id/orderID"
+                    android:id="@+id/DateTxt"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/orderDateLayout"
+                android:id="@+id/orderStatusLayout"
+                android:weightSum="4"
+                android:padding="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Order Status"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:paddingEnd="20dp"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:layout_toEndOf="@+id/orderID"
+                    android:id="@+id/orderStatus"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

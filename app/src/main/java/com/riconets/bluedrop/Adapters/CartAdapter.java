@@ -3,14 +3,11 @@ package com.riconets.bluedrop.Adapters;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.riconets.bluedrop.R;
 import com.riconets.bluedrop.model.CartModel;
 import com.squareup.picasso.Picasso;
@@ -39,9 +39,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         this.cartModelList = cartModelList;
         mAuth=FirebaseAuth.getInstance();
         mRef= FirebaseDatabase.getInstance().getReference("Cart");
-        progressDialog=new ProgressDialog(context);
-        progressDialog.setMessage("Removing Item from Cart");
-        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog=new ProgressDialog(context);
+//        progressDialog.setMessage("Removing Item from Cart");
+//        progressDialog.setCanceledOnTouchOutside(false);
     }
 
     @NonNull
@@ -71,22 +71,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                 deleteAlertDialog.setIcon(R.drawable.delete);
                 deleteAlertDialog.setMessage("Are you sure you want to delete Item");
                 deleteAlertDialog.setCancelable(false);
-                deleteAlertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        progressDialog.show();
-                        mRef.child(UID).child(itemID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    cartModelList.remove(position);
-                                    notifyItemChanged(position);
-                                    notifyDataSetChanged();
-                                    progressDialog.dismiss();
-                                }
-                            }
-                        });
-                    }
+                deleteAlertDialog.setPositiveButton("Yes", (dialog, which) -> {
+//                        progressDialog.show();
+                    mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            mRef.child(UID).child(itemID).getRef().removeValue();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 });
                 deleteAlertDialog.setNegativeButton("No", (dialog, which) ->
                         dialog.cancel());

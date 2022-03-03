@@ -13,6 +13,9 @@ public class Customer {
         this.VendorID=vendorID;
     }
 
+    public Customer() {
+    }
+
     public String getName() {
         return Name;
     }

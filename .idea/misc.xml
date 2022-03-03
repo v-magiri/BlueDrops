@@ -32,6 +32,8 @@
         <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/fragment_update__profile.xml" value="0.22" />
         <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/fragment_update_location.xml" value="0.1" />
         <entry key="..\:/Users/m.a.g.i.r.1/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/home_appbar.xml" value="0.1" />
+        <entry key="SimplePlacePicker/src/main/res/layout/activity_map.xml" value="0.17346014492753623" />
+        <entry key="SimplePlacePicker/src/main/res/layout/map_content_main.xml" value="0.13632246376811594" />
         <entry key="app/src/main/res/drawable/add_btnbg.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/bg.xml" value="0.1345" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.2125" />
@@ -48,7 +50,10 @@
         <entry key="app/src/main/res/layout/activity_customer_login.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_customer_registration.xml" value="0.27393617021276595" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11099899091826437" />
+        <entry key="app/src/main/res/layout/activity_map.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_map_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_notify_vendor.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/activity_order.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_product.xml" value="0.1743659420289855" />
         <entry key="app/src/main/res/layout/activity_product_listing.xml" value="0.1743659420289855" />
         <entry key="app/src/main/res/layout/activity_refill.xml" value="0.4" />
@@ -71,6 +76,7 @@
         <entry key="app/src/main/res/layout/fragment_update__profile.xml" value="0.16621376811594202" />
         <entry key="app/src/main/res/layout/fragment_update_location.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/item.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/order_layout.xml" value="0.2" />
         <entry key="app/src/main/res/layout/product_layout.xml" value="0.10368314833501513" />
         <entry key="app/src/main/res/layout/row_chat_left.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/row_chat_message.xml" value="0.22916666666666666" />
