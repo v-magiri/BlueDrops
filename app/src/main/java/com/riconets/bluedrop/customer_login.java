@@ -32,6 +32,7 @@ public class customer_login extends AppCompatActivity {
     private TextView createAccountTxt;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class customer_login extends AppCompatActivity {
         loginBtn=findViewById(R.id.loginBtn);
         createAccountTxt=findViewById(R.id.createAccount);
         progressDialog=new ProgressDialog(this);
+
         firebaseAuth=FirebaseAuth.getInstance();
 
         //redirect the usr to the registration  screen

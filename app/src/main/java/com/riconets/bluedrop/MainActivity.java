@@ -16,7 +16,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference,mRef;
+    String VendorID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,13 +30,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         String userId =mAuth.getUid();
+//        getVendorId();
         if(userId!=null){
             databaseReference.child(userId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String userType=snapshot.child("UserType").getValue().toString();
                     if(userType.equals("Customer")) {
-                        startActivity(new Intent(getApplicationContext(), CustomerHome.class));
+//                        startActivity(new Intent(getApplicationContext(), CustomerHome.class));
+                        Intent intent=new Intent(getApplicationContext(),CustomerHome.class);
+                        intent.putExtra("VendorId",VendorID);
+                        startActivity(intent);
                         finish();
                     }else{
                         startActivity(new Intent(getApplicationContext(), customer_login.class));
@@ -52,4 +57,21 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),customer_login.class));
         }
     }
+//    private void getVendorId() {
+//        mRef= FirebaseDatabase.getInstance().getReference("Customers");
+//        String UID=mAuth.getUid();
+//        if(UID!=null) {
+//            mRef.child(UID).addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    VendorID = snapshot.child("vendorID").getValue().toString();
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+//        }
+//    }
 }

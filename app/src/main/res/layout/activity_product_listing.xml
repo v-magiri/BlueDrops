@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProductListing">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/productListToolbar"
+        android:layout_alignParentTop="true">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/backBtn"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"/>
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/productListToolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="20dp"
+        android:src="@drawable/ic_bottle_water" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/product_image">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameLayout"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:weightSum="5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/ProductNameTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Product Name"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:id="@+id/priceTxt"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="KSH 1000"
+                android:textSize="18sp"
+                android:gravity="end"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            android:layout_marginHorizontal="20dp"
+            android:id="@+id/productSizeLayout"
+            android:layout_below="@+id/nameLayout"
+            android:layout_marginVertical="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Size"
+                android:layout_weight="2"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_marginEnd="20dp"
+                android:id="@+id/sizeTxt"
+                android:text="1 Litre"
+                android:layout_weight="2"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="6"
+            android:layout_below="@+id/productSizeLayout"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/quantityTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_alignParentStart="true"
+                android:paddingVertical="5dp"
+                android:text="Quantity"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/lessBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/success_btn"
+                    android:src="@drawable/ic_less" />
+
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingVertical="5dp"
+                    android:text="1"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+                <ImageButton
+                    android:id="@+id/addBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/success_btn"
+                    android:src="@drawable/ic_increment" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/descLayout"
+            android:layout_marginHorizontal="20dp"
+            android:layout_below="@+id/Quantity">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginVertical="10dp"
+                android:id="@+id/productDescTxt"
+                android:text=""
+                android:textColor="@color/white"
+                android:maxLines="8"
+                android:textSize="16sp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/descLayout"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add to cart"
+                android:id="@+id/cartBtn"
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                app:backgroundTint="@null"
+                android:background="@drawable/success_btn"
+                android:textColor="@color/success"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

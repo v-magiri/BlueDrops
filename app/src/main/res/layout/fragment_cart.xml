@@ -1,21 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#f2f2f2"
     android:layout_height="match_parent"
     tools:context=".Cart">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cartRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/cart"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_above="@+id/paymentLayout"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="4dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/paymentLayout">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_weight="4"
+                android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="5dp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/ic_pin"
+                        android:src="@drawable/ic_water_pin"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"  
+                        android:id="@+id/address"
+                        android:layout_toEndOf="@+id/ic_pin">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No Address Selected"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:id="@+id/AddressTxt"/>
+                    </LinearLayout>
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_forward"
+                android:id="@+id/forwardBtn"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5"
+            android:orientation="horizontal">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Amount:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:id="@+id/amountTV"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:id="@+id/TotalPriceTxt"
+                android:textStyle="bold"
+                android:layout_weight="2"
+                android:layout_margin="20dp"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CheckOut"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:id="@+id/payBtn"
+                app:backgroundTint="@null"
+                android:background="@drawable/pay_btn"
+                android:textColor="@color/white"
+                android:layout_gravity="end|center_vertical"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        android:id="@+id/EmptyCartLayout"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/emptyTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="100dp"
+            android:gravity=""
+            android:text="No Items in cart"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/emptyTxt"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:src="@drawable/empty_cart" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

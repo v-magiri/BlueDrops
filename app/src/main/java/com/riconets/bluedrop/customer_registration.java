@@ -4,6 +4,7 @@
     import android.content.Intent;
     import android.os.Bundle;
     import android.text.TextUtils;
+    import android.util.Log;
     import android.util.Patterns;
     import android.widget.ArrayAdapter;
     import android.widget.AutoCompleteTextView;
@@ -26,7 +27,10 @@
     import com.google.firebase.database.FirebaseDatabase;
     import com.google.firebase.database.ValueEventListener;
     import com.riconets.bluedrop.model.Customer;
+    import com.riconets.bluedrop.model.VendorModel;
     import com.shashank.sony.fancytoastlib.FancyToast;
+
+    import java.util.ArrayList;
 
     public class customer_registration extends AppCompatActivity {
         String[] location={"Nakuru","Nairobi","Mombasa","Kisumu"};
@@ -36,11 +40,15 @@
         private EditText NameEditTxt, userNameEditTxt, PhoneEditTxt, RepeatPassEditTxt, PasswordTxt, emailEditTxt;
         public Button RegisterBtn;
         private ProgressDialog progressDialog;
+        private DatabaseReference mRef;
         private FirebaseAuth firebaseAuth;
         private TextView signinTxt;
+        ArrayList<String> vendorNames;
+        ArrayList<String> vendorIds;
         private AutoCompleteTextView locationAutoComplete,vendorAutoComplete;
-        ArrayAdapter<String> arrayAdapter;
         ArrayAdapter<String> vendorAdapter;
+        ArrayAdapter<String> arrayAdapter;
+        String VendorID;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +64,15 @@
             PasswordTxt = findViewById(R.id.password);
             emailEditTxt = findViewById(R.id.customerEmailEditTxt);
             RepeatPassEditTxt = findViewById(R.id.repeat_Password);
+            mRef=FirebaseDatabase.getInstance().getReference("Vendors");
+            //get all vendor and add to arraylist
             RegisterBtn = findViewById(R.id.registerBtn);
             signinTxt = findViewById(R.id.signin);
             progressDialog = new ProgressDialog(this);
             firebaseAuth = FirebaseAuth.getInstance();
-
+            vendorNames=new ArrayList<>();
+            vendorIds=new ArrayList<>();
+            getVendors();
             arrayAdapter=new ArrayAdapter<String>(customer_registration.this,R.layout.item,location);
             locationAutoComplete=findViewById(R.id.locationAutoComplete);
 
@@ -68,15 +80,12 @@
 
             locationAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
                 String location=parent.getItemAtPosition(position).toString();
-                FancyToast.makeText(getBaseContext(),location,2,FancyToast.SUCCESS,true).show();
             });
-
-            vendorAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,vendor);
+            vendorAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,vendorNames);
             vendorAutoComplete=findViewById(R.id.vendorAutoComplete);
             vendorAutoComplete.setAdapter(vendorAdapter);
             vendorAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
-                String vendor=parent.getItemAtPosition(position).toString();
-                FancyToast.makeText(getBaseContext(),vendor,2,FancyToast.SUCCESS,true).show();
+                VendorID=vendorIds.get(position);
             });
             signinTxt.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), customer_login.class)));
             RegisterBtn.setOnClickListener(v -> register());
@@ -84,6 +93,23 @@
 
         }
 
+        private void getVendors() {
+            mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                        VendorModel vendorModel=dataSnapshot.getValue(VendorModel.class);
+                        vendorNames.add(vendorModel.getName());
+                        vendorIds.add(dataSnapshot.getKey());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
         private void register() {
 
             //validating the values from the user Input
@@ -95,7 +121,6 @@
             String repeatPass = RepeatPassEditTxt.getText().toString().trim();
             String Password = PasswordTxt.getText().toString().trim();
             String ProfilePic="";
-
             if (TextUtils.isEmpty(fName) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(PhoneNumber) || TextUtils.isEmpty(Location)
                     || TextUtils.isEmpty(repeatPass) || TextUtils.isEmpty(Password) || TextUtils.isEmpty(email)) {
                 FancyToast.makeText(getApplicationContext(), "Please Fill all the Fields", Toast.LENGTH_SHORT, FancyToast.ERROR, true).show();
@@ -124,7 +149,7 @@
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 String customer_id=firebaseAuth.getUid();
-                                Customer customer=new Customer(fName,userName,email,Location,PhoneNumber,ProfilePic);
+                                Customer customer=new Customer(fName,userName,email,Location,PhoneNumber,ProfilePic,VendorID);
                                 if(customer_id != null){
                                     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("Customers");
                                     databaseReference.child(customer_id).setValue(customer).addOnCompleteListener(task1 -> {

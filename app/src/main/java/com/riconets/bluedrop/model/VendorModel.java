@@ -3,9 +3,12 @@ package com.riconets.bluedrop.model;
 public class VendorModel {
     String Name,Email,PhoneNumber,Address,Account_Number,Profile_Pic,Vendor_Desc,Latitude,Longitude;
 
+    public VendorModel() {
+    }
+
     public VendorModel(String name, String email, String phoneNumber, String address,
-                  String account_Number, String profile_Pic, String vendor_Desc,
-                  String latitude, String longitude) {
+                       String account_Number, String profile_Pic, String vendor_Desc,
+                       String latitude, String longitude) {
         Name = name;
         Email = email;
         PhoneNumber = phoneNumber;

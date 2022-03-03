@@ -96,15 +96,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/addBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/success_btn"
-                            android:src="@drawable/ic_add" />
+                    <ImageButton
+                        android:id="@+id/lessBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@drawable/success_btn"
+                        android:src="@drawable/ic_less" />
 
                         <TextView
                             android:id="@+id/quantity"
@@ -116,15 +115,15 @@
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="20sp" />
+                    <ImageButton
+                        android:id="@+id/addBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/success_btn"
+                        android:src="@drawable/ic_increment" />
 
-                        <ImageButton
-                            android:id="@+id/lessBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:background="@drawable/success_btn"
-                            android:src="@drawable/ic_subtraction" />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout

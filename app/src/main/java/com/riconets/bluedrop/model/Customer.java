@@ -1,15 +1,19 @@
 package com.riconets.bluedrop.model;
 
 public class Customer {
-    String Name,userName,Email,Location,PhoneNumber,profilePic;
+    String Name,userName,Email,Location,PhoneNumber,profilePic,VendorID;
 
-    public Customer(String name, String username, String email, String location, String phoneNumber,String profile_Pic) {
+    public Customer(String name, String username, String email, String location, String phoneNumber,String profile_Pic,String vendorID) {
         this.Name = name;
         this.userName = username;
         this.Email = email;
         this.Location = location;
         this.PhoneNumber = phoneNumber;
         this.profilePic= profile_Pic;
+        this.VendorID=vendorID;
+    }
+
+    public Customer() {
     }
 
     public String getName() {
@@ -58,5 +62,13 @@ public class Customer {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getVendorID() {
+        return VendorID;
+    }
+
+    public void setVendorID(String vendorID) {
+        VendorID = vendorID;
     }
 }

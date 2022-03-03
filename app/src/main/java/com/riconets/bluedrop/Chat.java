@@ -3,7 +3,6 @@ package com.riconets.bluedrop;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,15 +53,15 @@ public class Chat extends AppCompatActivity {
         chatRecyclerView=findViewById(R.id.chatRecyclerView);
         messageList=new ArrayList<>();
         mAuth=FirebaseAuth.getInstance();
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        chatAdapter=new ChatAdapter(this,messageList);
-        chatRecyclerView.setAdapter(chatAdapter);
         Bundle chatExtras=getIntent().getExtras();
         if(chatExtras!=null){
             senderName=chatExtras.getString("VendorName");
             vendorUserName=chatExtras.getString("VendorUserName");
             CustomerUserName=chatExtras.getString("UserName");
         }
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        chatAdapter=new ChatAdapter(this,messageList,CustomerUserName);
+        chatRecyclerView.setAdapter(chatAdapter);
         getMessages();
         //redirect to the vendor Details Page
         backBtn.setOnClickListener(v -> {

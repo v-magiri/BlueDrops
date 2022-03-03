@@ -1,24 +1,33 @@
 package com.riconets.bluedrop;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.riconets.bluedrop.model.CartModel;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class Refill extends AppCompatActivity {
     private AutoCompleteTextView waterPackageAutoComplete;
     private TextView QuantityTxt,PriceTagTxt,TotalPriceTxt;
+    String ProductSizes[]={"500ml","1L","5L","10L","20L"};
     private Button RefillBtn;
     private ImageButton lessBtn,AddBtn;
     private CheckBox bottleStatus;
+    ArrayAdapter<String> arrayAdapter;
+    private String ProductName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +37,7 @@ public class Refill extends AppCompatActivity {
         lessBtn=findViewById(R.id.lessBtn);
         AddBtn=findViewById(R.id.addBtn);
         PriceTagTxt=findViewById(R.id.priceTag);
+        arrayAdapter=new ArrayAdapter<>(getApplicationContext(),R.layout.item,ProductSizes);
         bottleStatus=findViewById(R.id.emptyTag);
         TotalPriceTxt=findViewById(R.id.sumPriceTag);
         RefillBtn=findViewById(R.id.notify);
@@ -46,9 +56,7 @@ public class Refill extends AppCompatActivity {
 
         });
         RefillBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(getApplicationContext(),CustomerHome.class);
-                intent.putExtra("Fragment_ID",1);
-                startActivity(intent);
+            
         });
 
 

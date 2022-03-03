@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.riconets.bluedrop">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -13,7 +13,26 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_bluedrops"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BlueDrop">
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDbiqrB6Ar5n1EMhqdvk_cH0Uq2_u51EmA" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".OrderHistory"
+            android:exported="false" />
+        <activity
+            android:name=".Order"
+            android:exported="false" />
+        <activity
+            android:name=".ProductListing"
+            android:exported="true" />
+        <activity
+            android:name=".ViewProducts"
+            android:exported="false" />
         <activity
             android:name=".NotifyVendor"
             android:exported="false" />
