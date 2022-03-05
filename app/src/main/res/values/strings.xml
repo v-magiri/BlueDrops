@@ -17,4 +17,6 @@
     <string name="confirm_location">Confirm Delivery Location</string>
     <string name="search_place">Search Your Location</string>
     <string name="Search" translatable="false">Search A Place</string>
+    <string name="customer_Key" translatable="false">7TRqrtyXPm0oYndh77YVdpHYE0IwYG7f</string>
+    <string name="customer_secret" translatable="false">htdr9LlA3oWz87Co</string>
 </resources>

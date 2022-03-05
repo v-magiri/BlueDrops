@@ -1,10 +1,11 @@
 package com.riconets.bluedrop;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static android.content.ContentValues.TAG;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -15,6 +16,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.text.ParseException;
@@ -27,6 +33,7 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
     String[] WaterPackages={"500ml","1L","5L","10L","20L","25L","30L","Over 30L"};
     String[] remainingAmount={"Quarter Level","Half Level"};
     private ImageButton addBtn, lessBtn;
+    String UID;
     LinearLayout linearLayout;
     private AutoCompleteTextView packageAutoComplete,amountRemainingAutoComplete;
     ArrayAdapter<String> arrayAdapter;
@@ -45,6 +52,7 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
         linearLayout=findViewById(R.id.Quantity);
         lessBtn=findViewById(R.id.lessBtn);
         Quantity=findViewById(R.id.quantity);
+        UID= FirebaseAuth.getInstance().getUid();
         packageAutoComplete=findViewById(R.id.packageAutoComplete);
         amountRemainingAutoComplete=findViewById(R.id.remainingAutoComplete);
         datePick.setOnClickListener(view -> showDateDialog());
@@ -61,7 +69,7 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
         });
         packageAutoComplete.setOnItemClickListener((adapterView, view, i, l) -> {
             String Amount=adapterView.getItemAtPosition(i).toString();
-            if(Amount=="Over 30L"){
+            if(Amount.equals("Over 30L")){
                 Quantity.setVisibility(View.GONE);
                 QuantityTxt.setVisibility(View.GONE);
                 lessBtn.setVisibility(View.GONE);
@@ -86,8 +94,17 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
         addBtn.setOnClickListener(view -> {
             int quantity=Integer.parseInt(Quantity.getText().toString());
             Quantity.setText(String.valueOf(quantity+1));
-
         });
+        FirebaseMessaging.getInstance().getToken().
+                addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        String token=task.getResult();
+                        Log.d(TAG, "onComplete: "+token);
+                        if(UID!=null) {
+                            FirebaseDatabase.getInstance().getReference("Tokens").child(UID).setValue(token);
+                        }
+                    }
+                });
     }
     private void showDateDialog() {
         DatePickerDialog datePickerDialog= new DatePickerDialog(
