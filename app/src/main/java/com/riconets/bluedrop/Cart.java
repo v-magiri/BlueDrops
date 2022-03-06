@@ -28,6 +28,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.androidstudy.daraja.Daraja;
+import com.androidstudy.daraja.DarajaListener;
+import com.androidstudy.daraja.model.AccessToken;
+import com.androidstudy.daraja.model.LNMExpress;
+import com.androidstudy.daraja.model.LNMResult;
+import com.androidstudy.daraja.util.TransactionType;
 import com.essam.simpleplacepicker.MapActivity;
 import com.essam.simpleplacepicker.utils.SimplePlacePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -66,8 +72,9 @@ public class Cart extends Fragment {
     private TextView priceTxt,AmountTv,CoordinatesTxt,AddressTxt;
     private Button PlaceOrderBtn;
     String addressLatitude,addressLongitude,address;
+    String PhoneNumber;
     String Country;
-    String Language;
+    String Language,Customer_Key,Customer_Secret;
     String []mSupportedAreas={""};
     List<CartModel> cartList;
     ImageView ForwardImageView;
@@ -75,6 +82,7 @@ public class Cart extends Fragment {
     public static final int Location_Request_Code=1234;
     CartAdapter cartAdapter;
     DatabaseReference databaseReference,mRef,reference;
+    Daraja daraja;
     RelativeLayout noItemLayout;
     ProgressDialog progressDialog;
     FirebaseAuth mAuth;
@@ -120,93 +128,61 @@ public class Cart extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_cart, container, false);
-        PlaceOrderBtn=v.findViewById(R.id.payBtn);
-        priceTxt=v.findViewById(R.id.TotalPriceTxt);
-        AmountTv=v.findViewById(R.id.amountTV);
-        cartRecyclerView=v.findViewById(R.id.cartRecyclerView);
-        cartList=new ArrayList<>();
-        progressDialog=new ProgressDialog(getContext());
-        progressDialog.setCanceledOnTouchOutside(false);
-        cartRecyclerView.setHasFixedSize(true);
-        paymentLayout=v.findViewById(R.id.paymentLayout);
-        AddressTxt=v.findViewById(R.id.AddressTxt);
-        ForwardImageView=v.findViewById(R.id.forwardBtn);
-        noItemLayout=v.findViewById(R.id.EmptyCartLayout);
-        mAuth=FirebaseAuth.getInstance();
-        UID=mAuth.getUid();
-        getVendorId();
-        databaseReference= FirebaseDatabase.getInstance().getReference("Cart");
-        mRef=FirebaseDatabase.getInstance().getReference("Order");
-        cartAdapter=new CartAdapter(getActivity(),cartList);
-        cartRecyclerView.setAdapter(cartAdapter);
-        cartRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        getCartItems();
-        PlaceOrderBtn.setOnClickListener(new View.OnClickListener() {
+            View v= inflater.inflate(R.layout.fragment_cart, container, false);
+            //Binding Views
+            PlaceOrderBtn=v.findViewById(R.id.payBtn);
+            priceTxt=v.findViewById(R.id.TotalPriceTxt);
+            AmountTv=v.findViewById(R.id.amountTV);
+            cartRecyclerView=v.findViewById(R.id.cartRecyclerView);
+            cartList=new ArrayList<>();
+            progressDialog=new ProgressDialog(getContext());
+            progressDialog.setCanceledOnTouchOutside(false);
+            cartRecyclerView.setHasFixedSize(true);
+            paymentLayout=v.findViewById(R.id.paymentLayout);
+            AddressTxt=v.findViewById(R.id.AddressTxt);
+            ForwardImageView=v.findViewById(R.id.forwardBtn);
+            noItemLayout=v.findViewById(R.id.EmptyCartLayout);
+            Customer_Key=getString(R.string.customer_Key);
+            Customer_Secret=getString(R.string.customer_secret);
+            mAuth=FirebaseAuth.getInstance();
+            UID=mAuth.getUid();
+            getVendorId();
+            //Daraja Intialization
+            daraja= Daraja.with(Customer_Key, Customer_Secret, new DarajaListener<AccessToken>() {
             @Override
-            public void onClick(View v) {
-                if(cartList.size()<0){
-                    Toast.makeText(getActivity(),"0 items can not be added to the cart",Toast.LENGTH_SHORT).show();
-                }else{
-                    if(VendorID!=null && addressLatitude!= null&& addressLongitude!= null &&address!= null ) {
-                        progressDialog.show();
-                        DateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy @HH:mm", Locale.US);
-                        String date=dateFormat.format(new Date());
-                        String OrderId = "BD0" + System.currentTimeMillis();
-                        String OrderTimeStamp=String.valueOf(System.currentTimeMillis());
-                        HashMap<String, String> map = new HashMap<>();
-                        map.put("OrderId", OrderId);
-                        map.put("OrderStatus", "In Progress");
-                        map.put("OrderBy", UID);
-                        map.put("OrderTo", VendorID);
-                        map.put("Address",address);
-                        map.put("Address_latitude",addressLatitude);
-                        map.put("Address_Longitude",addressLongitude);
-                        map.put("Cost",priceTxt.getText().toString());
-                        map.put("OrderTime",date);
-                        String cost=priceTxt.getText().toString();
-                        OrderModel order=new OrderModel(OrderId,"Inprogress",address,addressLatitude,addressLongitude,cost,date,VendorID,UID);
-                        mRef.child(VendorID).child(OrderId).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    for (int n = 0; n < cartList.size(); n++) {
-                                        String CardID=cartList.get(n).getCartID();
-                                        String ProductId=cartList.get(n).getProductID();
-                                        map.put("ProductId", ProductId);
-                                        map.put("ProductName", cartList.get(n).getName());
-                                        map.put("ProductQuantity", cartList.get(n).getProductQuantity());
-                                        map.put("ProductPrice", cartList.get(n).getProductPrice());
-                                        map.put("TotalPrice", cartList.get(n).getTotalPrice());
-                                        mRef.child(VendorID).child(OrderId).child("Items").child(ProductId)
-                                                .setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()){
-                                                DatabaseReference database=FirebaseDatabase.getInstance().getReference("Cart").child(UID).child(CardID);
-                                                database.removeValue();
-                                            }
-                                            }
-                                        });
-                                    }
-                                    Log.d(TAG, "onComplete: Place Order");
-                                    Intent intent =new Intent(getActivity(),Order.class);
-                                    Bundle bundle=new Bundle();
-                                    bundle.putString("VendorID",VendorID);
-                                    bundle.putString("TimeStamp",OrderTimeStamp);
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
-                                }
-                            }
-                        });
-                    }
-                    else{
-                        Toast.makeText(getActivity(),"Vendor Id is null",Toast.LENGTH_SHORT).show();
+                public void onResult(@NonNull AccessToken accessToken) {
+                    Log.i(getActivity().getClass().getSimpleName(), accessToken.getAccess_token());
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e(getActivity().getClass().getSimpleName(), error);
+                }
+            });
+            databaseReference= FirebaseDatabase.getInstance().getReference("Cart");
+            mRef=FirebaseDatabase.getInstance().getReference("Order");
+            cartAdapter=new CartAdapter(getActivity(),cartList);
+            cartRecyclerView.setAdapter(cartAdapter);
+            cartRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            getCartItems();
+            getCustomerPhoneNumber();
+            PlaceOrderBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (cartList.size() < 0) {
+                        Toast.makeText(getActivity(), "0 items can not be added to the cart", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (VendorID != null && addressLatitude != null && addressLongitude != null && address != null) {
+//                            progressDialog.show();
+                            MakeOrderPayment();
+                        }
+                        else{
+                            Toast.makeText(getActivity(),"Vendor Id is null",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
-            }
-        });
-        ForwardImageView.setOnClickListener(new View.OnClickListener() {
+            });
+            ForwardImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (checkMapPermission(getActivity(),1, Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -216,6 +192,101 @@ public class Cart extends Fragment {
         });
         return v;
     }
+    private void saveOrder(){
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy @HH:mm", Locale.US);
+        String date = dateFormat.format(new Date());
+        String OrderId = "BD0" + System.currentTimeMillis();
+        String OrderTimeStamp = String.valueOf(System.currentTimeMillis());
+        String cost = priceTxt.getText().toString();
+        OrderModel order = new OrderModel(OrderId, "In Progress", address, addressLatitude, addressLongitude, cost, date, VendorID, UID);
+        mRef.child(VendorID).child(OrderId).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    for (int n = 0; n < cartList.size(); n++) {
+                        String CardID = cartList.get(n).getCartID();
+                        String ProductId = cartList.get(n).getProductID();
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("ProductId", ProductId);
+                        map.put("ProductName", cartList.get(n).getName());
+                        map.put("ProductQuantity", cartList.get(n).getProductQuantity());
+                        map.put("ProductPrice", cartList.get(n).getProductPrice());
+                        map.put("TotalPrice", cartList.get(n).getTotalPrice());
+                        mRef.child(VendorID).child(OrderId).child("Items").child(ProductId)
+                                .setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("Cart").child(UID).child(CardID);
+                                    database.removeValue();
+                                }
+                            }
+                        });
+                    }
+                    Log.d(TAG, "onComplete: Place Order");
+                    Intent intent = new Intent(getActivity(), Order.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("VendorID", VendorID);
+                    bundle.putString("TimeStamp", OrderTimeStamp);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    private void MakeOrderPayment() {
+        //to implement Customer to Business
+        saveOrder();
+//        if(PhoneNumber!=null) {
+//            Log.d(TAG, "MakeOrderPayMent: "+PhoneNumber);
+//            LNMExpress lnmExpress = new LNMExpress(
+//                    "174379",
+//                    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
+//                    TransactionType.CustomerBuyGoodsOnline,
+//                    "1",
+//                    "254708374149",
+//                    "174379",
+//                    PhoneNumber,
+//                    "http://mycallbackurl.com/checkout.php",
+//                    "BlueDrops Goods Payment",
+//                    "BlueDrops Goods Payment"
+//                     );
+//                    daraja.requestMPESAExpress(lnmExpress,
+//                    new DarajaListener<LNMResult>() {
+//                        @Override
+//                        public void onResult(@NonNull LNMResult lnmResult) {
+//                            Log.i(getActivity().getClass().getSimpleName(), lnmResult.ResponseDescription);
+//                        }
+//
+//                        @Override
+//                        public void onError(String error) {
+//                            Log.i(getActivity().getClass().getSimpleName(), error);
+//                        }
+//                    }
+//            );
+//        }
+//        else{
+//            Log.d(TAG, "MakeOrderPayMent: Phone Number is null");
+//        }
+       }
+
+    private void getCustomerPhoneNumber() {
+        DatabaseReference dataRef=FirebaseDatabase.getInstance().getReference("Customers");
+        dataRef.child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PhoneNumber=snapshot.child("phoneNumber").getValue().toString();
+                Log.d(TAG, "onDataChange: "+PhoneNumber);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d(TAG, "onCancelled: "+error.getMessage())  ;
+            }
+        });
+    }
+
     public static boolean checkMapPermission(Activity activity, int requestCode, String permissionName) {
         if (ContextCompat.checkSelfPermission(activity,
                 permissionName)
