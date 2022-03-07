@@ -64,11 +64,11 @@
                 android:hint="@string/change_vendor">
 
                 <AutoCompleteTextView
-                    android:id="@+id/packageAutoComplete"
+                    android:id="@+id/updateVendorAutoC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:textSize="24dp"
+                    android:textSize="20dp"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -96,10 +96,14 @@
             <EditText
                 android:id="@+id/changeVendorTxt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_weight="2"
                 android:ems="10"
-                android:textColor="@color/white"
+                android:background="@drawable/text_area_bg"
+                android:textColor="@color/black"
+                android:paddingStart="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:textSize="18sp" />

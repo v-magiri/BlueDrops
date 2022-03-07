@@ -4,7 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="..\:/Users/Riconets/AndroidStudioProjects/BlueDrops/app/src/main/res/drawable/text_area_bg.xml" value="0.3671875" />
         <entry key="..\:/Users/Riconets/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/activity_customer_registration.xml" value="0.13949275362318841" />
+        <entry key="..\:/Users/Riconets/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/activity_update_vendor.xml" value="0.19927536231884058" />
+        <entry key="..\:/Users/Riconets/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/appbar.xml" value="0.19927536231884058" />
+        <entry key="..\:/Users/Riconets/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/item.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/Riconets/AndroidStudioProjects/BlueDrops/app/src/main/res/layout/toolbar.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/drawable/icon_location.xml" value="0.1795" />
         <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/activity_customer_home.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/erick/StudioProjects/BlueDrops/app/src/main/res/layout/activity_notify_vendor.xml" value="0.1" />
