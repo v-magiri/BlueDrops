@@ -12,11 +12,15 @@
     <string name="unit_price" translatable="false">Price Per Unit</string>
     <string name="quantity" translatable="false">Quantity</string>
     <string name="Total_Price" translatable="false">Total Price</string>
-    <string name="vendorDesc" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="vendorDesc" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="vendorLocation" translatable="false">Excepteur sint occaecat cupidatat non proident</string>
     <string name="confirm_location">Confirm Delivery Location</string>
     <string name="search_place">Search Your Location</string>
     <string name="Search" translatable="false">Search A Place</string>
+    <string name="FCM_KEY" translatable="false">AAAA8xGC8lc:APA91bG5YehKGDtXu7DYhbWM-TqLvWgRJ
+        Y4nFt6AvBkh76t_cITZfFlcIW24bJ9McrxIATCsYFhoqjYL_oOdH6gF-6IiVh6S3gcO-n3TJ4
+        2HqgPU-ccUbSFJFlucNzp8vaqB7AwRh8Fb</string>
     <string name="customer_Key" translatable="false">7TRqrtyXPm0oYndh77YVdpHYE0IwYG7f</string>
     <string name="customer_secret" translatable="false">htdr9LlA3oWz87Co</string>
 </resources>

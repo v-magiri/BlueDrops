@@ -58,6 +58,8 @@ dependencies {
     implementation project(path: ':SimplePlacePicker')
     // dependency for Firebase Cloud Messaging
     implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    //volley Library
+    implementation 'com.android.volley:volley:1.2.1'
     implementation files('firebase-core')
     implementation 'com.google.firebase:firebase-core:20.1.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

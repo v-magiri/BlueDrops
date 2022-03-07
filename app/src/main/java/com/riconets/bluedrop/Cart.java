@@ -237,38 +237,37 @@ public class Cart extends Fragment {
 
     private void MakeOrderPayment() {
         //to implement Customer to Business
-        saveOrder();
-//        if(PhoneNumber!=null) {
-//            Log.d(TAG, "MakeOrderPayMent: "+PhoneNumber);
-//            LNMExpress lnmExpress = new LNMExpress(
-//                    "174379",
-//                    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
-//                    TransactionType.CustomerBuyGoodsOnline,
-//                    "1",
-//                    "254708374149",
-//                    "174379",
-//                    PhoneNumber,
-//                    "http://mycallbackurl.com/checkout.php",
-//                    "BlueDrops Goods Payment",
-//                    "BlueDrops Goods Payment"
-//                     );
-//                    daraja.requestMPESAExpress(lnmExpress,
-//                    new DarajaListener<LNMResult>() {
-//                        @Override
-//                        public void onResult(@NonNull LNMResult lnmResult) {
-//                            Log.i(getActivity().getClass().getSimpleName(), lnmResult.ResponseDescription);
-//                        }
-//
-//                        @Override
-//                        public void onError(String error) {
-//                            Log.i(getActivity().getClass().getSimpleName(), error);
-//                        }
-//                    }
-//            );
-//        }
-//        else{
-//            Log.d(TAG, "MakeOrderPayMent: Phone Number is null");
-//        }
+        if(PhoneNumber!=null) {
+            Log.d(TAG, "MakeOrderPayMent: "+PhoneNumber);
+            LNMExpress lnmExpress = new LNMExpress(
+                    "174379",
+                    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
+                    TransactionType.CustomerBuyGoodsOnline,
+                    "1",
+                    PhoneNumber,
+                    "174379",
+                    PhoneNumber,
+                    "",
+                    "BlueDrops Goods Payment",
+                    "BlueDrops Goods Payment"
+                     );
+                    daraja.requestMPESAExpress(lnmExpress,
+                    new DarajaListener<LNMResult>() {
+                        @Override
+                        public void onResult(@NonNull LNMResult lnmResult) {
+                            Log.i(getActivity().getClass().getSimpleName(), lnmResult.ResponseDescription);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            Log.i(getActivity().getClass().getSimpleName(), error);
+                        }
+                    }
+            );
+        }
+        else{
+            Log.d(TAG, "MakeOrderPayMent: Phone Number is null");
+        }
        }
 
     private void getCustomerPhoneNumber() {

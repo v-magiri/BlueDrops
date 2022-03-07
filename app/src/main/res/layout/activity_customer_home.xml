@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_below="@+id/include"
-        android:layout_marginVertical="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/content"
         android:name="com.riconets.bluedrop.Home"
         android:layout_above="@+id/bottom_navbar"

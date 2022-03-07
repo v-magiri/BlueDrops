@@ -9,6 +9,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -41,7 +43,12 @@ public class NotifyVendorService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         String UID = FirebaseAuth.getInstance().getUid();
-        FirebaseDatabase.getInstance().getReference("Tokens").child(UID).setValue(s);
+        if(UID!=null) {
+            FirebaseDatabase.getInstance().getReference("Tokens").child(UID).setValue(s);
+        }
+        else{
+            Log.d(TAG, "onNewToken: UID is null");
+        }
         FirebaseMessaging.getInstance().subscribeToTopic(TopicSubscription);
         Log.i(TAG, "onNewToken: ");
     }
@@ -68,6 +75,8 @@ public class NotifyVendorService extends FirebaseMessagingService {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             setupChannels(notificationManager);
         }
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
+                R.drawable.ic_notification);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -75,6 +84,7 @@ public class NotifyVendorService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channel_Id)
                         .setSmallIcon(R.drawable.ic_notification)
+                        .setLargeIcon(largeIcon)
                         .setContentTitle(title)
                         .setContentText(text)
                         .setAutoCancel(true)
@@ -87,6 +97,9 @@ public class NotifyVendorService extends FirebaseMessagingService {
 //                    NotificationManager.IMPORTANCE_DEFAULT);
 //            notificationManager.createNotificationChannel(channel);
 //        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
         notificationManager.notify(notificationID, notificationBuilder.build());
     }
 
