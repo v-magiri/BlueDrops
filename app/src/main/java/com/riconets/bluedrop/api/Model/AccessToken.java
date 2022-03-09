@@ -15,4 +15,8 @@ public class AccessToken {
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
     }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
 }

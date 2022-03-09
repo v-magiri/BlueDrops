@@ -23,9 +23,11 @@ public class ApiClient {
     private String mAuthToken;
     private HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
 
-    public ApiClient(boolean isDebug) {
+    public ApiClient setIsDebug(boolean isDebug) {
         this.isDebug = isDebug;
+        return this;
     }
+
     public ApiClient setAuthToken(String authToken) {
         mAuthToken = authToken;
         return this;

@@ -9,9 +9,9 @@ public class Constants {
 
     public static final String BASE_URL = "https://sandbox.safaricom.co.ke/";
 
-    public static final String BUSINESS_SHORT_CODE = "add_business_shortcode";
-    public static final String PASSKEY = "add_password";
+    public static final String BUSINESS_SHORT_CODE = "174379";
+    public static final String PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
     public static final String TRANSACTION_TYPE = "CustomerPayBillOnline";
-    public static final String PARTYB = "add_business_shortcode"; //same as business shortcode above
-    public static final String CALLBACKURL = "add_your_callback_url";
+    public static final String PARTYB = "174379"; //same as business shortcode above
+    public static final String CALLBACKURL = "https://mydomain.com/path";
 }
