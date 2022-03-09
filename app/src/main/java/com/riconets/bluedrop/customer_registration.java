@@ -82,8 +82,8 @@
                 String location=parent.getItemAtPosition(position).toString();
             });
             vendorAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,vendorNames);
-            vendorAutoComplete=findViewById(R.id.vendorAutoComplete);
-            vendorAutoComplete.setAdapter(vendorAdapter);
+            vendorAutoComplete.setAdapter(vendorAdapter);  vendorAutoComplete=findViewById(R.id.vendorAutoComplete);
+
             vendorAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
                 VendorID=vendorIds.get(position);
             });
