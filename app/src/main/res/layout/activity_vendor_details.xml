@@ -23,7 +23,7 @@
             android:layout_height="150dp"
             android:layout_centerInParent="true"
             android:layout_marginBottom="20dp"
-            android:src="@drawable/ic_waba_water" />
+            android:src="@drawable/ic_account" />
 
         <TextView
             android:id="@+id/vendorNameTxt"

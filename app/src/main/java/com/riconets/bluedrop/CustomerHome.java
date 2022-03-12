@@ -21,7 +21,6 @@ public class CustomerHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setTheme(R.style.Theme_BlueDrop);
         setContentView(R.layout.activity_customer_home);
         String VendorId=getIntent().getStringExtra("VendorId");
         mAuth=FirebaseAuth.getInstance();
@@ -43,6 +42,7 @@ public class CustomerHome extends AppCompatActivity {
                 Cart cart=new Cart();
                 FragmentTransaction fragmentTransaction1= getSupportFragmentManager().beginTransaction();
                 fragmentTransaction1.replace(R.id.content,cart,"");
+                fragmentTransaction1.addToBackStack(null);
                 fragmentTransaction1.commit();
                 break;
         }

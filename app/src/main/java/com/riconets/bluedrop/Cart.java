@@ -129,70 +129,70 @@ public class    Cart extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-            View v= inflater.inflate(R.layout.fragment_cart, container, false);
-            //Binding Views
-            PlaceOrderBtn=v.findViewById(R.id.payBtn);
-            priceTxt=v.findViewById(R.id.TotalPriceTxt);
-            AmountTv=v.findViewById(R.id.amountTV);
-            cartRecyclerView=v.findViewById(R.id.cartRecyclerView);
-            cartList=new ArrayList<>();
-            progressDialog=new ProgressDialog(getContext());
-            progressDialog.setCanceledOnTouchOutside(false);
-            cartRecyclerView.setHasFixedSize(true);
-            paymentLayout=v.findViewById(R.id.paymentLayout);
-            AddressTxt=v.findViewById(R.id.AddressTxt);
-            ForwardImageView=v.findViewById(R.id.forwardBtn);
-            mprogressDialog=new ProgressDialog(getContext());
-            mprogressDialog.setCanceledOnTouchOutside(false);
-            mprogressDialog.setIndeterminate(true);
-            mprogressDialog.setTitle("Please Wait");
-            mprogressDialog.setMessage("Opening Sim Tool Kit");
-            noItemLayout=v.findViewById(R.id.EmptyCartLayout);
-            Customer_Key=getString(R.string.customer_Key);
-            Customer_Secret=getString(R.string.customer_secret);
-            mAuth=FirebaseAuth.getInstance();
-            apiClient=new ApiClient();
-            apiClient.setIsDebug(true);
-            UID=mAuth.getUid();
-            getVendorId();Toast.makeText(getActivity(),"Please Try Again",Toast.LENGTH_SHORT).show();
+        View v= inflater.inflate(R.layout.fragment_cart, container, false);
+        //Binding Views
+        PlaceOrderBtn=v.findViewById(R.id.payBtn);
+        priceTxt=v.findViewById(R.id.TotalPriceTxt);
+        AmountTv=v.findViewById(R.id.amountTV);
+        cartRecyclerView=v.findViewById(R.id.cartRecyclerView);
+        cartList=new ArrayList<>();
+        progressDialog=new ProgressDialog(getContext());
+        progressDialog.setCanceledOnTouchOutside(false);
+        cartRecyclerView.setHasFixedSize(true);
+        paymentLayout=v.findViewById(R.id.paymentLayout);
+        AddressTxt=v.findViewById(R.id.AddressTxt);
+        ForwardImageView=v.findViewById(R.id.forwardBtn);
+        mprogressDialog=new ProgressDialog(getContext());
+        mprogressDialog.setCanceledOnTouchOutside(false);
+        mprogressDialog.setIndeterminate(true);
+        mprogressDialog.setTitle("Please Wait");
+        mprogressDialog.setMessage("Opening Sim Tool Kit");
+        noItemLayout=v.findViewById(R.id.EmptyCartLayout);
+        Customer_Key=getString(R.string.customer_Key);
+        Customer_Secret=getString(R.string.customer_secret);
+        mAuth=FirebaseAuth.getInstance();
+        apiClient=new ApiClient();
+        apiClient.setIsDebug(true);
+        UID=mAuth.getUid();
+        getVendorId();Toast.makeText(getActivity(),"Please Try Again",Toast.LENGTH_SHORT).show();
 //            Daraja Intialization
-            daraja= Daraja.with(Customer_Key, Customer_Secret, new DarajaListener<AccessToken>() {
+        daraja= Daraja.with(Customer_Key, Customer_Secret, new DarajaListener<AccessToken>() {
             @Override
-                public void onResult(@NonNull AccessToken accessToken) {
-                    Log.i(getActivity().getClass().getSimpleName(), accessToken.getAccess_token());
-                }
+            public void onResult(@NonNull AccessToken accessToken) {
+                Log.i(getActivity().getClass().getSimpleName(), accessToken.getAccess_token());
+            }
 
-                @Override
-                public void onError(String error) {
-                    Log.e(getActivity().getClass().getSimpleName(), error);
-                }
-            });
+            @Override
+            public void onError(String error) {
+                Log.e(getActivity().getClass().getSimpleName(), error);
+            }
+        });
 //            getAccessToken();
-            databaseReference= FirebaseDatabase.getInstance().getReference("Cart");
-            mRef=FirebaseDatabase.getInstance().getReference("Order");
-            cartAdapter=new CartAdapter(getActivity(),cartList);
-            cartRecyclerView.setAdapter(cartAdapter);
-            cartRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            getCartItems();
-            getCustomerPhoneNumber();
-            PlaceOrderBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (cartList.size() < 0) {
-                        Toast.makeText(getActivity(), "0 items can not be added to the cart", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (VendorID == null){
-                            Toast.makeText(getActivity(),"Please Try Again",Toast.LENGTH_SHORT).show();
-                        }else if(addressLatitude == null && addressLongitude == null && address == null){
-                            Toast.makeText(getActivity(),"Please Choose Shipping Address",Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            MakeOrderPayment();
-                        }
+        databaseReference= FirebaseDatabase.getInstance().getReference("Cart");
+        mRef=FirebaseDatabase.getInstance().getReference("Order");
+        cartAdapter=new CartAdapter(getActivity(),cartList);
+        cartRecyclerView.setAdapter(cartAdapter);
+        cartRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        getCartItems();
+        getCustomerPhoneNumber();
+        PlaceOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cartList.size() < 0) {
+                    Toast.makeText(getActivity(), "0 items can not be added to the cart", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (VendorID == null){
+                        Toast.makeText(getActivity(),"Please Try Again",Toast.LENGTH_SHORT).show();
+                    }else if(addressLatitude == null && addressLongitude == null && address == null){
+                        Toast.makeText(getActivity(),"Please Choose Shipping Address",Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        MakeOrderPayment();
                     }
                 }
-            });
-            ForwardImageView.setOnClickListener(new View.OnClickListener() {
+            }
+        });
+        ForwardImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (checkMapPermission(getActivity(),1, Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -275,7 +275,7 @@ public class    Cart extends Fragment {
                     "1",
                     "254708374149",
                     "174379",
-                    PhoneNumber,
+                    "0114486824",
                     "https://mydomain.com/path",
                     "001ABC",
                     "Goods Payment"
@@ -300,7 +300,7 @@ public class    Cart extends Fragment {
             Log.d(TAG, "MakeOrderPayMent: Phone Number is null");
             mprogressDialog.dismiss();
         }
-       }
+    }
 
 //    private void sendSTKPUSH(String phoneNumber, int totalPrice) {
 //        mprogressDialog.setMessage("Processing Your Message");

@@ -189,7 +189,7 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
         stringBuilder.append(dayOfMonth);
         String Date=stringBuilder.toString();
         SimpleDateFormat formatter=new SimpleDateFormat("yyyy/MM/dd");
-        //get Current Date
+        //get Current Date//        setTheme(R.style.Theme_BlueDrop)
         java.util.Date CurrentDate=new Date(System.currentTimeMillis());
         try {
             Date pickedDate=formatter.parse(Date);

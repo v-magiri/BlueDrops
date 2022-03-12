@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         else{
-            startActivity(new Intent(getApplicationContext(),customer_login.class));
+            startActivity(new Intent(getApplicationContext(),customer_registration.class));
         }
     }
 //    private void getVendorId() {

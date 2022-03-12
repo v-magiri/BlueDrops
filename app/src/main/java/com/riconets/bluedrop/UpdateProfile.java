@@ -1,5 +1,7 @@
 package com.riconets.bluedrop;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -43,20 +46,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UpdateProfile extends AppCompatActivity {
     private CircleImageView accountProfilePic;
     private EditText NameEditTxt,phoneEditTxt;
-    private TextView userNameTxt;
-    private AutoCompleteTextView vendorAutoCompleteTxt;
+    private TextView locationTxt, vendorTxt;
     private Button UpdateProfileBtn;
     private FirebaseStorage storage;
     private CircleImageView logoutBtn;
-    private ImageView backBtn;
+    private ImageView backBtn,viewVendorDetails;
     DatabaseReference databaseReference;
-    int UploadStatus;
     ProgressDialog progressDialog,startProgressDialog;
     StorageReference storageReference;
     private static final int PICK_IMAGE_REQUEST= 22;
     private Uri imageUri;
     FirebaseAuth mAuth;
-    String ProfilePicUri,Update_FName,Update_LName,phoneNumber, ProfileUri;
+    String ProfilePicUri,Update_FName,Update_LName,phoneNumber, ProfileUri,vendorName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,11 @@ public class UpdateProfile extends AppCompatActivity {
         setContentView(R.layout.activity_update_profile);
         accountProfilePic=findViewById(R.id.customerProfilePic);
         NameEditTxt=findViewById(R.id.nameEditTxt);
-        userNameTxt=findViewById(R.id.userNameEditTxt);
+        locationTxt=findViewById(R.id.customerLocationTxt);
         phoneEditTxt=findViewById(R.id.phoneEditTxt);
+        viewVendorDetails=findViewById(R.id.viewVendorDetails);
+        viewVendorDetails.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(),VendorDetails.class)));
         logoutBtn=findViewById(R.id.logoutBtn);
         mAuth=FirebaseAuth.getInstance();
         databaseReference= FirebaseDatabase.getInstance().getReference("Customers");
@@ -77,14 +81,13 @@ public class UpdateProfile extends AppCompatActivity {
         progressDialog.setTitle("Please Wait");
         progressDialog.setMessage("Updating Profile");
         backBtn=findViewById(R.id.backBtn);
-        vendorAutoCompleteTxt=findViewById(R.id.vendorAutoComplete);
+        vendorTxt=findViewById(R.id.vendor);
         accountProfilePic=findViewById(R.id.customerProfilePic);
         UpdateProfileBtn=findViewById(R.id.updateProfileBtn);
         storage=FirebaseStorage.getInstance();
         storageReference=storage.getReference();
         backBtn.setOnClickListener(v -> finish());
         logoutBtn.setVisibility(View.GONE);
-//        ShowCurrentProfile();
         accountProfilePic.setOnClickListener(view -> {
             //select Image to upload
             checkReadPermissions();
@@ -167,7 +170,7 @@ public class UpdateProfile extends AppCompatActivity {
     }
     private void UpdateProfile() {
         String userID=mAuth.getCurrentUser().getUid();
-        databaseReference.child(userID).child("Name").setValue(Update_FName);
+        databaseReference.child(userID).child("name").setValue(Update_FName);
         databaseReference.child(userID).child("lastName").setValue(Update_LName);
         databaseReference.child(userID).child("phoneNumber").setValue(phoneNumber);
         if (IsProfilePicChanged()) {
@@ -200,16 +203,27 @@ public class UpdateProfile extends AppCompatActivity {
                     String PhoneNumber=snapshot.child("phoneNumber").getValue().toString();
                     String Location=snapshot.child("location").getValue().toString();
                     ProfileUri=snapshot.child("profilePic").getValue().toString();
-                    String userName=snapshot.child("userName").getValue().toString();
-                    String email=snapshot.child("email").getValue().toString();
-                    NameEditTxt.setText(Name);
-                    userNameTxt.setText(userName);
-                    phoneEditTxt.setText(PhoneNumber);
-                    NameEditTxt.setSelection(NameEditTxt.getText().length());
-                    phoneEditTxt.setSelection(phoneEditTxt.getText().length());
                     if(!ProfileUri.equals("")) {
                         Picasso.get().load(ProfileUri).into(accountProfilePic);
                     }
+                    String VendorId=snapshot.child("vendorID").getValue().toString();
+                    FirebaseDatabase.getInstance().getReference("Vendors").child(VendorId)
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String VendorName=snapshot.child("name").getValue().toString();
+                                    vendorTxt.setText(VendorName);
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Log.e(TAG, "onCancelled: "+error.getMessage() );
+                                }
+                            });
+                    locationTxt.setText(Location);
+                    NameEditTxt.setText(Name);
+                    phoneEditTxt.setText(PhoneNumber);
+                    NameEditTxt.setSelection(NameEditTxt.getText().length());
+                    phoneEditTxt.setSelection(phoneEditTxt.getText().length());
                     startProgressDialog.dismiss();
                 }
 

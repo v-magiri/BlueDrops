@@ -1,17 +1,19 @@
 package com.riconets.bluedrop;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+import static android.content.ContentValues.TAG;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.riconets.bluedrop.model.VendorModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -32,7 +35,9 @@ public class UpdateVendor extends AppCompatActivity {
     DatabaseReference databaseReference,mRef;
     ArrayList<String> vendorNames;
     ArrayAdapter<String> vendorAdapter;
+    Button updateVendorBtn;
     ArrayList<String> vendorIds;
+    private EditText vendorReviewTxt;
     AutoCompleteTextView vendorAutoComplete;
     String VendorID;
 
@@ -46,9 +51,11 @@ public class UpdateVendor extends AppCompatActivity {
         vendorAutoComplete=findViewById(R.id.updateVendorAutoC);
         backBtn.setOnClickListener(v -> finish());
         logoutBtn.setVisibility(View.GONE);
+        updateVendorBtn=findViewById(R.id.changeVendorBtn);
         vendorNames=new ArrayList<>();
         logoutBtn.setVisibility(View.GONE);
         vendorIds=new ArrayList<>();
+        vendorReviewTxt=findViewById(R.id.changeVendorTxt);
 
         databaseReference=FirebaseDatabase.getInstance().getReference("Customers");
         mRef=FirebaseDatabase.getInstance().getReference("Vendors");
@@ -57,23 +64,36 @@ public class UpdateVendor extends AppCompatActivity {
         vendorAutoComplete.setAdapter(vendorAdapter);
         vendorAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
             VendorID=vendorIds.get(position);
+            Log.d(TAG, "onCreate: "+VendorID);
         });
-//        logoutBtn.setOnClickListener(view -> {
-//            AlertDialog.Builder logoutAlertDialog=new AlertDialog.Builder(UpdateVendor.this);
-//            logoutAlertDialog.setTitle("Confirm Logout");
-//            logoutAlertDialog.setIcon(R.drawable.icon_bluedrops);
-//            logoutAlertDialog.setMessage("Are you sure you want to logout");
-//            logoutAlertDialog.setCancelable(false);
-//            logoutAlertDialog.setPositiveButton("Yes", (dialog, which) -> {
-//                mAuth.signOut();
-//                startActivity(new Intent(getApplicationContext(),customer_login.class));
-//            });
-//            logoutAlertDialog.setNegativeButton("No", (dialog, which) ->
-//                    dialog.cancel());
-//            AlertDialog alertDialog = logoutAlertDialog.create();
-//            alertDialog.show();
-//        });
+        updateVendorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String vendorReview=vendorReviewTxt.getText().toString().trim();
+                String UID=mAuth.getUid();
+                databaseReference.child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(!vendorReview.equals("")) {
+                            String currentVendorID = snapshot.child("vendorID").getValue().toString();
+                            String customerUserName = snapshot.child("userName").getValue().toString();
+                            HashMap<String,String> map=new HashMap<>();
+                            map.put(customerUserName,vendorReview);
+                            mRef.child(currentVendorID).child("Review").setValue(map);
+                        }
+                        FirebaseDatabase.getInstance().getReference("Customers").child(UID).child("vendorID").setValue(VendorID);
+                        Toast.makeText(getApplicationContext(),"Vendor Changed",Toast.LENGTH_LONG).show();
+                        finish();
 
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
     }
 
     private void getVendor() {

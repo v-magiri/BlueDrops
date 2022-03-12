@@ -2,11 +2,11 @@ package com.riconets.bluedrop;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 

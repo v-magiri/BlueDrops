@@ -1,6 +1,8 @@
 package com.riconets.bluedrop;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,7 @@ public class Order extends AppCompatActivity {
     List<OrderModel> orderModelList;
     OrderAdapter orderAdapter;
     RecyclerView orderRecyclerView;
+    private ImageView backBtn,logoutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,10 @@ public class Order extends AppCompatActivity {
 //        Bundle orderBundle=getIntent().getExtras();
 //        OrderTimeStamp=orderBundle.getString("TimeStamp");
 //        VendorId=orderBundle.getString("VendorID");
+        backBtn=findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(v -> finish());
+        logoutBtn=findViewById(R.id.logoutBtn);
+        logoutBtn.setVisibility(View.GONE);
         mAuth = FirebaseAuth.getInstance();
         mRef = FirebaseDatabase.getInstance().getReference("Order");
         UID = mAuth.getUid();

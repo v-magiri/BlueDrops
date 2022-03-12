@@ -17,16 +17,32 @@
             android:src="@drawable/back"
             android:layout_centerVertical="true"
             android:id="@+id/productBackBtn"/>
-        <androidx.appcompat.widget.SearchView
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginStart="20dp"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:weightSum="5"
             android:layout_toEndOf="@+id/productBackBtn"
-            android:layout_centerVertical="true"
-            android:layout_marginHorizontal="20dp"
-            android:id="@+id/productSearchView"
-            android:background="@drawable/searchview_background"/>
-
-
+            android:id="@+id/searchLayout"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
+            <SearchView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:id="@+id/productSearchView"
+                android:background="@drawable/searchview_background"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_cart"
+                android:gravity="end"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:id="@+id/cartIcon" />
+        </LinearLayout>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

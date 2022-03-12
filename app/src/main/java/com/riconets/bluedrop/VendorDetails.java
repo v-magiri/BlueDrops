@@ -1,9 +1,13 @@
 package com.riconets.bluedrop;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +35,7 @@ public class VendorDetails extends AppCompatActivity {
     ProgressDialog progressDialog;
     private ImageView backBtn,logoutBtn;
     private TextView nameTxt,vendorDescTxt,LocationTxt;
-    String VendorId,customerUserName,VendorName,VendorLogoUri,vendorDesc,Vendor_Address,vendorUserName;
+    String VendorId,customerUserName,VendorName,VendorLogoUri,vendorDesc,Vendor_Address,vendorUserName,vendorPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,32 +50,13 @@ public class VendorDetails extends AppCompatActivity {
         nameTxt=findViewById(R.id.vendorNameTxt);
         vendorDescTxt=findViewById(R.id.vendorDesc);
         mAuth=FirebaseAuth.getInstance();
-        VendorId="14y55tFevEWZJI4H7iR9Cvewys42";
+        getCustomerUserName();
         LocationTxt=findViewById(R.id.vendorLocation);
         progressDialog.setMessage("Loading Details");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        ShowVendorDetails();
         backBtn.setOnClickListener(v -> finish());
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder logoutAlertDialog=new AlertDialog.Builder(VendorDetails.this);
-                logoutAlertDialog.setTitle("Confirm Logout");
-                logoutAlertDialog.setIcon(R.drawable.icon_bluedrops);
-                logoutAlertDialog.setMessage("Are you sure you want to logout");
-                logoutAlertDialog.setCancelable(false);
-                logoutAlertDialog.setPositiveButton("Yes", (dialog, which) -> {
-                    mAuth.signOut();
-                    startActivity(new Intent(getApplicationContext(),customer_login.class));
-                });
-                logoutAlertDialog.setNegativeButton("No", (dialog, which) ->
-                        dialog.cancel());
-                AlertDialog alertDialog = logoutAlertDialog.create();
-                alertDialog.show();
-            }
-        });
-        getCustomerUserName();
+        logoutBtn.setVisibility(View.GONE);
         messageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +73,15 @@ public class VendorDetails extends AppCompatActivity {
                 }
             }
         });
+        CallBtn.setOnClickListener(v -> {
+            if(vendorPhoneNumber!=null){
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:"+vendorPhoneNumber));
+                startActivity(callIntent);
+            }else{
+                Log.e(TAG, "onCreate: Phone Number is null" );
+            }
+        });
     }
 
     private void getCustomerUserName() {
@@ -98,6 +92,8 @@ public class VendorDetails extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     customerUserName=snapshot.child("userName").getValue().toString();
+                    VendorId=snapshot.child("vendorID").getValue().toString();
+                    ShowVendorDetails();
                 }
 
                 @Override
@@ -114,18 +110,18 @@ public class VendorDetails extends AppCompatActivity {
         databaseReference.child(VendorId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                VendorModel vendorModel=snapshot.getValue(VendorModel.class);
                 VendorLogoUri=snapshot.child("profile_Pic").getValue().toString();
                 VendorName=snapshot.child("name").getValue().toString();
                 vendorDesc=snapshot.child("vendor_Desc").getValue().toString();
                 Vendor_Address=snapshot.child("address").getValue().toString();
                 vendorUserName=snapshot.child("userName").getValue().toString();
+                vendorPhoneNumber=snapshot.child("phoneNumber").getValue().toString();
                 nameTxt.setText(VendorName);
                 vendorDescTxt.setText(vendorDesc);
                 LocationTxt.setText(Vendor_Address);
-                if(!VendorLogoUri.equals("")) {
-                    Picasso.get().load(VendorLogoUri).into(vendorLogo);
-                }
+//                if(!VendorLogoUri.equals("")) {
+//                    Picasso.get().load(VendorLogoUri).into(vendorLogo);
+//                }
                 progressDialog.dismiss();
 
             }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,85 +13,83 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/customerProfilePic"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:src="@drawable/ic_account"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
+        android:src="@drawable/ic_account" />
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customerProfilePic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_below="@+id/customerProfilePic"
+        android:layout_marginVertical="20dp">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingStart="10dp"
+            android:textColor="@color/black"
             android:inputType="textPersonName"
             android:id="@+id/nameEditTxt"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:paddingStart="10dp"
-            android:inputType="textPersonName"
-            android:id="@+id/userNameEditTxt"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
+            android:textStyle="bold"
+            android:paddingStart="10dp"
+            android:textColor="@color/black"
+            android:layout_below="@+id/nameEditTxt"
             android:textSize="18sp"
             android:id="@+id/phoneEditTxt"/>
-        <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/customerLocationTxt"
+                android:layout_below="@+id/phoneEditTxt"
+                android:paddingStart="10dp"
+                android:textSize="18sp"
+                android:layout_weight="4"
+                android:paddingVertical="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-            android:layout_marginVertical="10dp">
-            <AutoCompleteTextView
-                android:id="@+id/locationAutoComplete"
-                android:inputType="none"
+            android:id="@+id/vendorDetails"
+            android:layout_below="@+id/customerLocationTxt">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vendor"
+                android:textColor="@color/black"
+                android:paddingStart="10dp"
                 android:textStyle="bold"
-                android:textSize="24dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-            android:layout_marginVertical="10dp">
-            <AutoCompleteTextView
-                android:id="@+id/vendorAutoComplete"
-                android:inputType="none"
-                android:textStyle="bold"
-                android:textSize="24dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textSize="18sp"
+                android:paddingVertical="10dp"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_forward"
+                android:id="@+id/viewVendorDetails"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_centerVertical="true"
+                android:gravity="end"
+                android:layout_weight="1"/>
+        </RelativeLayout>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Update Profile"
             android:layout_gravity="center"
+            android:layout_below="@+id/vendorDetails"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@null"
+            android:background="@drawable/signbackground"
             android:layout_marginVertical="20dp"
             android:gravity="center_vertical|center_horizontal"
             android:padding="10dp"
             android:id="@+id/updateProfileBtn"/>
-
-
-
-
-    </LinearLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</RelativeLayout>
