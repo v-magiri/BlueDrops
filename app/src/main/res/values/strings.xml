@@ -23,4 +23,5 @@
         2HqgPU-ccUbSFJFlucNzp8vaqB7AwRh8Fb</string>
     <string name="customer_Key" translatable="false">7TRqrtyXPm0oYndh77YVdpHYE0IwYG7f</string>
     <string name="customer_secret" translatable="false">htdr9LlA3oWz87Co</string>
+    <string name="changeVendor">Choose Vendor</string>
 </resources>

@@ -85,7 +85,7 @@ public class    Cart extends Fragment {
     DatabaseReference databaseReference,mRef,reference;
     Daraja daraja;
     RelativeLayout noItemLayout;
-    ProgressDialog progressDialog,mprogressDialog;
+    ProgressDialog progressDialog,mprogressDialog,mapProgressDialog;
     FirebaseAuth mAuth;
     int totalPrice;
     LinearLayout paymentLayout;
@@ -147,6 +147,11 @@ public class    Cart extends Fragment {
         mprogressDialog.setIndeterminate(true);
         mprogressDialog.setTitle("Please Wait");
         mprogressDialog.setMessage("Opening Sim Tool Kit");
+        mapProgressDialog=new ProgressDialog(getContext());
+        mapProgressDialog.setMessage("Opening Map");
+        mapProgressDialog.setTitle("Please Wait");
+        mapProgressDialog.setCanceledOnTouchOutside(false);
+        mapProgressDialog.setIndeterminate(true);
         noItemLayout=v.findViewById(R.id.EmptyCartLayout);
         Customer_Key=getString(R.string.customer_Key);
         Customer_Secret=getString(R.string.customer_secret);
@@ -154,7 +159,7 @@ public class    Cart extends Fragment {
         apiClient=new ApiClient();
         apiClient.setIsDebug(true);
         UID=mAuth.getUid();
-        getVendorId();Toast.makeText(getActivity(),"Please Try Again",Toast.LENGTH_SHORT).show();
+        getVendorId();
 //            Daraja Intialization
         daraja= Daraja.with(Customer_Key, Customer_Secret, new DarajaListener<AccessToken>() {
             @Override
@@ -192,12 +197,9 @@ public class    Cart extends Fragment {
                 }
             }
         });
-        ForwardImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkMapPermission(getActivity(),1, Manifest.permission.ACCESS_FINE_LOCATION)){
-                    selectlocation();
-                }
+        ForwardImageView.setOnClickListener(v1 -> {
+            if (checkMapPermission(getActivity(),1, Manifest.permission.ACCESS_FINE_LOCATION)){
+                selectlocation();
             }
         });
         return v;
@@ -449,18 +451,17 @@ public class    Cart extends Fragment {
         AddressTxt.setText(address);
         addressLatitude=String.valueOf(data.getDoubleExtra(SimplePlacePicker.LOCATION_LAT_EXTRA,-1));
         addressLongitude=String.valueOf(data.getDoubleExtra(SimplePlacePicker.LOCATION_LNG_EXTRA,-1));
+        mapProgressDialog.dismiss();
     }
-
     private void showMap(String apiKey, String country, String language, String[] mSupportedAreas) {
         Intent intent=new Intent(getActivity(),MapActivity.class);
         Bundle bundle = new Bundle();
-
         bundle.putString(SimplePlacePicker.API_KEY,apiKey);
         bundle.putString(SimplePlacePicker.COUNTRY,country);
         bundle.putString(SimplePlacePicker.LANGUAGE,language);
         bundle.putStringArray(SimplePlacePicker.SUPPORTED_AREAS,mSupportedAreas);
-
         intent.putExtras(bundle);
         startActivityForResult(intent, SimplePlacePicker.SELECT_LOCATION_REQUEST_CODE);
+        mapProgressDialog.show();
     }
 }

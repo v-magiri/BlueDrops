@@ -47,13 +47,22 @@
             android:layout_below="@+id/vendorCarousel"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:text=""
+                android:layout_marginHorizontal="10dp"
+                android:id="@+id/currentVendor"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="10dp"
-                android:hint="@string/change_vendor">
+                android:hint="@string/changeVendor">
 
                 <AutoCompleteTextView
                     android:id="@+id/updateVendorAutoC"

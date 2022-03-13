@@ -65,7 +65,6 @@ public class Chat extends AppCompatActivity {
         getMessages();
         //redirect to the vendor Details Page
         backBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(),Chat.class));
             finish();
         });
         sendBtn.setOnClickListener(view -> {

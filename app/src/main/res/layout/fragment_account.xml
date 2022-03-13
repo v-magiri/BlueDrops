@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:columnCount="2"
+            android:layout_marginStart="5dp"
             android:rowCount="2">
 
             <androidx.cardview.widget.CardView

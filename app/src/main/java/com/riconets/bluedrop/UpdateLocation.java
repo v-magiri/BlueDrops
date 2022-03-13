@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.essam.simpleplacepicker.MapActivity;
 import com.essam.simpleplacepicker.utils.SimplePlacePicker;
@@ -41,6 +43,7 @@ public class UpdateLocation extends AppCompatActivity {
     private ImageView placePicker;
     ArrayList<String> vendorNames;
     ArrayAdapter<String> vendorAdapter;
+    ProgressDialog progressDialog;
     ArrayList<String> vendorIds;
     String Country;
     String Language;
@@ -59,6 +62,10 @@ public class UpdateLocation extends AppCompatActivity {
         UpdateBtn=findViewById(R.id.updateLocationBtn);
         updatedAddressTxt=findViewById(R.id.updatedAddress);
         vendorAutoComplete=findViewById(R.id.vendorAutoComplete);
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("Opening Map");
+        progressDialog.setTitle("Please Wait");
         vendorNames=new ArrayList<>();
         mRef=FirebaseDatabase.getInstance().getReference("Customers");
         vendorIds=new ArrayList<>();
@@ -82,7 +89,10 @@ public class UpdateLocation extends AppCompatActivity {
             public void onClick(View v) {
                 String UID= FirebaseAuth.getInstance().getUid();
                 if(updatedAddress!=null&&updatedLatitude!=null&&updatedLongitude!=null) {
-                    mRef.child(UID).child("Location").setValue(updatedAddress);
+                    mRef.child(UID).child("location").setValue(updatedAddress);
+                    mRef.child(UID).child("vendorID").setValue(VendorID);
+                    Toast.makeText(getApplicationContext(),"Location Updated",Toast.LENGTH_LONG);
+                    finish();
                 }
             }
         });
@@ -143,17 +153,17 @@ public class UpdateLocation extends AppCompatActivity {
         updatedAddressTxt.setText(updatedAddress);
         updatedLatitude=String.valueOf(data.getDoubleExtra(SimplePlacePicker.LOCATION_LAT_EXTRA,-1));
         updatedLongitude=String.valueOf(data.getDoubleExtra(SimplePlacePicker.LOCATION_LNG_EXTRA,-1));
+        progressDialog.dismiss();
     }
     private void showMap(String apiKey, String country, String language, String[] mSupportedAreas) {
         Intent intent=new Intent(getApplicationContext(), MapActivity.class);
         Bundle bundle = new Bundle();
-
         bundle.putString(SimplePlacePicker.API_KEY,apiKey);
         bundle.putString(SimplePlacePicker.COUNTRY,country);
         bundle.putString(SimplePlacePicker.LANGUAGE,language);
         bundle.putStringArray(SimplePlacePicker.SUPPORTED_AREAS,mSupportedAreas);
-
         intent.putExtras(bundle);
         startActivityForResult(intent, SimplePlacePicker.SELECT_LOCATION_REQUEST_CODE);
+        progressDialog.show();
     }
 }

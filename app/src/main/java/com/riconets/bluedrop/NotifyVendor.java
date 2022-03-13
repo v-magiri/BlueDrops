@@ -35,6 +35,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -189,11 +190,19 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
         stringBuilder.append(dayOfMonth);
         String Date=stringBuilder.toString();
         SimpleDateFormat formatter=new SimpleDateFormat("yyyy/MM/dd");
-        //get Current Date//        setTheme(R.style.Theme_BlueDrop)
-        java.util.Date CurrentDate=new Date(System.currentTimeMillis());
+        //get Current Date
+        Date CurrentDate=new Date();
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(CurrentDate);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Calendar pickerCalendarDate=Calendar.getInstance();
         try {
             Date pickedDate=formatter.parse(Date);
-            int result=CurrentDate.compareTo(pickedDate);
+            pickerCalendarDate.setTime(pickedDate);
+            int result=calendar.compareTo(pickerCalendarDate);
             if(result<=0){
                 datePick.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                 datePick.setText(Date);

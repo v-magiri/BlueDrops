@@ -38,6 +38,7 @@ public class UpdateVendor extends AppCompatActivity {
     Button updateVendorBtn;
     ArrayList<String> vendorIds;
     private EditText vendorReviewTxt;
+    private
     AutoCompleteTextView vendorAutoComplete;
     String VendorID;
 
@@ -58,11 +59,13 @@ public class UpdateVendor extends AppCompatActivity {
         vendorReviewTxt=findViewById(R.id.changeVendorTxt);
 
         databaseReference=FirebaseDatabase.getInstance().getReference("Customers");
+        showCurrentVendor();
         mRef=FirebaseDatabase.getInstance().getReference("Vendors");
         getVendor();
         vendorAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,vendorNames);
         vendorAutoComplete.setAdapter(vendorAdapter);
         vendorAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
+            String vendorName=vendorNames.get(position);
             VendorID=vendorIds.get(position);
             Log.d(TAG, "onCreate: "+VendorID);
         });
@@ -92,6 +95,33 @@ public class UpdateVendor extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+    }
+
+    private void showCurrentVendor() {
+        String UID=FirebaseAuth.getInstance().getUid();
+        databaseReference.child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String VendorId=snapshot.child("vendorID").getValue().toString();
+                FirebaseDatabase.getInstance().getReference("Vendors").child(VendorId)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String VendorName=snapshot.child("name").getValue().toString();
+                                vendorAutoComplete.setText(VendorName);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.e(TAG, "onCancelled: "+error.getMessage() );
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
