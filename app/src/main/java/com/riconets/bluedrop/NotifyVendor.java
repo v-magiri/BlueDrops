@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -24,7 +25,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
@@ -51,7 +55,7 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
     String NOTIFICATION_TITLE;
     String NOTIFICATION_MESSAGE;
     String TOPIC;
-    String UID;
+    String UID,vendorUsername;
     LinearLayout linearLayout;
     private AutoCompleteTextView packageAutoComplete,amountRemainingAutoComplete;
     ArrayAdapter<String> arrayAdapter;
@@ -78,6 +82,8 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
         arrayAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,WaterPackages);
         packageAutoComplete.setAdapter(arrayAdapter);
         amountRemaining=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,remainingAmount);
+        //get My Vendor
+        getVendor();
         amountRemainingAutoComplete.setAdapter(amountRemaining);
         //redirect user to homepage
         notifyBtn.setOnClickListener(new View.OnClickListener() {
@@ -114,36 +120,68 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
             int quantity=Integer.parseInt(Quantity.getText().toString());
             Quantity.setText(String.valueOf(quantity+1));
         });
-//        FirebaseMessaging.getInstance().getToken().
-//                addOnCompleteListener(task -> {
-//                    if(task.isSuccessful()){
-//                        String token=task.getResult();
-//                        Log.d(TAG, "onComplete: "+token);
-//                        if(UID!=null) {
-//                            FirebaseDatabase.getInstance().getReference("Tokens").child(UID).setValue(token);
-//                        }
-//                    }
-//                });
+        FirebaseMessaging.getInstance().getToken().
+                addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        String token=task.getResult();
+                        Log.d(TAG, "onComplete: "+token);
+                        if(UID!=null) {
+                            FirebaseDatabase.getInstance().getReference("Tokens").child(UID).setValue(token);
+                        }else{
+                            Log.e(TAG, "onCreate: User ID is null");
+                        }
+                    }
+                });
     }
 
+    private void getVendor() {
+        String UID;
+        UID=FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance().getReference("Customer").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String vendorID=snapshot.child("vendorID").getValue().toString();
+                FirebaseDatabase.getInstance().getReference("Vendors").child(vendorID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        vendorUsername=snapshot.child("UserName").getValue().toString();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d(TAG, "onCancelled: "+error.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d(TAG, "onCancelled: "+error.getMessage());
+            }
+        });
+    }
+
+
     private void notifyVendor() {
+        if(vendorUsername!=null) {
+            TOPIC = "/topics/"+vendorUsername; //topic must match with what the receiver subscribed to
+            NOTIFICATION_TITLE = "Customer Request";
+            NOTIFICATION_MESSAGE = "Please Refill Water for Me";
 
-        TOPIC = "/topics/userABC"; //topic must match with what the receiver subscribed to
-        NOTIFICATION_TITLE = "Customer Request";
-        NOTIFICATION_MESSAGE = "Please Refill Water for Me";
+            JSONObject notification = new JSONObject();
+            JSONObject notificationBody = new JSONObject();
+            try {
+                notificationBody.put("title", NOTIFICATION_TITLE);
+                notificationBody.put("message", NOTIFICATION_MESSAGE);
 
-        JSONObject notification = new JSONObject();
-        JSONObject notificationBody = new JSONObject();
-        try {
-            notificationBody.put("title", NOTIFICATION_TITLE);
-            notificationBody.put("message", NOTIFICATION_MESSAGE);
-
-            notification.put("to", TOPIC);
-            notification.put("data", notificationBody);
-        } catch (JSONException e) {
-            Log.e(TAG, "onCreate: " + e.getMessage() );
+                notification.put("to", TOPIC);
+                notification.put("data", notificationBody);
+            } catch (JSONException e) {
+                Log.e(TAG, "onCreate: " + e.getMessage());
+            }
+            sendNotification(notification);
+        }else{
+            Log.e(TAG, "notifyVendor: username is null");
         }
-        sendNotification(notification);
     }
 
     private void sendNotification(JSONObject notification) {

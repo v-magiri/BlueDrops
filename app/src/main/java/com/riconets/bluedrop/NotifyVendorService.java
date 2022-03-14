@@ -1,82 +1,61 @@
 package com.riconets.bluedrop;
 
-import static android.content.ContentValues.TAG;
-
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Random;
 
 public class NotifyVendorService extends FirebaseMessagingService {
-    Notification notifyVendor;
-    NotificationManager notificationManager;
+    private static final String TAG = "OnMessagedReceived";
     private final String ADMIN_CHANNEL_ID ="admin_channel";
-    private static final String TopicSubscription="BlueDrops_Notification";
     Uri defaultSound;
+
     @Override
-    public void onNewToken(@NonNull String s) {
-        super.onNewToken(s);
-        String UID = FirebaseAuth.getInstance().getUid();
-        if(UID!=null) {
-            FirebaseDatabase.getInstance().getReference("Tokens").child(UID).setValue(s);
-        }
-        else{
-            Log.d(TAG, "onNewToken: UID is null");
-        }
-        FirebaseMessaging.getInstance().subscribeToTopic(TopicSubscription);
-        Log.i(TAG, "onNewToken: ");
+    public void onDeletedMessages() {
+        super.onDeletedMessages();
     }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
-        //Implementing in app notification
-        if(remoteMessage!=null) {
-            String title = remoteMessage.getData().get("title");
-            String text = remoteMessage.getData().get("Body");
-            notifyVendor(title, text);
+        String notificationTitle="";
+        String notificationBody="";
+        String notificationData="";
+        if(remoteMessage!=null){
+            notificationData=remoteMessage.getData().toString();
+            notificationBody=remoteMessage.getNotification().getBody();
+            notificationTitle=remoteMessage.getNotification().getTitle();
+            sendNotification(notificationTitle,notificationBody);
         }else{
-            Toast.makeText(this, "Message is null", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onMessageReceived: ");
         }
     }
 
-    private void notifyVendor(String title, String text) {
-        final String channel_Id="BlueDrops";
-        Intent intent=new Intent(this,NotifyVendor.class);
+    private void sendNotification(String notificationTitle, String notificationBody) {
+        final String channel_Id="com.riconets.bluedropsvendor;";
+        Intent intent=new Intent(this,CustomerHome.class);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        int notificationID = new Random().nextInt(3000);
+        int notification_id=new Random().nextInt(3000);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             setupChannels(notificationManager);
         }
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_notification);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -84,30 +63,20 @@ public class NotifyVendorService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channel_Id)
                         .setSmallIcon(R.drawable.ic_notification)
-                        .setLargeIcon(largeIcon)
-                        .setContentTitle(title)
-                        .setContentText(text)
+                        .setContentTitle(notificationTitle)
+                        .setContentText(notificationBody)
                         .setAutoCancel(true)
                         .setColor(Color.BLUE)
                         .setSound(defaultSound)
                         .setContentIntent(pendingIntent);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            NotificationChannel channel = new NotificationChannel(channel_Id,
-//                    "Fcm notifications",
-//                    NotificationManager.IMPORTANCE_DEFAULT);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
-        notificationManager.notify(notificationID, notificationBuilder.build());
+        notificationManager.notify(notification_id , notificationBuilder.build());
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupChannels(NotificationManager notificationManager) {
         CharSequence adminChannelName = "New notification";
-        String adminChannelDescription = "Device to devie notification";
-
+        String adminChannelDescription = "Device to device notification";
         NotificationChannel adminChannel;
         adminChannel = new NotificationChannel(ADMIN_CHANNEL_ID, adminChannelName, NotificationManager.IMPORTANCE_HIGH);
         adminChannel.setDescription(adminChannelDescription);
@@ -117,5 +86,10 @@ public class NotifyVendorService extends FirebaseMessagingService {
         if (notificationManager != null) {
             notificationManager.createNotificationChannel(adminChannel);
         }
+    }
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+
     }
 }
