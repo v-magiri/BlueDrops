@@ -47,73 +47,100 @@
             android:layout_below="@+id/vendorCarousel"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
-            <TextView
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="10dp"
-                android:text=""
-                android:layout_marginHorizontal="10dp"
-                android:id="@+id/currentVendor"
-                android:textColor="@color/black"
-                android:textSize="20sp"/>
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="10dp"
-                android:hint="@string/changeVendor">
-
-                <AutoCompleteTextView
-                    android:id="@+id/updateVendorAutoC"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="5"
+                        android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingVertical="10dp"
+                                android:text=""
+                                android:textStyle="bold"
+                                android:layout_weight="3"
+                                android:layout_marginHorizontal="10dp"
+                                android:id="@+id/currentVendor"
+                                android:textColor="@color/black"
+                                android:textSize="20sp"/>
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginEnd="10dp"
+                                android:id="@+id/vendorEdit"
+                                android:src="@drawable/ic_edit"/>
+                    </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:textSize="20dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:layout_marginHorizontal="10dp"
+                    android:id="@+id/vendors"
+                    android:visibility="gone"
+                    android:layout_marginVertical="10dp"
+                    android:hint="@string/changeVendor">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/updateVendorAuto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:textSize="20dp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="10dp"
-                android:orientation="vertical"
-                android:weightSum="5">
-                <TextView
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="vertical"
+                    android:weightSum="5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:paddingStart="10dp"
+                        android:text="Reasons for Changing Vendor (Optional)"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:id="@+id/changeVendorTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_weight="2"
+                        android:ems="10"
+                        android:cursorVisible="false"
+                        android:background="@drawable/text_area_bg"
+                        android:textColor="@color/black"
+                        android:paddingStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="start|top"
+                        android:inputType="textMultiLine"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:paddingStart="10dp"
-                    android:text="Reasons for Changing Vendor (Optional)"
-                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:id="@+id/changeVendorBtn"
+                    android:layout_marginVertical="10dp"
+                    android:gravity="end"
+                    android:background="@drawable/success_btn"
+                    android:text="Update"
+                    android:textColor="@color/success"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/changeVendorTxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_weight="2"
-                    android:ems="10"
-                    android:background="@drawable/text_area_bg"
-                    android:textColor="@color/black"
-                    android:paddingStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="start|top"
-                    android:inputType="textMultiLine"
-                    android:textSize="18sp" />
-            </LinearLayout>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/changeVendorBtn"
-                android:layout_marginVertical="10dp"
-                android:background="@drawable/success_btn"
-                android:text="Update"
-                android:textColor="@color/success"
-                android:textSize="20sp"
-                app:backgroundTint="@null" />
+                    app:backgroundTint="@null" />
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
 </RelativeLayout>

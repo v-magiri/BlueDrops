@@ -3,6 +3,7 @@ package com.riconets.bluedrop.Adapters;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.riconets.bluedrop.Cart;
 import com.riconets.bluedrop.R;
 import com.riconets.bluedrop.model.CartModel;
 import com.squareup.picasso.Picasso;
@@ -33,15 +35,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     DatabaseReference mRef;
     FirebaseAuth mAuth;
     ProgressDialog progressDialog;
+    TextView PriceTxt;
 
-    public CartAdapter(Context context, List<CartModel> cartModelList) {
+    public CartAdapter(Context context, List<CartModel> cartModelList,TextView priceTxt) {
         this.context = context;
         this.cartModelList = cartModelList;
+        this.PriceTxt=priceTxt;
         mAuth=FirebaseAuth.getInstance();
         mRef= FirebaseDatabase.getInstance().getReference("Cart");
-//        progressDialog=new ProgressDialog(context);
-//        progressDialog.setMessage("Removing Item from Cart");
-//        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage("Removing Item from Cart");
+        progressDialog.setCanceledOnTouchOutside(false);
     }
 
     @NonNull
@@ -62,6 +66,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         holder.totalPriceTxt.setText("KSH: "+cartModel.getTotalPrice());
         String ProductImage=cartModel.getProductImageUri();
         Picasso.get().load(ProductImage).into(holder.productImage);
+        int totalPrice=0;
+        for(int n=0;n<cartModelList.size();n++){
+            totalPrice+=Integer.parseInt(cartModelList.get(n).getTotalPrice());
+            PriceTxt.setText(String.valueOf(totalPrice));
+        }
 
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,16 +81,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                 deleteAlertDialog.setMessage("Are you sure you want to delete Item");
                 deleteAlertDialog.setCancelable(false);
                 deleteAlertDialog.setPositiveButton("Yes", (dialog, which) -> {
-//                        progressDialog.show();
-                    mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        progressDialog.show();
+                        int ItemPrice=Integer.parseInt(cartModelList.get(position).getTotalPrice());
+                        int CurrentPrice=Integer.parseInt(PriceTxt.getText().toString());
+                        PriceTxt.setText(String.valueOf(CurrentPrice-ItemPrice));
+                        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            mRef.child(UID).child(itemID).getRef().removeValue();
+                            mRef.child(UID).child(itemID).getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        progressDialog.dismiss();
+                                    }
+                                }
+                            });
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+//                            Log.e(TAG, "onCancelled: ", );
                         }
                     });
                 });
@@ -110,8 +128,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
             quantityTxt=itemView.findViewById(R.id.cartQuantity);
             totalPriceTxt=itemView.findViewById(R.id.totalPriceTV);
             deleteBtn=itemView.findViewById(R.id.deleteItem);
-
-
         }
     }
 

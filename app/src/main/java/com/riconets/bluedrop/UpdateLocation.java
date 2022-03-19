@@ -10,10 +10,15 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -79,8 +84,26 @@ public class UpdateLocation extends AppCompatActivity {
         placePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkMapPermission(UpdateLocation.this,1, Manifest.permission.ACCESS_FINE_LOCATION)){
-                    selectlocation();
+                if(checkLocationEnabled()) {
+                    if (checkMapPermission(UpdateLocation.this, 1, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        selectlocation();
+                    }
+                }else{
+                    AlertDialog.Builder locationEnable=new AlertDialog.Builder(UpdateLocation. this );
+                    locationEnable.setTitle("GPS Enable");
+                    locationEnable.setIcon(R.drawable.icon_location);
+                    locationEnable.setMessage( "Please Turn on Locations" );
+                    locationEnable.setCancelable(false);
+                    locationEnable.setPositiveButton( "Settings" , new
+                                    DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick (DialogInterface paramDialogInterface , int paramInt) {
+                                            startActivity( new Intent(Settings. ACTION_LOCATION_SOURCE_SETTINGS )) ;
+                                        }
+                                    });
+                    locationEnable.setNegativeButton( "Cancel" , null );
+                    AlertDialog alertDialog=locationEnable.create();
+                    alertDialog.show() ;
                 }
             }
         });
@@ -97,6 +120,28 @@ public class UpdateLocation extends AppCompatActivity {
             }
         });
     }
+
+    private Boolean checkLocationEnabled() {
+        LocationManager lm = (LocationManager)
+                getSystemService(Context. LOCATION_SERVICE ) ;
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager. GPS_PROVIDER ) ;
+        } catch (Exception e) {
+            e.printStackTrace() ;
+        }
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager. NETWORK_PROVIDER ) ;
+        } catch (Exception e) {
+            e.printStackTrace() ;
+        }
+        if (gps_enabled && network_enabled) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean checkMapPermission(Activity activity, int requestCode, String permissionName) {
         if (ContextCompat.checkSelfPermission(activity,
                 permissionName)

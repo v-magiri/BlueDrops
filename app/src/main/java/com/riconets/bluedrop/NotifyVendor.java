@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -24,6 +25,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,20 +49,17 @@ import java.util.Map;
 public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private TextView datePick, Quantity,QuantityTxt;
     String[] WaterPackages={"500ml","1L","5L","10L","20L","25L","30L","Over 30L"};
-    String[] remainingAmount={"Quarter Level","Half Level"};
-    private ImageButton addBtn, lessBtn;
     final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
     final private String contentType = "application/json";
     private String serverKey;
+    String[] remainingAmount={"Quarter Level","Half Level"};
+    private ImageButton addBtn, lessBtn;
     final String TAG = "NOTIFICATION TAG";
-    String NOTIFICATION_TITLE;
-    String NOTIFICATION_MESSAGE;
-    String TOPIC;
-    String UID,vendorUsername;
+    String UID,vendorUserName,vendorID,Amount,amountRemaining,customerUserName;
     LinearLayout linearLayout;
     private AutoCompleteTextView packageAutoComplete,amountRemainingAutoComplete;
     ArrayAdapter<String> arrayAdapter;
-    ArrayAdapter<String> amountRemaining;
+    ArrayAdapter<String> amountRemainingAdapter;
     private EditText notifyEdiTxt;
     Button notifyBtn;
     @Override
@@ -81,19 +81,19 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
         datePick.setOnClickListener(view -> showDateDialog());
         arrayAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,WaterPackages);
         packageAutoComplete.setAdapter(arrayAdapter);
-        amountRemaining=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,remainingAmount);
+        amountRemainingAdapter=new ArrayAdapter<String>(getApplicationContext(),R.layout.item,remainingAmount);
         //get My Vendor
         getVendor();
-        amountRemainingAutoComplete.setAdapter(amountRemaining);
-        //redirect user to homepage
-        notifyBtn.setOnClickListener(new View.OnClickListener() {
+        amountRemainingAutoComplete.setAdapter(amountRemainingAdapter);
+        amountRemainingAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                notifyVendor();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                amountRemaining=parent.getItemAtPosition(position).toString();
             }
         });
+        //redirect user to homepage
         packageAutoComplete.setOnItemClickListener((adapterView, view, i, l) -> {
-            String Amount=adapterView.getItemAtPosition(i).toString();
+            Amount=adapterView.getItemAtPosition(i).toString();
             if(Amount.equals("Over 30L")){
                 Quantity.setVisibility(View.GONE);
                 QuantityTxt.setVisibility(View.GONE);
@@ -109,8 +109,8 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
         });
         lessBtn.setOnClickListener(view -> {
             int itemCount=Integer.parseInt(Quantity.getText().toString());
-            if(itemCount==0){
-                FancyToast.makeText(getApplicationContext(),"Quantity can not be less than 0",FancyToast.LENGTH_SHORT,FancyToast.ERROR,true).show();
+            if(itemCount<=1){
+                FancyToast.makeText(getApplicationContext(),"Quantity can not be less than 1",FancyToast.LENGTH_SHORT,FancyToast.ERROR,true).show();
             }
             else{
                 Quantity.setText(String.valueOf(itemCount-1));
@@ -126,29 +126,109 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
                         String token=task.getResult();
                         Log.d(TAG, "onComplete: "+token);
                         if(UID!=null) {
-                            FirebaseDatabase.getInstance().getReference("Tokens").child(UID).setValue(token);
+                            FirebaseDatabase.getInstance().getReference("Tokens").child(UID).child("Messaging_Token").setValue(token);
                         }else{
                             Log.e(TAG, "onCreate: User ID is null");
                         }
                     }
                 });
+        notifyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String supplyDate=datePick.getText().toString();
+                String Quantity=QuantityTxt.getText().toString();
+                if(supplyDate!=null&& Quantity!=null&& amountRemaining!=null&& Amount!=null){
+                    String Message=notifyEdiTxt.getText().toString();
+                    notifyVendor(supplyDate,Quantity,amountRemaining,Amount,Message);
+                }
+            }
+        });
+    }
+
+    private void notifyVendor(String supplyDate, String quantity,
+                              String amountRemaining, String amount, String message) {
+        String UID=FirebaseAuth.getInstance().getUid();
+        if(UID!=null&&vendorID!=null){
+            HashMap<String,String> map=new HashMap<>();
+            map.put("UserID",UID);
+            map.put("SupplyDate",supplyDate);
+            map.put("Quantity",quantity);
+            map.put("RemainingAmount",amountRemaining);
+            map.put("Amount",amount);
+            map.put("Message",message);
+            FirebaseDatabase.getInstance().getReference("Customer   Requests")
+                    .child(vendorID).push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    BuildNotification();
+                   finish();
+                }
+            });
+        }
+    }
+
+    private void BuildNotification() {
+        if(vendorUserName!=null&& customerUserName!=null){
+            String Topic="/topics/"+customerUserName;
+            String Notification_Title="New Notification From"+customerUserName;
+            String Notification_Message=notifyEdiTxt.getText().toString();
+            JSONObject notification = new JSONObject();
+            JSONObject notificationBody = new JSONObject();
+            try {
+                notificationBody.put("title", Notification_Title);
+                notificationBody.put("message", Notification_Message);
+
+                notification.put("to", Topic);
+                notification.put("data", notificationBody);
+            } catch (JSONException e) {
+                Log.e(TAG, "onCreate: " + e.getMessage() );
+            }
+            sendNotification(notification);
+        }
+        else{
+            Log.d(TAG, "BuildNotification: NUll Values");
+        }
+    }
+
+    private void sendNotification(JSONObject notification) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
+                response -> {
+                    Log.i(TAG, "onResponse: " + response.toString());
+                    Log.e(TAG, "onResponse: Hurray Working");
+                },
+                error -> {
+                    Toast.makeText(NotifyVendor.this, "Request error", Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "onErrorResponse: Didn't work");
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", serverKey);
+                params.put("Content-Type", contentType);
+                return params;
+            }
+        };
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     private void getVendor() {
         String UID;
         UID=FirebaseAuth.getInstance().getUid();
-        FirebaseDatabase.getInstance().getReference("Customer").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("Customers").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String vendorID=snapshot.child("vendorID").getValue().toString();
-                FirebaseDatabase.getInstance().getReference("Vendors").child(vendorID).addListenerForSingleValueEvent(new ValueEventListener() {
+                vendorID=snapshot.child("vendorID").getValue().toString();
+                customerUserName=snapshot.child("userName").getValue().toString();
+                FirebaseDatabase.getInstance().getReference("Vendors")
+                        .child(vendorID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        vendorUsername=snapshot.child("UserName").getValue().toString();
+                        vendorUserName=snapshot.child("userName").getValue().toString();
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Log.d(TAG, "onCancelled: "+error.getMessage());
+
                     }
                 });
             }
@@ -161,54 +241,6 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
     }
 
 
-    private void notifyVendor() {
-        if(vendorUsername!=null) {
-            TOPIC = "/topics/"+vendorUsername; //topic must match with what the receiver subscribed to
-            NOTIFICATION_TITLE = "Customer Request";
-            NOTIFICATION_MESSAGE = "Please Refill Water for Me";
-
-            JSONObject notification = new JSONObject();
-            JSONObject notificationBody = new JSONObject();
-            try {
-                notificationBody.put("title", NOTIFICATION_TITLE);
-                notificationBody.put("message", NOTIFICATION_MESSAGE);
-
-                notification.put("to", TOPIC);
-                notification.put("data", notificationBody);
-            } catch (JSONException e) {
-                Log.e(TAG, "onCreate: " + e.getMessage());
-            }
-            sendNotification(notification);
-        }else{
-            Log.e(TAG, "notifyVendor: username is null");
-        }
-    }
-
-    private void sendNotification(JSONObject notification) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.i(TAG, "onResponse: " + response.toString());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(NotifyVendor.this, "Request error", Toast.LENGTH_LONG).show();
-                        Log.i(TAG, "onErrorResponse: Didn't work");
-                    }
-                }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("Authorization", serverKey);
-                params.put("Content-Type", contentType);
-                return params;
-            }
-        };
-        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
-    }
 
     private void showDateDialog() {
         DatePickerDialog datePickerDialog= new DatePickerDialog(

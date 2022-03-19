@@ -1,5 +1,7 @@
 package com.riconets.bluedrop;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,6 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -90,6 +97,21 @@ public class NotifyVendorService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(@NonNull String s) {
-
+        String UID = FirebaseAuth.getInstance().getUid();
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if(task.isSuccessful()){
+                            String token=task.getResult();
+                            Log.d(TAG, "onComplete: "+token);
+                            if(UID!=null){
+                                FirebaseDatabase.getInstance().getReference("Tokens").child(UID).child("Messaging_Token").setValue(token);
+                            }else{
+                                Log.e(TAG, "onComplete: User id is null");
+                            }
+                        }
+                    }
+                });
     }
 }

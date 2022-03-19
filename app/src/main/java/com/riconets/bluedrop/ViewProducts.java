@@ -49,7 +49,7 @@ public class ViewProducts extends AppCompatActivity {
         GridLayoutManager gridLayoutManager=new GridLayoutManager(ViewProducts.this,2,GridLayoutManager.VERTICAL,false);
         productRecyclerView.setLayoutManager(gridLayoutManager);
         productRecyclerView.setHasFixedSize(true);
-            getProducts();
+        getProducts();
         searchView.setQueryHint("Search an Item");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

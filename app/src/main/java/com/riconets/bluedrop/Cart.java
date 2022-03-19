@@ -175,8 +175,7 @@ public class    Cart extends Fragment {
 //            getAccessToken();
         databaseReference= FirebaseDatabase.getInstance().getReference("Cart");
         mRef=FirebaseDatabase.getInstance().getReference("Order");
-        cartAdapter=new CartAdapter(getActivity(),cartList);
-        cartRecyclerView.setAdapter(cartAdapter);
+        cartAdapter=new CartAdapter(getActivity(),cartList,priceTxt);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         getCartItems();
         getCustomerPhoneNumber();
@@ -394,27 +393,29 @@ public class    Cart extends Fragment {
 
     }
     private void getCartItems() {
-        cartList.clear();
         databaseReference.child(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                cartList.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     CartModel curCart=dataSnapshot.getValue(CartModel.class);
                     cartList.add(curCart);
+                    cartRecyclerView.setAdapter(cartAdapter);
+                    cartAdapter.notifyDataSetChanged();
 
                 }
-                for(int n=0;n<cartList.size();n++){
-                    totalPrice+=Integer.parseInt(cartList.get(n).getTotalPrice());
-                }
-                if(cartList.size()==0){
-                    noItemLayout.setVisibility(View.VISIBLE);
-                }else{
+//                for(int n=0;n<cartList.size();n++){
+//                    totalPrice+=Integer.parseInt(cartList.get(n).getTotalPrice());
+//                }
+                if(cartList.size()>0){
                     noItemLayout.setVisibility(View.GONE);
                     paymentLayout.setVisibility(View.VISIBLE);
-                    priceTxt.setText(String.valueOf(totalPrice));
+//                    priceTxt.setText(String.valueOf(totalPrice));
                     cartRecyclerView.setVisibility(View.VISIBLE);
+                }else{
+                    noItemLayout.setVisibility(View.VISIBLE);
+                    paymentLayout.setVisibility(View.GONE);
                 }
-                cartAdapter.notifyDataSetChanged();
             }
 
             @Override

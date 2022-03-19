@@ -10,11 +10,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,8 +39,10 @@ public class UpdateVendor extends AppCompatActivity {
     ArrayAdapter<String> vendorAdapter;
     Button updateVendorBtn;
     ArrayList<String> vendorIds;
+    private TextView CurrentVendorTxt;
     private EditText vendorReviewTxt;
-    private
+    private ImageView editVendor;
+    TextInputLayout vendorsTextInputLayout;
     AutoCompleteTextView vendorAutoComplete;
     String VendorID;
 
@@ -49,13 +53,22 @@ public class UpdateVendor extends AppCompatActivity {
         logoutBtn=findViewById(R.id.logoutBtn);
         mAuth=FirebaseAuth.getInstance();
         backBtn=findViewById(R.id.backBtn);
-        vendorAutoComplete=findViewById(R.id.updateVendorAutoC);
+        vendorAutoComplete=findViewById(R.id.updateVendorAuto);
         backBtn.setOnClickListener(v -> finish());
         logoutBtn.setVisibility(View.GONE);
         updateVendorBtn=findViewById(R.id.changeVendorBtn);
+        CurrentVendorTxt=findViewById(R.id.currentVendor);
         vendorNames=new ArrayList<>();
+        vendorsTextInputLayout=findViewById(R.id.vendors);
         logoutBtn.setVisibility(View.GONE);
         vendorIds=new ArrayList<>();
+        editVendor=findViewById(R.id.vendorEdit);
+        editVendor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vendorsTextInputLayout.setVisibility(View.VISIBLE);
+            }
+        });
         vendorReviewTxt=findViewById(R.id.changeVendorTxt);
 
         databaseReference=FirebaseDatabase.getInstance().getReference("Customers");
@@ -110,7 +123,7 @@ public class UpdateVendor extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 String VendorName=snapshot.child("name").getValue().toString();
-                                vendorAutoComplete.setText(VendorName);
+                                CurrentVendorTxt.setText(VendorName);
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
@@ -121,7 +134,7 @@ public class UpdateVendor extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e(TAG, "onCancelled: "+error.getMessage() );
             }
         });
     }
