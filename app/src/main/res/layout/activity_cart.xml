@@ -34,28 +34,28 @@
                 android:layout_width="match_parent"
                 android:layout_weight="4"
                 android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:padding="5dp"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/ic_pin"
-                        android:src="@drawable/ic_water_pin"/>
-                    <LinearLayout
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/ic_pin"
+                    android:src="@drawable/ic_water_pin"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/address"
+                    android:layout_toEndOf="@+id/ic_pin">
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"  
-                        android:id="@+id/address"
-                        android:layout_toEndOf="@+id/ic_pin">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="No Address Selected"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/black"
-                                android:id="@+id/AddressTxt"/>
-                    </LinearLayout>
+                        android:text="No Address Selected"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:id="@+id/AddressTxt"/>
+                </LinearLayout>
             </RelativeLayout>
             <ImageView
                 android:layout_width="45dp"

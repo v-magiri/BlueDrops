@@ -1,5 +1,6 @@
 package com.riconets.bluedrop;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 import static com.riconets.bluedrop.api.Constants.BUSINESS_SHORT_CODE;
@@ -7,15 +8,6 @@ import static com.riconets.bluedrop.api.Constants.CALLBACKURL;
 import static com.riconets.bluedrop.api.Constants.PARTYB;
 import static com.riconets.bluedrop.api.Constants.PASSKEY;
 import static com.riconets.bluedrop.api.Constants.TRANSACTION_TYPE;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
@@ -29,7 +21,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,9 +31,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.androidstudy.daraja.Daraja;
 import com.androidstudy.daraja.DarajaListener;
-//import com.androidstudy.daraja.model.AccessToken;
 import com.androidstudy.daraja.model.LNMExpress;
 import com.androidstudy.daraja.model.LNMResult;
 import com.androidstudy.daraja.util.TransactionType;
@@ -74,7 +76,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-public class Cart extends AppCompatActivity {
+public class BlueDropsCart extends Fragment {
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
     private ApiClient apiClient;
     private RecyclerView cartRecyclerView;
     private TextView priceTxt,AmountTv,CoordinatesTxt,AddressTxt;
@@ -90,42 +97,77 @@ public class Cart extends AppCompatActivity {
     public static final int Location_Request_Code=1234;
     CartAdapter cartAdapter;
     DatabaseReference databaseReference,mRef,reference;
-//    Daraja daraja;
+    Daraja daraja;
     RelativeLayout noItemLayout;
     ProgressDialog progressDialog,mprogressDialog,mapProgressDialog;
     FirebaseAuth mAuth;
     int totalPrice;
     LinearLayout paymentLayout;
     String VendorID,UID;
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public BlueDropsCart() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment Cart.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static BlueDropsCart newInstance(String param1, String param2) {
+        BlueDropsCart fragment = new BlueDropsCart();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v= inflater.inflate(R.layout.fragment_cart, container, false);
         //Binding Views
-        PlaceOrderBtn=findViewById(R.id.payBtn);
-        priceTxt=findViewById(R.id.TotalPriceTxt);
-        AmountTv=findViewById(R.id.amountTV);
-        cartRecyclerView=findViewById(R.id.cartRecyclerView);
+        PlaceOrderBtn=v.findViewById(R.id.payBtn);
+        priceTxt=v.findViewById(R.id.TotalPriceTxt);
+        AmountTv=v.findViewById(R.id.amountTV);
+        cartRecyclerView=v.findViewById(R.id.cartRecyclerView);
         cartList=new ArrayList<>();
-        progressDialog=new ProgressDialog(this);
+        progressDialog=new ProgressDialog(getContext());
         progressDialog.setCanceledOnTouchOutside(false);
         cartRecyclerView.setHasFixedSize(true);
-        paymentLayout=findViewById(R.id.paymentLayout);
-        AddressTxt=findViewById(R.id.AddressTxt);
-        ForwardImageView=findViewById(R.id.forwardBtn);
-        mprogressDialog=new ProgressDialog(this);
+        paymentLayout=v.findViewById(R.id.paymentLayout);
+        AddressTxt=v.findViewById(R.id.AddressTxt);
+        ForwardImageView=v.findViewById(R.id.forwardBtn);
+        mprogressDialog=new ProgressDialog(getContext());
         mprogressDialog.setCanceledOnTouchOutside(false);
         mprogressDialog.setIndeterminate(true);
         mprogressDialog.setTitle("Please Wait");
         mprogressDialog.setMessage("Opening Sim Tool Kit");
-        mapProgressDialog=new ProgressDialog(this);
+        mapProgressDialog=new ProgressDialog(getContext());
         mapProgressDialog.setMessage("Opening Map");
         mapProgressDialog.setTitle("Please Wait");
-        ShopNowBtn=findViewById(R.id.shopNowBtn);
+        ShopNowBtn=v.findViewById(R.id.shopNowBtn);
         mapProgressDialog.setCanceledOnTouchOutside(false);
         mapProgressDialog.setIndeterminate(true);
-        noItemLayout=findViewById(R.id.EmptyCartLayout);
+        noItemLayout=v.findViewById(R.id.EmptyCartLayout);
         Customer_Key=getString(R.string.customer_Key);
         Customer_Secret=getString(R.string.customer_secret);
         mAuth=FirebaseAuth.getInstance();
@@ -134,55 +176,44 @@ public class Cart extends AppCompatActivity {
         UID=mAuth.getUid();
         ShopNowBtn.setOnClickListener(v12 -> {
             Home home=new Home();
-            FragmentTransaction fragmentTransaction1= getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction1= getFragmentManager().beginTransaction();
             fragmentTransaction1.replace(R.id.content,home,"");
             fragmentTransaction1.addToBackStack(null);
             fragmentTransaction1.commit();
         });
         getVendorId();
-        //            Daraja Intialization
-//        daraja= Daraja.with(Customer_Key, Customer_Secret, new DarajaListener<AccessToken>() {
-//            @Override
-//            public void onResult(@NonNull AccessToken accessToken) {
-//                Log.i(getActivity().getClass().getSimpleName(), accessToken.getAccess_token());
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//                Log.e(getActivity().getClass().getSimpleName(), error);
-//            }
-//        });
-//            getAccessToken();
         databaseReference= FirebaseDatabase.getInstance().getReference("Cart");
         mRef=FirebaseDatabase.getInstance().getReference("Order");
-        cartAdapter=new CartAdapter(Cart.this,cartList,priceTxt);
-        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        cartAdapter=new CartAdapter(getActivity(),cartList,priceTxt);
+        cartRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         getCartItems();
         getCustomerPhoneNumber();
         PlaceOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (cartList.size() < 0) {
-                    Toast.makeText(Cart.this, "0 items can not be added to the cart", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "0 items can not be added to the cart", Toast.LENGTH_SHORT).show();
                 } else {
                     if (VendorID == null){
-                        Toast.makeText(Cart.this,"Please Try Again",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Please Try Again",Toast.LENGTH_SHORT).show();
                     }else if(addressLatitude == null && addressLongitude == null && address == null){
-                        Toast.makeText(Cart.this,"Please Choose Shipping Address",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Please Choose Shipping Address",Toast.LENGTH_SHORT).show();
                     }
                     else{
-//                        MakeOrderPayment();
+                        sendSTKPUSH("0114486824","1");
+                        saveOrder();
                     }
                 }
             }
         });
+        getAccessToken();
         ForwardImageView.setOnClickListener(v1 -> {
             if(locationEnabled()) {
-                if (checkMapPermission(Cart.this, 1, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                if (checkMapPermission(getActivity(), 1, Manifest.permission.ACCESS_FINE_LOCATION)) {
                     selectlocation();
                 }
             }else{
-                AlertDialog.Builder locationEnable=new AlertDialog.Builder(Cart.this);
+                AlertDialog.Builder locationEnable=new AlertDialog.Builder(getActivity());
                 locationEnable.setTitle("GPS Enable");
                 locationEnable.setIcon(R.drawable.ic_location);
                 locationEnable.setMessage( "Please Turn on Locations" );
@@ -199,10 +230,13 @@ public class Cart extends AppCompatActivity {
                 alertDialog.show() ;
             }
         });
+        return v;
     }
+
+
     private boolean locationEnabled() {
-        LocationManager lm = (LocationManager)
-                getSystemService(Context. LOCATION_SERVICE ) ;
+        LocationManager lm = (LocationManager)getActivity()
+                .getSystemService(Context. LOCATION_SERVICE ) ;
         boolean gps_enabled = false;
         boolean network_enabled = false;
         try {
@@ -220,6 +254,7 @@ public class Cart extends AppCompatActivity {
         }
         return false;
     }
+
     private void getAccessToken() {
         apiClient.setGetAccessToken(true);
         apiClient.mpesaService().getAccessToken().enqueue(new Callback<AccessToken>() {
@@ -227,8 +262,7 @@ public class Cart extends AppCompatActivity {
             public void onResponse(@NonNull Call<AccessToken> call, @NonNull Response<AccessToken> response) {
 
                 if (response.isSuccessful()) {
-                    AccessToken accessToken=response.body();
-                    apiClient.setAuthToken(String.valueOf(accessToken));
+                    apiClient.setAuthToken(String.valueOf(response.body().accessToken));
                 }
             }
 
@@ -238,6 +272,7 @@ public class Cart extends AppCompatActivity {
             }
         });
     }
+
     private void saveOrder(){
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy @HH:mm", Locale.US);
         String date = dateFormat.format(new Date());
@@ -270,7 +305,7 @@ public class Cart extends AppCompatActivity {
                         });
                     }
                     Log.d(TAG, "onComplete: Place Order");
-                    Intent intent = new Intent(getApplicationContext(), Order.class);
+                    Intent intent = new Intent(getActivity(), Order.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("VendorID", VendorID);
                     bundle.putString("TimeStamp", OrderTimeStamp);
@@ -280,43 +315,7 @@ public class Cart extends AppCompatActivity {
             }
         });
     }
-    private void MakeOrderPayment() {
-//        //to implement Customer to Business
-//        progressDialog.show();
-//        if(PhoneNumber!=null) {
-//            LNMExpress lnmExpress = new LNMExpress(
-//                    "174379",
-//                    "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
-//                    TransactionType.CustomerPayBillOnline, // TransactionType.CustomerPayBillOnline  <- Apply any of these two
-//                    "1",
-//                    "254708374149",
-//                    "174379",
-//                    "0114486824",
-//                    "https://mydomain.com/path",
-//                    "001ABC",
-//                    "Goods Payment"
-//            );
-//            daraja.requestMPESAExpress(lnmExpress,
-//                    new DarajaListener<LNMResult>() {
-//                        @Override
-//                        public void onResult(@NonNull LNMResult lnmResult) {
-//                            Log.i(getActivity().getClass().getSimpleName(), lnmResult.ResponseDescription);
-//                            Toast.makeText(getActivity(), lnmResult.ResponseDescription, Toast.LENGTH_LONG).show();
-//                            mprogressDialog.dismiss();
-//                            saveOrder();
-//                        }
-//
-//                        @Override
-//                        public void onError(String error) {
-//                            Log.i(getActivity().getClass().getSimpleName(), error);
-//                        }
-//                    });
-//        }
-//        else{
-//            Log.d(TAG, "MakeOrderPayMent: Phone Number is null");
-//            mprogressDialog.dismiss();
-//        }
-    }
+
     private void sendSTKPUSH(String phoneNumber, String totalPrice) {
         mprogressDialog.setMessage("Processing Your Message");
         mprogressDialog.setTitle("Please Wait");
@@ -361,6 +360,7 @@ public class Cart extends AppCompatActivity {
 
         });
     }
+
     private void getCustomerPhoneNumber() {
         DatabaseReference dataRef=FirebaseDatabase.getInstance().getReference("Customers");
         dataRef.child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -376,6 +376,7 @@ public class Cart extends AppCompatActivity {
             }
         });
     }
+
     public static boolean checkMapPermission(Activity activity, int requestCode, String permissionName) {
         if (ContextCompat.checkSelfPermission(activity,
                 permissionName)
@@ -388,6 +389,7 @@ public class Cart extends AppCompatActivity {
         }
         return false;
     }
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1) {
@@ -395,6 +397,7 @@ public class Cart extends AppCompatActivity {
                 selectlocation();
         }
     }
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SimplePlacePicker.SELECT_LOCATION_REQUEST_CODE && resultCode == RESULT_OK){
@@ -465,7 +468,7 @@ public class Cart extends AppCompatActivity {
         mapProgressDialog.dismiss();
     }
     private void showMap(String apiKey, String country, String language, String[] mSupportedAreas) {
-        Intent intent=new Intent(getApplicationContext(), MapActivity.class);
+        Intent intent=new Intent(getActivity(),MapActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(SimplePlacePicker.API_KEY,apiKey);
         bundle.putString(SimplePlacePicker.COUNTRY,country);

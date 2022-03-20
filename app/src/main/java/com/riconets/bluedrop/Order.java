@@ -2,7 +2,9 @@ package com.riconets.bluedrop;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,66 +34,54 @@ public class Order extends AppCompatActivity {
     OrderAdapter orderAdapter;
     RecyclerView orderRecyclerView;
     private ImageView backBtn,logoutBtn;
+    private RelativeLayout EmptyLayout;
+    private Button OrderNowBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-//        Bundle orderBundle=getIntent().getExtras();
-//        OrderTimeStamp=orderBundle.getString("TimeStamp");
-//        VendorId=orderBundle.getString("VendorID");
         backBtn=findViewById(R.id.backBtn);
         backBtn.setOnClickListener(v -> finish());
         logoutBtn=findViewById(R.id.logoutBtn);
         logoutBtn.setVisibility(View.GONE);
         mAuth = FirebaseAuth.getInstance();
         mRef = FirebaseDatabase.getInstance().getReference("Order");
+        OrderNowBtn=findViewById(R.id.orderNowBtn);
+        EmptyLayout=findViewById(R.id.EmptyOrderLayout);
         UID = mAuth.getUid();
         orderRecyclerView = findViewById(R.id.orderRecyclerView);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(Order.this));
         orderRecyclerView.setHasFixedSize(true);
         orderModelList = new ArrayList<>();
-//        getVendorId();
         getOrders();
     }
 
-    private void getVendorId() {
-        reference = FirebaseDatabase.getInstance().getReference("Customers");
-        if (UID != null) {
-            reference.child(UID).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    VendorID = snapshot.child("vendorID").getValue().toString();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "Not Executed", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void getOrders() {
-//        child(OrderTimeStamp)
         reference = FirebaseDatabase.getInstance().getReference("Customers");
         if (UID != null) {
             reference.child(UID).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     VendorID = snapshot.child("vendorID").getValue().toString();
+                    orderAdapter = new OrderAdapter(Order.this, orderModelList, VendorID);
                     mRef.child(VendorID).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            orderModelList.clear();
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 OrderModel orderModel = dataSnapshot.getValue(OrderModel.class);
                                 orderModelList.add(orderModel);
+                                orderRecyclerView.setAdapter(orderAdapter);
+                                orderAdapter.notifyDataSetChanged();
                             }
-                            orderAdapter = new OrderAdapter(Order.this, orderModelList, VendorID);
-                            orderAdapter.notifyDataSetChanged();
-                            orderRecyclerView.setAdapter(orderAdapter);
+                            if(orderModelList.size()>0){
+                                EmptyLayout.setVisibility(View.GONE);
+                                orderRecyclerView.setVisibility(View.VISIBLE);
+                            }else{
+                                EmptyLayout.setVisibility(View.VISIBLE);
+                                orderRecyclerView.setVisibility(View.GONE);
+                            }
                         }
 
                         @Override

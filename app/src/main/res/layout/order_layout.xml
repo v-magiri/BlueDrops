@@ -3,110 +3,115 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="8dp"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="10dp">
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/orderLayout"
+            android:layout_marginVertical="5dp"
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
+                android:paddingEnd="10dp"
                 android:id="@+id/cancelBtn"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_cancel"/>
+                android:src="@drawable/ic_cancel_button"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@+id/cancelBtn"
-                android:id="@+id/orderIDLayout"
-                android:weightSum="4"
-                android:padding="5dp">
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Order ID"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:text=""
-                    android:paddingEnd="20dp"
-                    android:gravity="end"
+                    android:paddingVertical="4dp"
+                    android:paddingStart="10dp"
+                    android:layout_below="@+id/cancelBtn"
                     android:textStyle="bold"
-                    android:layout_toEndOf="@+id/orderID"
+                    android:text="437859757229174"
+                    android:textColor="@color/black"
                     android:id="@+id/orderID"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@+id/orderIDLayout"
-                android:id="@+id/orderDateLayout"
-                android:weightSum="4"
-                android:padding="5dp">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Order Date "
+                    android:id="@+id/DateTxt"
+                    android:paddingStart="10dp"
+                    android:paddingVertical="4dp"
+                    android:textSize="18sp"
+                    android:text="19-03-2022 @ 15:15"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/orderID"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:text=""
-                    android:paddingEnd="20dp"
-                    android:gravity="end"
-                    android:textStyle="bold"
-                    android:layout_toEndOf="@+id/orderID"
-                    android:id="@+id/DateTxt"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@+id/orderDateLayout"
-                android:id="@+id/orderStatusLayout"
-                android:weightSum="4"
-                android:padding="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/DateTxt"
+                    android:weightSum="5"
+                    android:paddingStart="10dp"
+                    android:id="@+id/items"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No of Items"
+                        android:paddingVertical="4dp"
+                        android:layout_weight="2"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/itemsNum"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:paddingVertical="4dp"
+                        android:text="8"
+                        android:gravity="center"
+                        android:paddingStart="10dp"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:text="KSH: 100"
+                        android:gravity="end"
+                        android:paddingVertical="4dp"
+                        android:textColor="@color/black"
+                        android:layout_weight="2"
+                        android:paddingEnd="10dp"
+                        android:id="@+id/totalPrice"
+                        android:layout_gravity="end"/>
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Order Status"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:text=""
-                    android:paddingEnd="20dp"
-                    android:gravity="end"
-                    android:textStyle="bold"
-                    android:layout_toEndOf="@+id/orderID"
-                    android:id="@+id/orderStatus"/>
-            </LinearLayout>
+                    android:paddingStart="10dp"
+                    android:paddingVertical="3dp"
+                    android:layout_below="@+id/items">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:text="In Progress"
+                        android:paddingVertical="4dp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/orderStatus"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:padding="10dp"
+                        android:id="@+id/viewOrder"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/view_all_bg"
+                        app:backgroundTint="@null"
+                        android:textColor="@color/black"
+                        android:layout_alignParentEnd="true"
+                        android:text="View Order" />
+                </RelativeLayout>
         </RelativeLayout>
-
-
-    </androidx.cardview.widget.CardView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_below="@+id/orderLayout"
+            android:background="#000000"/>
 
 </RelativeLayout>

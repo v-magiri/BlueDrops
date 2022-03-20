@@ -24,4 +24,6 @@
     <string name="customer_Key" translatable="false">7TRqrtyXPm0oYndh77YVdpHYE0IwYG7f</string>
     <string name="customer_secret" translatable="false">htdr9LlA3oWz87Co</string>
     <string name="changeVendor">Choose Vendor</string>
+    <string name="emptyCart">Looks like you haven\'t added \n anything to your Cart</string>
+    <string name="emptyOrder">Looks you haven\'t made any Orders</string>
 </resources>

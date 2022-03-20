@@ -30,6 +30,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> {
+    private static final String TAG = "Database Error";
     Context context;
     List<CartModel> cartModelList;
     DatabaseReference mRef;
@@ -99,7 +100,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-//                            Log.e(TAG, "onCancelled: ", );
+                            Log.e(TAG, "onCancelled: "+error.getMessage());
                         }
                     });
                 });

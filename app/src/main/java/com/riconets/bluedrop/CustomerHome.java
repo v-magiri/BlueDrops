@@ -39,7 +39,7 @@ public class CustomerHome extends AppCompatActivity {
         int intentFragment=getIntent().getIntExtra("Fragment_ID",0);
         switch (intentFragment){
             case 1:
-                Cart cart=new Cart();
+                BlueDropsCart cart=new BlueDropsCart();
                 FragmentTransaction fragmentTransaction1= getSupportFragmentManager().beginTransaction();
                 fragmentTransaction1.replace(R.id.content,cart,"");
                 fragmentTransaction1.addToBackStack(null);
@@ -90,7 +90,7 @@ public class CustomerHome extends AppCompatActivity {
                      fragmentTransaction.commit();
                      return true;
                  case R.id.cart:
-                     Cart cart =new Cart();
+                     BlueDropsCart cart =new BlueDropsCart();
                      FragmentTransaction fragmentTransaction1= getSupportFragmentManager().beginTransaction();
                      fragmentTransaction1.replace(R.id.content,cart,"");
                      fragmentTransaction1.commit();

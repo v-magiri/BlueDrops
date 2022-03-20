@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Order">
     <include
         layout="@layout/toolbar"
@@ -11,7 +12,55 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginHorizontal="10dp"
         android:layout_below="@+id/orderAppBar"
         android:id="@+id/orderRecyclerView"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:id="@+id/EmptyOrderLayout"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/emptyCartImg"
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/ic_order_empty"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:text="Your Order List is Empty"
+            android:textSize="24sp"
+            android:id="@+id/Warning"
+            android:layout_below="@+id/emptyCartImg"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="@string/emptyOrder"
+            android:textColor="@color/black"
+            android:id="@+id/warningTxt"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="10dp"
+            android:textAlignment="center"
+            android:layout_below="@+id/Warning"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order Now"
+            android:id="@+id/orderNowBtn"
+            android:layout_below="@+id/warningTxt"
+            android:textColor="@color/white"
+            android:layout_marginVertical="20dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background"
+            app:backgroundTint="@null"/>
+
+
+    </RelativeLayout>
 </RelativeLayout>
