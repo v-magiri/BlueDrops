@@ -83,6 +83,7 @@
             android:exported="true" />
         <activity
             android:name=".customer_login"
+            android:windowSoftInputMode="stateHidden"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

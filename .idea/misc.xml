@@ -54,6 +54,7 @@
         <entry key="app/src/main/res/drawable/ic_subtraction.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/pay_btn.xml" value="0.1275" />
         <entry key="app/src/main/res/drawable/paybg.xml" value="0.1695" />
+        <entry key="app/src/main/res/drawable/review_bg.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/searchview_background.xml" value="0.1045" />
         <entry key="app/src/main/res/drawable/success_btn.xml" value="0.1345" />
         <entry key="app/src/main/res/drawable/view_all_bg.xml" value="0.1335" />
@@ -67,6 +68,7 @@
         <entry key="app/src/main/res/layout/activity_map_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_notify_vendor.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_order.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/activity_order_history.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_product.xml" value="0.1743659420289855" />
         <entry key="app/src/main/res/layout/activity_product_listing.xml" value="0.1743659420289855" />
         <entry key="app/src/main/res/layout/activity_refill.xml" value="0.4" />
@@ -89,6 +91,7 @@
         <entry key="app/src/main/res/layout/fragment_update__profile.xml" value="0.16621376811594202" />
         <entry key="app/src/main/res/layout/fragment_update_location.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/item.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/item_layout.xml" value="0.1526268115942029" />
         <entry key="app/src/main/res/layout/order_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/pay_dialog.xml" value="0.2" />
         <entry key="app/src/main/res/layout/pay_layout.xml" value="0.264" />
