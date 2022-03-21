@@ -68,6 +68,7 @@
             android:exported="false" />
         <activity
             android:name=".UpdateVendor"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:exported="true" />
         <activity
             android:name=".VendorDetails"
@@ -80,10 +81,11 @@
             android:exported="true" />
         <activity
             android:name=".customer_registration"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:exported="true" />
         <activity
             android:name=".customer_login"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

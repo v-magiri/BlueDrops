@@ -38,12 +38,14 @@
                         android:inputType="textPersonName"
                         android:hint="Full Name"
                         android:textSize="24dp"
+                        android:focusableInTouchMode="true"
                         android:paddingStart="20dp"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/lNameEditText"
                     android:inputType="textPersonName"
+                    android:focusableInTouchMode="true"
                     android:hint="username"
                     android:textSize="24dp"
                     android:paddingStart="20dp"/>
@@ -53,6 +55,7 @@
                         android:id="@+id/customerEmailEditTxt"
                         android:textSize="24dp"
                         android:hint="Email"
+                        android:focusableInTouchMode="true"
                         android:paddingStart="20dp"
                         android:inputType="textEmailAddress"/>
                     <EditText
@@ -60,6 +63,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="24dp"
                         android:inputType="phone"
+                        android:focusableInTouchMode="true"
                         android:hint="Phone Number"
                         android:id="@+id/customer_PhoneNumber"
                         android:paddingStart="20dp"/>
@@ -96,6 +100,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="24dp"
                         android:hint="Password"
+                        android:focusableInTouchMode="true"
                         android:id="@+id/password"
                         android:inputType="textPassword"
                         android:paddingStart="20dp"/>
@@ -105,6 +110,7 @@
                         android:textSize="24dp"
                         android:hint="Confirm Password"
                         android:id="@+id/repeat_Password"
+                        android:focusableInTouchMode="true"
                         android:inputType="textPassword"
                         android:paddingStart="20dp"/>
                     <Button
@@ -121,14 +127,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Already Have Account? Signin"
+                        android:text="Already Have Account ? Signin"
                         android:textColor="@color/light_blue"
                         android:layout_gravity="end"
                         android:layout_marginEnd="5dp"
                         android:id="@+id/signin"
                         android:layout_marginBottom="20dp"/>
-
-
             </LinearLayout>
         </ScrollView>
 
