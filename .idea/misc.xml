@@ -82,6 +82,7 @@
         <entry key="app/src/main/res/layout/activity_view_product.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_water_refill.xml" value="0.2" />
         <entry key="app/src/main/res/layout/appbar.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/cart_frame_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/cart_layout.xml" value="0.536" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.264" />
@@ -103,6 +104,7 @@
         <entry key="app/src/main/res/layout/tool_bar.xml" value="0.11099899091826437" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/update_vendor_bottomsheet.xml" value="0.1526268115942029" />
+        <entry key="app/src/main/res/menu/bottom_navbar.xml" value="0.16875" />
       </map>
     </option>
   </component>

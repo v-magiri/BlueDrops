@@ -220,7 +220,7 @@ public class Cart extends AppCompatActivity {
         }
         return false;
     }
-    private void getAccessToken() {
+    private void getAccessvoidToken() {
         apiClient.setGetAccessToken(true);
         apiClient.mpesaService().getAccessToken().enqueue(new Callback<AccessToken>() {
             @Override

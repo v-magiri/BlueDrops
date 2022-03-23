@@ -119,9 +119,9 @@ public class VendorDetails extends AppCompatActivity {
                 nameTxt.setText(VendorName);
                 vendorDescTxt.setText(vendorDesc);
                 LocationTxt.setText(Vendor_Address);
-//                if(!VendorLogoUri.equals("")) {
-//                    Picasso.get().load(VendorLogoUri).into(vendorLogo);
-//                }
+                if(!VendorLogoUri.equals("")) {
+                    Picasso.get().load(VendorLogoUri).into(vendorLogo);
+                }
                 progressDialog.dismiss();
 
             }

@@ -5,50 +5,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ViewProducts">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
+        android:weightSum="5"
         android:id="@+id/productTopBar"
         android:layout_alignParentTop="true">
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/back"
-            android:layout_centerVertical="true"
-            android:id="@+id/productBackBtn"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:weightSum="5"
-            android:layout_toEndOf="@+id/productBackBtn"
-            android:id="@+id/searchLayout"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal">
-            <SearchView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:id="@+id/productSearchView"
-                android:background="@drawable/searchview_background"/>
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_cart"
-                android:gravity="end"
-                android:layout_marginLeft="10dp"
+                android:layout_marginHorizontal="8dp"
+                android:src="@drawable/back"
+                android:layout_weight="0.5"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:id="@+id/cartIcon" />
+                android:layout_centerVertical="true"
+                android:id="@+id/productBackBtn"/>
+            <SearchView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:visibility="invisible"
+                android:layout_marginVertical="5dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/productSearchView"
+                android:background="@drawable/searchview_background"/>
+                <include
+                    layout="@layout/cart_frame_layout"
+                    android:id="@+id/cart_FrameLayout"
+                    android:layout_height="40dp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="40dp"
+                    android:layout_weight="0.5"/>
         </LinearLayout>
-    </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/productList"
+        android:visibility="gone"
         android:layout_marginHorizontal="10dp"
         android:layout_below="@+id/productTopBar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:id="@+id/EmptyProductsLayout"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/emptyCartImg"
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/ic_empty_product"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:text="Sorry ! No Products Found."
+            android:textSize="24sp"
+            android:id="@+id/Warning"
+            android:layout_below="@+id/emptyCartImg"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="@string/emptyProduct"
+            android:textColor="@color/black"
+            android:id="@+id/errorTxt"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="10dp"
+            android:textAlignment="center"
+            android:layout_below="@+id/Warning"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back Home"
+            android:id="@+id/backHomeBtn"
+            android:layout_below="@+id/errorTxt"
+            android:textColor="@color/white"
+            android:layout_marginVertical="20dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_background"
+            app:backgroundTint="@null"/>
+    </RelativeLayout>
 
 </RelativeLayout>

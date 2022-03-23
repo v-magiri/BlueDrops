@@ -26,4 +26,5 @@
     <string name="changeVendor">Choose Vendor</string>
     <string name="emptyCart">Looks like you haven\'t added \n anything to your Cart</string>
     <string name="emptyOrder">Looks you haven\'t made any Orders</string>
+    <string name="emptyProduct">Looks like your vendor has not uploaded that particular Product.</string>
 </resources>

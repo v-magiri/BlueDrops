@@ -57,7 +57,8 @@ public class UpdateProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST= 22;
     private Uri imageUri;
     FirebaseAuth mAuth;
-    String ProfilePicUri,Update_FName,Update_LName,phoneNumber, ProfileUri,vendorName;
+    String Update_FName,Update_LName,phoneNumber, ProfileUri;
+    String ProfilePicUri="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class UpdateProfile extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No Update can be done Please fill the fields", Toast.LENGTH_SHORT).show();
             }
             else{
-                UpdateProfile();
+                uploadProfilePic();
             }
         });
 
@@ -143,7 +144,6 @@ public class UpdateProfile extends AppCompatActivity {
                 // Setting image on image view using Bitmap
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
                 accountProfilePic.setImageBitmap(bitmap);
-                uploadProfilePic();
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -151,6 +151,7 @@ public class UpdateProfile extends AppCompatActivity {
     }
     private void uploadProfilePic() {
             if(imageUri!=null){
+                progressDialog.show();
             String fileName=String.valueOf(System.currentTimeMillis());
             storageReference.child("Images").child(fileName).putFile(imageUri)
                     .addOnCompleteListener(task -> {
@@ -158,6 +159,7 @@ public class UpdateProfile extends AppCompatActivity {
                             storageReference.child("Images").child(fileName).getDownloadUrl()
                                     .addOnSuccessListener(uri -> {
                                             ProfilePicUri= uri.toString();
+                                            UpdateProfile(ProfilePicUri);
                                     });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -166,29 +168,21 @@ public class UpdateProfile extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             });
-        }
+        }else{
+                UpdateProfile(ProfilePicUri);
+            }
     }
-    private void UpdateProfile() {
+    private void UpdateProfile(String ImageUrl) {
         String userID=mAuth.getCurrentUser().getUid();
         databaseReference.child(userID).child("name").setValue(Update_FName);
         databaseReference.child(userID).child("lastName").setValue(Update_LName);
         databaseReference.child(userID).child("phoneNumber").setValue(phoneNumber);
-        if (IsProfilePicChanged()) {
-            progressDialog.show();
+        if (!ImageUrl.equals("")) {
             databaseReference.child(userID).child("profilePic").setValue(ProfilePicUri);
         }
         Toast.makeText(getApplicationContext(), "Profile Updated", Toast.LENGTH_SHORT).show();
         progressDialog.dismiss();
         finish();
-    }
-    private boolean IsProfilePicChanged() {
-        if ((!TextUtils.isEmpty(ProfilePicUri)) && (!TextUtils.isEmpty(ProfileUri))) {
-            return true;
-        } else if ((!TextUtils.isEmpty(ProfilePicUri)) && (ProfileUri.equals(""))){
-            return  true;
-        }else{
-            return false;
-        }
     }
 
     @Override

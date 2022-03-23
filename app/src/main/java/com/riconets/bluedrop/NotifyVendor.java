@@ -140,7 +140,7 @@ public class NotifyVendor extends AppCompatActivity implements DatePickerDialog.
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         String timeStamp=sdf.format(calendar.getTime());
         if(UID!=null&&vendorID!=null){
             HashMap<String,String> map=new HashMap<>();

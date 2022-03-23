@@ -60,7 +60,5 @@
             android:layout_centerInParent="true"
             android:background="@drawable/button_background"
             app:backgroundTint="@null"/>
-
-
     </RelativeLayout>
 </RelativeLayout>

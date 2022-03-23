@@ -2,38 +2,51 @@ package com.riconets.bluedrop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.riconets.bluedrop.model.CartModel;
 
 
 public class CustomerHome extends AppCompatActivity {
+    private static final String TAG = "CartItemsHome";
     private BottomNavigationView bottomNavigationView;
     private ImageView logoutBtn;
     FirebaseAuth mAuth;
+    DatabaseReference mRef;
+    BadgeDrawable badge;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
         String VendorId=getIntent().getStringExtra("VendorId");
         mAuth=FirebaseAuth.getInstance();
+        String UserID=mAuth.getCurrentUser().getUid();
         logoutBtn=findViewById(R.id.logoutBtn);
         bottomNavigationView=findViewById(R.id.bottom_navbar);
         bottomNavigationView.setSelectedItemId(R.id.home);
+        mRef= FirebaseDatabase.getInstance().getReference("Cart").child(UserID);
+        badge=bottomNavigationView.getOrCreateBadge(R.id.cart);
+        getCartItems();
         bottomNavigationView.setOnNavigationItemSelectedListener(selectedListener);
         Home home =new Home();
         FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content,home,"");
-//        Bundle bundle=new Bundle();
-//        bundle.putString("VendorID",VendorId);
-//        home.setArguments(bundle);
         fragmentTransaction.commit();
 
         int intentFragment=getIntent().getIntExtra("Fragment_ID",0);
@@ -66,6 +79,28 @@ public class CustomerHome extends AppCompatActivity {
                     alertDialog.show();
 
                 }
+        });
+    }
+
+    private void getCartItems() {
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int cartItemNum= (int) snapshot.getChildrenCount();
+                if(cartItemNum>0){
+                    badge.setVisible(true);
+                    badge.setNumber(cartItemNum);
+                    badge.setBackgroundColor(getResources().getColor(R.color.light_blue));
+                    badge.setBadgeTextColor(getResources().getColor(R.color.white));
+                }else{
+                    Log.d(TAG, "onDataChange: Cart item: "+cartItemNum);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
     }
 
